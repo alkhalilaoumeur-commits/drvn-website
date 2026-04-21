@@ -44,6 +44,28 @@ export default function Kontakt() {
         title="Kontakt — Projekt anfragen oder Frage stellen"
         description="Nehmen Sie Kontakt mit DRVN auf — Antwort innerhalb von 24 Stunden. Projekt besprechen, Demo anfragen oder allgemeine Frage stellen."
         path="/kontakt"
+        keywords="DRVN Kontakt, Software Anfrage, SaaS Demo, Projekt besprechen Stuttgart"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'LocalBusiness',
+          name: 'DRVN',
+          email: 'kontakt@drvnautomatisations.com',
+          url: 'https://drvnautomatisations.com',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Egilolfstrasse 41',
+            addressLocality: 'Stuttgart',
+            postalCode: '70599',
+            addressCountry: 'DE',
+          },
+          areaServed: 'DE',
+          contactPoint: {
+            '@type': 'ContactPoint',
+            contactType: 'customer service',
+            email: 'kontakt@drvnautomatisations.com',
+            availableLanguage: 'German',
+          },
+        }}
       />
       {/* Header */}
       <section className="max-w-6xl mx-auto px-6 py-20 text-center">

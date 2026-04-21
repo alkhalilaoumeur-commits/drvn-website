@@ -125,15 +125,35 @@ export default function ServeFlow() {
         title="ServeFlow — Kassensystem & Bestellsystem für Restaurants"
         description="QR-Bestellung, Online-Reservierungen und Echtzeit-Dashboard für Restaurants. DSGVO-konform, Server in Deutschland, in 30 Minuten startklar."
         path="/produkte/serveflow"
+        keywords="Restaurant Software, QR Bestellung, Tischverwaltung, Online Reservierung, Kassensystem Restaurant, Gastronomie App Deutschland"
         schema={{
           '@context': 'https://schema.org',
-          '@type': 'SoftwareApplication',
-          name: 'ServeFlow',
-          applicationCategory: 'BusinessApplication',
-          operatingSystem: 'Web',
-          offers: { '@type': 'Offer', price: '29', priceCurrency: 'EUR' },
-          description: 'Digitales Betriebssystem für Restaurants: QR-Bestellung, Tischverwaltung, Online-Reservierungen, Dashboard.',
-          url: 'https://drvnautomatisations.com/produkte/serveflow',
+          '@graph': [
+            {
+              '@type': 'SoftwareApplication',
+              name: 'ServeFlow',
+              applicationCategory: 'BusinessApplication',
+              operatingSystem: 'Web, iOS, Android',
+              offers: {
+                '@type': 'AggregateOffer',
+                lowPrice: '29',
+                highPrice: '99',
+                priceCurrency: 'EUR',
+                offerCount: 3,
+              },
+              description: 'Digitales Betriebssystem für Restaurants: QR-Bestellung, Tischverwaltung, Online-Reservierungen, Dashboard.',
+              url: 'https://drvnautomatisations.com/produkte/serveflow',
+              provider: { '@type': 'Organization', name: 'DRVN' },
+            },
+            {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Startseite', item: 'https://drvnautomatisations.com' },
+                { '@type': 'ListItem', position: 2, name: 'Produkte', item: 'https://drvnautomatisations.com/branchen' },
+                { '@type': 'ListItem', position: 3, name: 'ServeFlow', item: 'https://drvnautomatisations.com/produkte/serveflow' },
+              ],
+            },
+          ],
         }}
       />
 

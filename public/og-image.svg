@@ -1,0 +1,44 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#09090B"/>
+      <stop offset="100%" stop-color="#111113"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle grid -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="150" y1="0" x2="150" y2="630"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="450" y1="0" x2="450" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="750" y1="0" x2="750" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="1050" y1="0" x2="1050" y2="630"/>
+  </g>
+
+  <!-- Glow circle -->
+  <circle cx="600" cy="280" r="300" fill="#3B82F6" opacity="0.06"/>
+
+  <!-- Logo wordmark -->
+  <text x="600" y="260" font-family="system-ui, -apple-system, sans-serif" font-size="110" font-weight="800" fill="url(#accent)" text-anchor="middle" letter-spacing="12">DRVN</text>
+
+  <!-- Tagline -->
+  <text x="600" y="340" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="400" fill="#A1A1AA" text-anchor="middle">Branchenspezifische SaaS-Lösungen für Deutschland</text>
+
+  <!-- Bottom bar -->
+  <rect x="0" y="580" width="1200" height="50" fill="#111113" opacity="0.8"/>
+  <text x="600" y="613" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#52525B" text-anchor="middle">drvnautomatisations.com</text>
+</svg>

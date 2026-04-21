@@ -19,6 +19,7 @@ export default function Branchen() {
         title="Branchen — Software für Gastronomie, Handwerk & mehr"
         description="DRVN entwickelt spezialisierte Software für Gastronomie, Handwerk, Beauty, Fitness, Hotellerie und mehr — maßgeschneidert für jede Branche."
         path="/branchen"
+        keywords="Gastronomie Software, Handwerk Software, Beauty Software, Fitness Software, Hotel Software, Branchenlösung Deutschland"
       />
       {/* Header */}
       <section className="max-w-6xl mx-auto px-6 py-20 text-center">

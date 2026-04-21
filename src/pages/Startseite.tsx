@@ -10,6 +10,18 @@ export default function Startseite() {
         title="DRVN — Branchenspezifische SaaS-Lösungen für Deutschland"
         description="DRVN entwickelt digitale Plattformen für Gastronomie, Handwerk und mehr — DSGVO-konform, sofort einsetzbar, Server in Deutschland."
         path="/"
+        keywords="SaaS Deutschland, Branchensoftware, Gastronomie Software, Handwerk Software, DSGVO-konform, digitale Transformation KMU"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'DRVN',
+          url: 'https://drvnautomatisations.com',
+          potentialAction: {
+            '@type': 'SearchAction',
+            target: 'https://drvnautomatisations.com/branchen',
+            'query-input': 'required name=search_term_string',
+          },
+        }}
       />
 
       {/* ===== HERO ===== */}

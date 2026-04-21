@@ -1,6 +1,14 @@
+import SEO from '../components/SEO';
+
 export default function Datenschutz() {
   return (
     <div className="pt-16">
+      <SEO
+        title="Datenschutzerklärung"
+        description="Datenschutzerklärung der DRVN Website gemäß DSGVO."
+        path="/datenschutz"
+        noindex={true}
+      />
       <section className="max-w-3xl mx-auto px-6 py-20">
         <h1 className="text-3xl font-bold mb-2">Datenschutzerklärung</h1>
         <p className="text-text-muted text-sm mb-10">Stand: April 2026</p>

@@ -1,6 +1,14 @@
+import SEO from '../components/SEO';
+
 export default function Impressum() {
   return (
     <div className="pt-16">
+      <SEO
+        title="Impressum"
+        description="Impressum der DRVN Website gemäß § 5 TMG."
+        path="/impressum"
+        noindex={true}
+      />
       <section className="max-w-3xl mx-auto px-6 py-20">
         <h1 className="text-3xl font-bold mb-10">Impressum</h1>
 

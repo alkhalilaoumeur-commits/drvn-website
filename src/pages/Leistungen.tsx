@@ -24,6 +24,7 @@ export default function Leistungen() {
         title="Leistungen — SaaS-Entwicklung, Apps & Automatisierung"
         description="DRVN entwickelt branchenspezifische SaaS-Produkte, Web- und Mobile-Apps sowie Prozessautomatisierungen für kleine und mittlere Unternehmen in Deutschland."
         path="/leistungen"
+        keywords="SaaS Entwicklung, Web App Entwicklung, Prozessautomatisierung, Software für KMU, App Entwicklung Deutschland"
       />
       {/* Header */}
       <section className="max-w-6xl mx-auto px-6 py-20 text-center">
