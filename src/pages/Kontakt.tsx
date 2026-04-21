@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Mail, MapPin, Clock, Send } from 'lucide-react';
 import { BRAND } from '../lib/constants';
+import SEO from '../components/SEO';
 
 export default function Kontakt() {
   const [formular, setFormular] = useState({
@@ -11,11 +12,26 @@ export default function Kontakt() {
     typ: 'allgemein',
   });
   const [gesendet, setGesendet] = useState(false);
+  const [laden, setLaden] = useState(false);
+  const [fehler, setFehler] = useState('');
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // TODO: Backend-Anbindung (E-Mail senden oder DB speichern)
-    setGesendet(true);
+    setLaden(true);
+    setFehler('');
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/kontakt`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formular),
+      });
+      if (!res.ok) throw new Error();
+      setGesendet(true);
+    } catch {
+      setFehler('Fehler beim Senden. Bitte versuche es erneut oder schreibe uns direkt.');
+    } finally {
+      setLaden(false);
+    }
   }
 
   function aendern(feld: string, wert: string) {
@@ -24,6 +40,11 @@ export default function Kontakt() {
 
   return (
     <div className="pt-16">
+      <SEO
+        title="Kontakt — Projekt anfragen oder Frage stellen"
+        description="Nehmen Sie Kontakt mit DRVN auf — Antwort innerhalb von 24 Stunden. Projekt besprechen, Demo anfragen oder allgemeine Frage stellen."
+        path="/kontakt"
+      />
       {/* Header */}
       <section className="max-w-6xl mx-auto px-6 py-20 text-center">
         <p className="text-primary text-sm font-medium tracking-wider uppercase mb-2">Kontakt</p>
@@ -115,12 +136,16 @@ export default function Kontakt() {
                   />
                 </div>
 
+                {fehler && (
+                  <p className="text-red-400 text-sm text-center">{fehler}</p>
+                )}
                 <button
                   type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3.5 rounded-xl transition-all glow-blue flex items-center justify-center gap-2"
+                  disabled={laden}
+                  className="w-full bg-primary hover:bg-primary/90 disabled:opacity-60 text-white font-semibold py-3.5 rounded-xl transition-all glow-blue flex items-center justify-center gap-2"
                 >
                   <Send size={18} />
-                  Nachricht senden
+                  {laden ? 'Wird gesendet…' : 'Nachricht senden'}
                 </button>
               </form>
             )}

@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronRight, Zap, Shield, Globe, Clock } from 'lucide-react';
 import { BRANCHEN } from '../lib/constants';
+import SEO from '../components/SEO';
 
 export default function Startseite() {
   return (
     <div className="pt-16">
+      <SEO
+        title="DRVN — Branchenspezifische SaaS-Lösungen für Deutschland"
+        description="DRVN entwickelt digitale Plattformen für Gastronomie, Handwerk und mehr — DSGVO-konform, sofort einsetzbar, Server in Deutschland."
+        path="/"
+      />
 
       {/* ===== HERO ===== */}
       <section className="max-w-5xl mx-auto px-6 pt-28 pb-24 text-center">

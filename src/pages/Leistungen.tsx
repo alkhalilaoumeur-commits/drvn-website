@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Layers, Smartphone, Zap, Headphones, Code2, Workflow } from 'lucide-react';
 import { LEISTUNGEN } from '../lib/constants';
+import SEO from '../components/SEO';
 
 const ICON_MAP: Record<string, React.ReactNode> = {
   Layers: <Layers size={32} />,
@@ -19,6 +20,11 @@ const PROZESS = [
 export default function Leistungen() {
   return (
     <div className="pt-16">
+      <SEO
+        title="Leistungen — SaaS-Entwicklung, Apps & Automatisierung"
+        description="DRVN entwickelt branchenspezifische SaaS-Produkte, Web- und Mobile-Apps sowie Prozessautomatisierungen für kleine und mittlere Unternehmen in Deutschland."
+        path="/leistungen"
+      />
       {/* Header */}
       <section className="max-w-6xl mx-auto px-6 py-20 text-center">
         <p className="text-primary text-sm font-medium tracking-wider uppercase mb-2">Leistungen</p>

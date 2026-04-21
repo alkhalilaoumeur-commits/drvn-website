@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, UtensilsCrossed, Hammer, Sparkles, Dumbbell, Building2, MessageCircle } from 'lucide-react';
 import { BRANCHEN } from '../lib/constants';
+import SEO from '../components/SEO';
 
 const ICON_MAP: Record<string, React.ReactNode> = {
   UtensilsCrossed: <UtensilsCrossed size={28} />,
@@ -14,6 +15,11 @@ const ICON_MAP: Record<string, React.ReactNode> = {
 export default function Branchen() {
   return (
     <div className="pt-16">
+      <SEO
+        title="Branchen — Software für Gastronomie, Handwerk & mehr"
+        description="DRVN entwickelt spezialisierte Software für Gastronomie, Handwerk, Beauty, Fitness, Hotellerie und mehr — maßgeschneidert für jede Branche."
+        path="/branchen"
+      />
       {/* Header */}
       <section className="max-w-6xl mx-auto px-6 py-20 text-center">
         <p className="text-primary text-sm font-medium tracking-wider uppercase mb-2">Branchen</p>

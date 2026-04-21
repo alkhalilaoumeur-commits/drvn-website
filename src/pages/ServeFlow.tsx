@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import {
   ArrowRight, CheckCircle2, ChevronDown, ExternalLink,
   QrCode, CalendarCheck, LayoutDashboard, Users,
@@ -120,6 +121,21 @@ function FaqItem({ frage, antwort }: { frage: string; antwort: string }) {
 export default function ServeFlow() {
   return (
     <div className="pt-16">
+      <SEO
+        title="ServeFlow — Kassensystem & Bestellsystem für Restaurants"
+        description="QR-Bestellung, Online-Reservierungen und Echtzeit-Dashboard für Restaurants. DSGVO-konform, Server in Deutschland, in 30 Minuten startklar."
+        path="/produkte/serveflow"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: 'ServeFlow',
+          applicationCategory: 'BusinessApplication',
+          operatingSystem: 'Web',
+          offers: { '@type': 'Offer', price: '29', priceCurrency: 'EUR' },
+          description: 'Digitales Betriebssystem für Restaurants: QR-Bestellung, Tischverwaltung, Online-Reservierungen, Dashboard.',
+          url: 'https://drvnautomatisations.com/produkte/serveflow',
+        }}
+      />
 
       {/* ===== HERO ===== */}
       <section className="relative overflow-hidden">
