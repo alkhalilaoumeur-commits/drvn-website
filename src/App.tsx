@@ -6,6 +6,8 @@ import Leistungen from './pages/Leistungen';
 import Branchen from './pages/Branchen';
 import UeberUns from './pages/UeberUns';
 import Kontakt from './pages/Kontakt';
+import Impressum from './pages/Impressum';
+import Datenschutz from './pages/Datenschutz';
 
 export default function App() {
   return (
@@ -18,6 +20,8 @@ export default function App() {
           <Route path="/branchen" element={<Branchen />} />
           <Route path="/ueber-uns" element={<UeberUns />} />
           <Route path="/kontakt" element={<Kontakt />} />
+          <Route path="/impressum" element={<Impressum />} />
+          <Route path="/datenschutz" element={<Datenschutz />} />
         </Routes>
         <Footer />
       </div>

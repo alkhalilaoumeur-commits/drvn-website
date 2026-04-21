@@ -5,7 +5,7 @@ export const BRAND = {
   name: 'DRVN',
   tagline: 'Ihr Partner für digitale Lösungen',
   claim: 'Wir entwickeln branchenspezifische Software, die Prozesse automatisiert und Arbeit erleichtert.',
-  email: 'kontakt@drvn.de',
+  email: 'kontakt@drvnautomatisations.com',
   telefon: '+49 XXX XXXXXXX', // TODO: echte Nummer
 } as const;
 
