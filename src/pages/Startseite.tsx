@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import {
-  ArrowRight, Shield, Zap, Clock, Headphones,
+  ArrowRight, Shield, Zap,
   Globe, Lock, CheckCircle2, ChevronRight,
   ClipboardList, Users, BarChart3, Smartphone,
 } from 'lucide-react';
