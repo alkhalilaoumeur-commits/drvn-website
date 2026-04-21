@@ -42,7 +42,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-border mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-text-muted">
-          <span>&copy; {new Date().getFullYear()} DRVN — Ilias Alkhalilaoumeur. Alle Rechte vorbehalten.</span>
+          <span>&copy; {new Date().getFullYear()} DRVN — Al-Khalil Aoumeur. Alle Rechte vorbehalten.</span>
           <div className="flex items-center gap-4">
             <Link to="/impressum" className="hover:text-text transition-colors">Impressum</Link>
             <Link to="/datenschutz" className="hover:text-text transition-colors">Datenschutz</Link>

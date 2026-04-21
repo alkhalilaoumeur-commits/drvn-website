@@ -14,10 +14,10 @@ export default function Datenschutz() {
               Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:
             </p>
             <div className="mt-2 pl-4 border-l border-border">
-              <p>Ilias Alkhalilaoumeur</p>
-              <p>[STRASSE HAUSNUMMER]</p>
-              <p>[PLZ] Stuttgart, Deutschland</p>
-              <p>E-Mail: kontakt@drvnautomatisations.com</p>
+              <p>Al-Khalil Aoumeur</p>
+              <p>Egilolfstrasse 41</p>
+              <p>70599 Stuttgart, Deutschland</p>
+              <p>E-Mail: a.aoumeur@drvnautomatisations.com</p>
             </div>
           </div>
 

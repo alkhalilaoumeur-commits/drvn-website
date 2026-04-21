@@ -8,23 +8,22 @@ export default function Impressum() {
 
           <div>
             <h2 className="text-base font-semibold text-text mb-2">Angaben gemäß § 5 TMG</h2>
-            <p>Ilias Alkhalilaoumeur</p>
-            <p>[STRASSE HAUSNUMMER]</p>
-            <p>[PLZ] Stuttgart</p>
+            <p>Al-Khalil Aoumeur</p>
+            <p>Egilolfstrasse 41</p>
+            <p>70599 Stuttgart</p>
             <p>Deutschland</p>
           </div>
 
           <div>
             <h2 className="text-base font-semibold text-text mb-2">Kontakt</h2>
-            <p>Telefon: [TELEFONNUMMER]</p>
-            <p>E-Mail: kontakt@drvnautomatisations.com</p>
+            <p>Telefon: +49 176 20581564</p>
+            <p>E-Mail: a.aoumeur@drvnautomatisations.com</p>
           </div>
 
           <div>
             <h2 className="text-base font-semibold text-text mb-2">Umsatzsteuer-ID</h2>
             <p>
-              Sofern vorhanden: Umsatzsteuer-Identifikationsnummer gemäß § 27a
-              Umsatzsteuergesetz: [UST-ID FALLS VORHANDEN, SONST DIESEN ABSCHNITT ENTFERNEN]
+              Keine Umsatzsteuer-Identifikationsnummer (Kleinunternehmer gemäß § 19 UStG).
             </p>
           </div>
 
@@ -32,8 +31,8 @@ export default function Impressum() {
             <h2 className="text-base font-semibold text-text mb-2">
               Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV
             </h2>
-            <p>Ilias Alkhalilaoumeur</p>
-            <p>[STRASSE HAUSNUMMER], [PLZ] Stuttgart</p>
+            <p>Al-Khalil Aoumeur</p>
+            <p>Egilolfstrasse 41, 70599 Stuttgart</p>
           </div>
 
           <div>
