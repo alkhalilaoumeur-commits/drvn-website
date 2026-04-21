@@ -4,6 +4,7 @@ import {
   Globe, Lock, CheckCircle2, ChevronRight,
   ClipboardList, Users, BarChart3, Smartphone,
 } from 'lucide-react';
+
 import { BRANCHEN } from '../lib/constants';
 
 /* ===== Daten ===== */
@@ -285,20 +286,38 @@ export default function Startseite() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {BRANCHEN.map((b) => (
+            {/* ServeFlow Highlighted Card */}
+            <Link
+              to="/produkte/serveflow"
+              className="bg-bg rounded-2xl p-6 border border-primary/30 hover:border-primary/60 transition-all group col-span-1 sm:col-span-2 lg:col-span-1"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 bg-primary/10 rounded-lg flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+                    <Zap size={14} />
+                  </div>
+                  <h3 className="font-semibold">Gastronomie</h3>
+                </div>
+                <span className="text-xs px-2.5 py-1 rounded-full font-medium bg-success/10 text-success border border-success/20">
+                  Live
+                </span>
+              </div>
+              <p className="text-text-muted text-sm leading-relaxed mb-4">
+                Bestellsystem, Tischverwaltung, Reservierungen, Personalplanung — alles in einer App.
+              </p>
+              <div className="flex items-center gap-1 text-primary text-xs font-medium group-hover:gap-2 transition-all">
+                ServeFlow entdecken <ArrowRight size={13} />
+              </div>
+            </Link>
+
+            {BRANCHEN.slice(1).map((b) => (
               <div
                 key={b.title}
                 className="bg-bg rounded-2xl p-6 border border-border hover:border-primary/30 transition-all"
               >
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-semibold">{b.title}</h3>
-                  <span
-                    className={`text-xs px-2.5 py-1 rounded-full font-medium ${
-                      b.status === 'In Entwicklung'
-                        ? 'bg-primary/10 text-primary'
-                        : 'bg-white/5 text-text-muted'
-                    }`}
-                  >
+                  <span className="text-xs px-2.5 py-1 rounded-full font-medium bg-white/5 text-text-muted">
                     {b.status}
                   </span>
                 </div>
