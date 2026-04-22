@@ -9,6 +9,7 @@ import Kontakt from './pages/Kontakt';
 import Impressum from './pages/Impressum';
 import Datenschutz from './pages/Datenschutz';
 import ServeFlow from './pages/ServeFlow';
+import Webseiten from './pages/Webseiten';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
           <Route path="/produkte/serveflow" element={<ServeFlow />} />
+          <Route path="/leistungen/webseiten" element={<Webseiten />} />
         </Routes>
         <Footer />
       </div>

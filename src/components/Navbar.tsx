@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Zap } from 'lucide-react';
+import { Menu, X, ChevronDown, Zap, Monitor } from 'lucide-react';
 import { NAVIGATION } from '../lib/constants';
 
 const PRODUKTE = [
@@ -9,6 +9,13 @@ const PRODUKTE = [
     beschreibung: 'Digitales Betriebssystem für Restaurants',
     href: '/produkte/serveflow',
     icon: <Zap size={16} className="text-primary" />,
+    status: 'Live',
+  },
+  {
+    name: 'Webseiten',
+    beschreibung: 'Professionelle Webseiten & Landingpages',
+    href: '/leistungen/webseiten',
+    icon: <Monitor size={16} className="text-secondary" />,
     status: 'Live',
   },
 ];
@@ -77,7 +84,7 @@ export default function Navbar() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-medium text-text">{p.name}</span>
-                          <span className="text-[10px] bg-success/10 text-success border border-success/20 rounded-full px-2 py-0.5 font-medium">
+                          <span className={`text-[10px] rounded-full px-2 py-0.5 font-medium border ${p.status === 'Live' ? 'bg-success/10 text-success border-success/20' : 'bg-surface text-text-muted border-border'}`}>
                             {p.status}
                           </span>
                         </div>
