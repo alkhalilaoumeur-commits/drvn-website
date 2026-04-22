@@ -34,6 +34,11 @@ export const LEISTUNGEN = [
     icon: 'Zap',
   },
   {
+    title: 'Webseiten & Landingpages',
+    beschreibung: 'Professionelle Unternehmenswebseiten, Landingpages und Online-Auftritte — schnell, modern und SEO-optimiert.',
+    icon: 'Monitor',
+  },
+  {
     title: 'Beratung & Support',
     beschreibung: 'Von der Idee bis zum laufenden Betrieb — aktiver Kundensupport und persönliche Betreuung.',
     icon: 'Headphones',

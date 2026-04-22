@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronRight, Zap, Shield, Globe, Clock } from 'lucide-react';
+import { ArrowRight, ChevronRight, Zap, Shield, Globe, Clock, Monitor } from 'lucide-react';
 import { BRANCHEN } from '../lib/constants';
 import SEO from '../components/SEO';
 
@@ -83,6 +83,7 @@ export default function Startseite() {
                 { icon: <Shield size={18} />, titel: 'DSGVO-konform', text: 'Datenschutz nach deutschem Standard — kein Aufpreis, kein Nachdenken.' },
                 { icon: <Globe size={18} />, titel: 'Server in Deutschland', text: 'Hetzner, Nürnberg. Ihre Daten verlassen die EU nicht.' },
                 { icon: <Clock size={18} />, titel: 'Sofort einsetzbar', text: 'Kein monatelanges Setup. Die meisten Betriebe sind in 30 Minuten live.' },
+                { icon: <Monitor size={18} />, titel: 'Webseiten & Landingpages', text: 'Moderner Online-Auftritt für Ihr Unternehmen — schnell gebaut, SEO-optimiert, zu einem fairen Preis.' },
               ].map((f) => (
                 <div key={f.titel} className="flex items-start gap-4 p-5 bg-surface rounded-2xl border border-border">
                   <div className="w-9 h-9 bg-primary/10 rounded-xl flex items-center justify-center text-primary flex-shrink-0">

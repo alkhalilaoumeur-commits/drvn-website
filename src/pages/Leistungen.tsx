@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Layers, Smartphone, Zap, Headphones, Code2, Workflow } from 'lucide-react';
+import { ArrowRight, Layers, Smartphone, Zap, Headphones, Monitor, Code2, Workflow } from 'lucide-react';
 import { LEISTUNGEN } from '../lib/constants';
 import SEO from '../components/SEO';
 
@@ -7,6 +7,7 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   Layers: <Layers size={32} />,
   Smartphone: <Smartphone size={32} />,
   Zap: <Zap size={32} />,
+  Monitor: <Monitor size={32} />,
   Headphones: <Headphones size={32} />,
 };
 
@@ -24,7 +25,7 @@ export default function Leistungen() {
         title="Leistungen — SaaS-Entwicklung, Apps & Automatisierung"
         description="DRVN entwickelt branchenspezifische SaaS-Produkte, Web- und Mobile-Apps sowie Prozessautomatisierungen für kleine und mittlere Unternehmen in Deutschland."
         path="/leistungen"
-        keywords="SaaS Entwicklung, Web App Entwicklung, Prozessautomatisierung, Software für KMU, App Entwicklung Deutschland"
+        keywords="SaaS Entwicklung, Webseite erstellen lassen, Webdesign Stuttgart, Landingpage, Web App Entwicklung, Prozessautomatisierung, Software für KMU"
       />
       {/* Header */}
       <section className="max-w-6xl mx-auto px-6 py-20 text-center">
