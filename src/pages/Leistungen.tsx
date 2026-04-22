@@ -44,7 +44,7 @@ export default function Leistungen() {
           {LEISTUNGEN.map((l) => (
             <div
               key={l.title}
-              className="bg-surface rounded-2xl p-8 border border-border hover:border-primary/30 transition-all group"
+              className="bg-surface rounded-2xl p-8 border border-border hover:border-primary/30 transition-all group card-hover" data-animate
             >
               <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-5 group-hover:bg-primary/20 transition-colors">
                 {ICON_MAP[l.icon]}
@@ -63,7 +63,7 @@ export default function Leistungen() {
             <h2 className="text-3xl font-bold">Zusätzliche Services</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-bg rounded-2xl p-7 border border-border">
+            <div className="bg-bg rounded-2xl p-7 border border-border card-hover" data-animate>
               <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary mb-4">
                 <Code2 size={24} />
               </div>
@@ -73,7 +73,7 @@ export default function Leistungen() {
                 individuelle Apps und Systeme nach Ihren Anforderungen.
               </p>
             </div>
-            <div className="bg-bg rounded-2xl p-7 border border-border">
+            <div className="bg-bg rounded-2xl p-7 border border-border card-hover" data-animate>
               <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary mb-4">
                 <Workflow size={24} />
               </div>
