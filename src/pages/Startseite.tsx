@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   ArrowRight, ArrowUpRight, Shield, Zap, Code2, Headphones, Check,
   MessageCircle, Sparkles, Rocket, Minus, Plus, X as XIcon,
+  Server, Pizza, Coffee, Salad, Wine,
 } from 'lucide-react';
 import {
   motion,
@@ -48,12 +49,11 @@ function Section({ children, style = {}, id }: { children: React.ReactNode; styl
 }
 
 /* ============================================
-   DESKTOP DASHBOARD MOCKUP
+   DASHBOARD MOCKUP
 ============================================ */
 function DashboardMockup() {
   return (
     <div className="dash-window" style={{ width: '100%' }}>
-      {/* Window header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '11px 14px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
         <div style={{ display: 'flex', gap: '6px' }}>
           <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
@@ -67,10 +67,7 @@ function DashboardMockup() {
         </div>
       </div>
 
-      {/* Dashboard body */}
       <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', minHeight: '480px' }}>
-
-        {/* Sidebar */}
         <div style={{ borderRight: '1px solid rgba(255,255,255,0.06)', padding: '18px 10px', background: 'rgba(255,255,255,0.015)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px', padding: '0 6px' }}>
             <div style={{ width: '22px', height: '22px', borderRadius: '6px', background: 'linear-gradient(135deg, #3B82F6, #06B6D4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -91,12 +88,8 @@ function DashboardMockup() {
             <div
               key={item.label}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '6px 9px',
-                borderRadius: '5px',
-                marginBottom: '2px',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '6px 9px', borderRadius: '5px', marginBottom: '2px',
                 background: item.active ? 'rgba(59,130,246,0.1)' : 'transparent',
                 border: item.active ? '1px solid rgba(59,130,246,0.2)' : '1px solid transparent',
               }}
@@ -113,11 +106,10 @@ function DashboardMockup() {
           ))}
         </div>
 
-        {/* Main */}
         <div style={{ padding: '22px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.05em', textTransform: 'uppercase', margin: '0 0 4px' }}>Heute · 24. April</p>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.05em', textTransform: 'uppercase', margin: '0 0 4px' }}>Heute · 25. April</p>
               <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.05rem', fontWeight: 600, color: '#FAFAFA', margin: 0, letterSpacing: '-0.02em' }}>Dashboard</h3>
             </div>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', padding: '4px 9px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', color: '#22C55E', borderRadius: '5px', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
@@ -142,7 +134,6 @@ function DashboardMockup() {
                     {m.delta}
                   </span>
                 </div>
-                {/* Sparkline */}
                 <svg viewBox="0 0 70 18" style={{ width: '100%', height: '18px' }}>
                   <polyline
                     points={m.spark.map((v, i) => `${i * 11},${18 - v * 1.3}`).join(' ')}
@@ -191,15 +182,21 @@ function DashboardMockup() {
 }
 
 /* ============================================
-   MOBILE PHONE MOCKUP — QR Bestellung
+   PHONE MOCKUP — QR Bestellung (SVG Icons, no emojis)
 ============================================ */
 function PhoneMockup() {
+  const items = [
+    { name: 'Margherita', price: '9,50', icon: <Pizza size={18} strokeWidth={1.5} style={{ color: '#F59E0B' }} />, qty: 2, active: true },
+    { name: 'Carbonara', price: '12,00', icon: <Pizza size={18} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.5)' }} /> },
+    { name: 'Tiramisu', price: '6,50', icon: <Coffee size={18} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.5)' }} /> },
+    { name: 'Limonade', price: '3,80', icon: <Wine size={18} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.5)' }} /> },
+    { name: 'Caprese', price: '8,20', icon: <Salad size={18} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.5)' }} /> },
+  ];
+
   return (
     <div
       style={{
-        width: '260px',
-        height: '520px',
-        borderRadius: '36px',
+        width: '260px', height: '520px', borderRadius: '36px',
         background: 'linear-gradient(180deg, #1B1B20 0%, #0F0F12 100%)',
         border: '1px solid rgba(255,255,255,0.1)',
         padding: '10px',
@@ -207,69 +204,59 @@ function PhoneMockup() {
         position: 'relative',
       }}
     >
-      {/* Notch */}
       <div style={{ position: 'absolute', top: '14px', left: '50%', transform: 'translateX(-50%)', width: '90px', height: '22px', background: '#0A0A0B', borderRadius: '100px', zIndex: 2 }} />
 
       <div style={{ width: '100%', height: '100%', background: '#0A0A0B', borderRadius: '28px', overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-        {/* Status bar */}
         <div style={{ padding: '18px 24px 8px', display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '0.64rem', color: '#FAFAFA', fontWeight: 600 }}>
           <span>19:24</span>
-          <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-            <span style={{ width: '14px', height: '9px', background: '#FAFAFA', borderRadius: '2px', opacity: 0.8 }} />
-          </div>
+          <span style={{ width: '14px', height: '9px', background: '#FAFAFA', borderRadius: '2px', opacity: 0.8 }} />
         </div>
 
-        {/* Header */}
         <div style={{ padding: '16px 18px 12px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.56rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em', textTransform: 'uppercase', margin: '0 0 3px' }}>Tisch 4 · ServeFlow</p>
           <h4 style={{ fontFamily: 'var(--font-sans)', fontSize: '1rem', fontWeight: 600, color: '#FAFAFA', margin: 0, letterSpacing: '-0.02em' }}>Ristorante Bella</h4>
         </div>
 
-        {/* Menu items */}
         <div style={{ flex: 1, padding: '12px', overflowY: 'hidden' }}>
-          {[
-            { name: 'Margherita', price: '9,50', emoji: '🍕' },
-            { name: 'Carbonara', price: '12,00', emoji: '🍝' },
-            { name: 'Tiramisu', price: '6,50', emoji: '🍰' },
-            { name: 'Limonade', price: '3,80', emoji: '🥤' },
-          ].map((item, i) => (
+          {items.slice(0, 4).map((item, i) => (
             <div
               key={item.name}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '10px',
+                display: 'flex', alignItems: 'center', gap: '12px', padding: '10px',
                 background: i === 0 ? 'rgba(59,130,246,0.08)' : 'rgba(255,255,255,0.02)',
                 border: i === 0 ? '1px solid rgba(59,130,246,0.25)' : '1px solid rgba(255,255,255,0.04)',
-                borderRadius: '10px',
-                marginBottom: '7px',
+                borderRadius: '10px', marginBottom: '7px',
               }}
             >
-              <div style={{ width: '36px', height: '36px', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>
-                {item.emoji}
+              <div style={{ width: '36px', height: '36px', background: i === 0 ? 'rgba(59,130,246,0.15)' : 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {item.icon}
               </div>
               <div style={{ flex: 1 }}>
                 <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8rem', fontWeight: 500, color: '#FAFAFA', margin: 0 }}>{item.name}</p>
                 <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.5)', margin: 0 }}>€ {item.price}</p>
               </div>
-              {i === 0 ? (
+              {item.active ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(59,130,246,0.15)', padding: '3px 6px', borderRadius: '5px' }}>
-                  <button style={{ width: '16px', height: '16px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', border: 'none', color: '#FAFAFA', fontSize: '11px', cursor: 'pointer', padding: 0 }}>−</button>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#3B82F6', fontWeight: 600, minWidth: '10px', textAlign: 'center' }}>2</span>
-                  <button style={{ width: '16px', height: '16px', borderRadius: '4px', background: '#3B82F6', border: 'none', color: '#fff', fontSize: '11px', cursor: 'pointer', padding: 0 }}>+</button>
+                  <button aria-label="Anzahl reduzieren" style={{ width: '18px', height: '18px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', border: 'none', color: '#FAFAFA', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Minus size={10} strokeWidth={2.5} />
+                  </button>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#3B82F6', fontWeight: 600, minWidth: '10px', textAlign: 'center' }}>{item.qty}</span>
+                  <button aria-label="Anzahl erhöhen" style={{ width: '18px', height: '18px', borderRadius: '4px', background: '#3B82F6', border: 'none', color: '#fff', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Plus size={10} strokeWidth={2.5} />
+                  </button>
                 </div>
               ) : (
-                <button style={{ width: '22px', height: '22px', borderRadius: '6px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: 0, fontSize: '14px' }}>+</button>
+                <button aria-label="Hinzufügen" style={{ width: '24px', height: '24px', borderRadius: '6px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Plus size={12} strokeWidth={2} />
+                </button>
               )}
             </div>
           ))}
         </div>
 
-        {/* Bottom action */}
         <div style={{ padding: '12px', borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.015)' }}>
           <button style={{ width: '100%', padding: '12px 14px', background: '#FAFAFA', color: '#0A0A0B', border: 'none', borderRadius: '10px', fontFamily: 'var(--font-sans)', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span>Bestellen</span>
+            <span>Jetzt bestellen</span>
             <span style={{ fontFamily: 'var(--font-mono)' }}>€ 19,00</span>
           </button>
         </div>
@@ -279,55 +266,248 @@ function PhoneMockup() {
 }
 
 /* ============================================
+   BENTO VISUALS
+============================================ */
+function DSGVOVisual() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+      {/* Shield with rings */}
+      <div style={{ position: 'relative' }}>
+        <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid rgba(59,130,246,0.15)', width: '200px', height: '200px', top: '-100px', left: '-100px' }} />
+        <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid rgba(59,130,246,0.1)', width: '280px', height: '280px', top: '-140px', left: '-140px' }} />
+        <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid rgba(59,130,246,0.06)', width: '360px', height: '360px', top: '-180px', left: '-180px' }} />
+        <div style={{
+          width: '80px', height: '80px', borderRadius: '18px',
+          background: 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(6,182,212,0.12))',
+          border: '1px solid rgba(59,130,246,0.35)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          position: 'relative', zIndex: 1,
+        }}>
+          <Shield size={34} strokeWidth={1.4} style={{ color: '#3B82F6' }} />
+        </div>
+      </div>
+      {/* Floating labels */}
+      {[
+        { text: 'AES-256', top: '18%', left: '12%' },
+        { text: 'Nürnberg, DE', top: '22%', right: '14%' },
+        { text: 'ISO 27001', bottom: '24%', left: '16%' },
+        { text: 'TLS 1.3', bottom: '20%', right: '18%' },
+      ].map((l, i) => (
+        <div
+          key={l.text}
+          style={{
+            position: 'absolute',
+            top: l.top,
+            left: (l as { left?: string }).left,
+            right: (l as { right?: string }).right,
+            bottom: (l as { bottom?: string }).bottom,
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.66rem',
+            padding: '4px 10px',
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: '6px',
+            color: 'rgba(255,255,255,0.7)',
+            letterSpacing: '0.02em',
+            animation: `floatLabel ${6 + i}s ease-in-out infinite`,
+            animationDelay: `${i * 0.8}s`,
+          }}
+        >
+          {l.text}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SpeedVisual() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '24px' }}>
+      <div style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(56px, 6vw, 96px)', fontWeight: 700, letterSpacing: '-0.04em', color: '#FAFAFA', lineHeight: 1 }}>
+        30<span style={{ fontSize: '0.4em', color: '#3B82F6', marginLeft: '6px' }}>min.</span>
+      </div>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '12px 0 0' }}>
+        Ø GO-LIVE-ZEIT
+      </p>
+      {/* Progress bar */}
+      <div style={{ width: '100%', maxWidth: '200px', height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', marginTop: '20px', overflow: 'hidden' }}>
+        <motion.div
+          initial={{ width: 0 }}
+          whileInView={{ width: '100%' }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          style={{ height: '100%', background: 'linear-gradient(90deg, #3B82F6, #06B6D4)', borderRadius: '2px' }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ServerVisual() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+      <div style={{ position: 'relative', width: '100%', maxWidth: '240px' }}>
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '12px',
+              padding: '12px 16px',
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              borderRadius: '8px',
+              marginBottom: '8px',
+            }}
+          >
+            <Server size={14} strokeWidth={1.6} style={{ color: '#3B82F6' }} />
+            <div style={{ flex: 1 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.7)', margin: 0 }}>
+                node-0{i + 1}.drvn.de
+              </p>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'rgba(255,255,255,0.35)', margin: 0 }}>
+                Nürnberg · FSN1
+              </p>
+            </div>
+            <span className="pulse-dot" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E' }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CustomVisual() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', width: '100%', maxWidth: '320px' }}>
+        {[
+          { label: 'Gastro', icon: <Pizza size={18} strokeWidth={1.5} />, active: true },
+          { label: 'Handwerk', icon: <Code2 size={18} strokeWidth={1.5} /> },
+          { label: 'Beauty', icon: <Sparkles size={18} strokeWidth={1.5} /> },
+          { label: 'Reinigung', icon: <Shield size={18} strokeWidth={1.5} /> },
+          { label: 'Catering', icon: <Headphones size={18} strokeWidth={1.5} /> },
+          { label: 'Fitness', icon: <Zap size={18} strokeWidth={1.5} /> },
+        ].map((b) => (
+          <div
+            key={b.label}
+            style={{
+              aspectRatio: '1',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              background: b.active ? 'rgba(59,130,246,0.1)' : 'rgba(255,255,255,0.02)',
+              border: `1px solid ${b.active ? 'rgba(59,130,246,0.3)' : 'rgba(255,255,255,0.06)'}`,
+              borderRadius: '10px',
+              color: b.active ? '#3B82F6' : 'rgba(255,255,255,0.5)',
+            }}
+          >
+            {b.icon}
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', letterSpacing: '0.04em' }}>{b.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ============================================
+   BENTO CARD
+============================================ */
+function BentoCard({
+  gridColumn,
+  gridRow,
+  eyebrow,
+  title,
+  description,
+  visual,
+  visualHeight = '220px',
+}: {
+  gridColumn: string;
+  gridRow?: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  visual: React.ReactNode;
+  visualHeight?: string;
+}) {
+  return (
+    <motion.div
+      variants={fadeUp}
+      style={{
+        gridColumn, gridRow,
+        position: 'relative',
+        background: '#111113',
+        border: '1px solid rgba(255,255,255,0.07)',
+        borderRadius: '16px',
+        overflow: 'hidden',
+        transition: 'border-color 0.25s, background 0.25s',
+        display: 'flex', flexDirection: 'column',
+      }}
+      whileHover={{ borderColor: 'rgba(59,130,246,0.25)' }}
+    >
+      {/* Visual area */}
+      <div style={{ position: 'relative', height: visualHeight, overflow: 'hidden', background: 'radial-gradient(ellipse at center, rgba(59,130,246,0.06) 0%, transparent 70%)' }}>
+        {visual}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, #111113)', pointerEvents: 'none' }} />
+      </div>
+
+      {/* Content */}
+      <div style={{ padding: '28px', flex: 1 }}>
+        <p className="eyebrow" style={{ marginBottom: '10px' }}>{eyebrow}</p>
+        <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.4rem', fontWeight: 600, color: '#FAFAFA', letterSpacing: '-0.025em', margin: '0 0 12px', lineHeight: 1.15 }}>
+          {title}
+        </h3>
+        <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, margin: 0 }}>
+          {description}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ============================================
    DATA
 ============================================ */
-const FEATURES = [
-  { icon: <Shield size={18} strokeWidth={1.6} />, titel: 'DSGVO by Default', text: 'Datenschutz nach deutschem Standard. Server bei Hetzner in Nürnberg, verschlüsselte Verbindungen, keine Drittanbieter-Cookies.' },
-  { icon: <Zap size={18} strokeWidth={1.6} />, titel: 'In 30 Minuten live', text: 'Kein wochenlanges Setup. Onboarding, Einrichtung und erste Bestellung am selben Tag — Ihre Mitarbeiter starten sofort.' },
-  { icon: <Code2 size={18} strokeWidth={1.6} />, titel: 'Branchenspezifisch', text: 'Keine Universal-Tools. Jede Lösung ist für die konkrete Branche designt — vom Wording bis zum Workflow.' },
-  { icon: <Headphones size={18} strokeWidth={1.6} />, titel: 'Alles aus einer Hand', text: 'Von der Unternehmenswebseite bis zur komplexen SaaS-Plattform. Wir liefern, hosten und supporten alles selbst.' },
-];
-
 const STEPS = [
-  { num: '01', icon: <MessageCircle size={18} strokeWidth={1.6} />, titel: 'Kennenlernen', text: 'Unverbindliches Erstgespräch, in dem wir Ihren Betrieb und Ihre Prozesse verstehen. Kostenlos, maximal 30 Minuten.' },
-  { num: '02', icon: <Sparkles size={18} strokeWidth={1.6} />, titel: 'Setup & Konfiguration', text: 'Wir richten Ihre Umgebung ein, importieren Ihre Daten und passen alles auf Ihre Abläufe an — ohne dass Sie einen Finger rühren müssen.' },
-  { num: '03', icon: <Rocket size={18} strokeWidth={1.6} />, titel: 'Live gehen', text: 'Kurze Einweisung fürs Team, dann läuft der Betrieb. Wir bleiben im laufenden Support — Sie haben einen festen Ansprechpartner.' },
+  { num: '01', icon: <MessageCircle size={18} strokeWidth={1.6} />, titel: 'Kennenlernen', text: 'Unverbindliches Erstgespräch. Wir hören zu, stellen die richtigen Fragen und verstehen Ihren Betrieb. Kostenlos, maximal 30 Minuten.' },
+  { num: '02', icon: <Sparkles size={18} strokeWidth={1.6} />, titel: 'Setup', text: 'Wir richten alles ein: Software-Konfiguration, Daten-Import, Branding, Test-Durchläufe. Sie müssen keinen Finger rühren.' },
+  { num: '03', icon: <Rocket size={18} strokeWidth={1.6} />, titel: 'Live gehen', text: 'Kurze Team-Einweisung, dann läuft der Betrieb. Wir bleiben im laufenden Support — fester Ansprechpartner, 24h Reaktion.' },
 ];
 
 const TESTIMONIALS = [
   {
-    quote: 'Wir haben ServeFlow an einem Samstagnachmittag eingerichtet und am Sonntagabend hatten wir die erste Online-Bestellung. Schneller geht es nicht.',
+    quote: 'Samstagnachmittag eingerichtet, Sonntagabend erste Online-Bestellung. Unser alter Lieferant hat für dieselbe Sache drei Wochen gebraucht — und dreimal so viel gekostet.',
     name: 'Marco B.',
-    role: 'Inhaber · Ristorante Pilot',
+    role: 'Inhaber · Ristorante Bella, Stuttgart',
     initials: 'MB',
+    stat: '3 Monate im Einsatz',
   },
   {
-    quote: 'Endlich eine Software, die nicht aussieht wie von 2008 und auch tatsächlich auf Deutsch und auf unsere Branche zugeschnitten ist.',
+    quote: 'Endlich ein Tool, das auf Deutsch kommuniziert und versteht, wie ein Café funktioniert. Support antwortet wirklich innerhalb eines Tages — das war bei der letzten Agentur undenkbar.',
     name: 'Sabine K.',
-    role: 'Geschäftsführerin · Café Pilot',
+    role: 'Geschäftsführerin · Café Linde, Tübingen',
     initials: 'SK',
+    stat: '6 Monate im Einsatz',
   },
 ];
 
 const FAQ = [
-  { q: 'Wie lange dauert die Einrichtung wirklich?', a: 'Das Onboarding von ServeFlow dauert typischerweise 30 Minuten. Custom-Projekte 1–4 Wochen je nach Umfang. Wir geben vorher immer einen konkreten Zeitplan.' },
-  { q: 'Was kostet das Ganze?', a: 'ServeFlow startet bei 99 €/Monat pro Standort. Webseiten ab 499 € einmalig. Custom-Projekte werden nach Aufwand kalkuliert — immer transparent, immer im Festpreis.' },
-  { q: 'Wo liegen meine Daten?', a: 'Ausschließlich auf deutschen Servern bei Hetzner in Nürnberg. DSGVO-konform, verschlüsselt, tägliche Backups. Keine Weitergabe an Dritte.' },
-  { q: 'Kann ich das Produkt vorher testen?', a: 'Ja. Nach dem Erstgespräch bekommen Sie einen Demo-Zugang zu ServeFlow. Die ersten 30 Tage sind kostenfrei — ohne Kündigungsfrist.' },
-  { q: 'Was passiert, wenn ich wechseln möchte?', a: 'Alle Ihre Daten gehören Ihnen. Wir exportieren sie auf Wunsch jederzeit als CSV, JSON oder direkt in ein anderes System. Keine Vendor-Lock-in-Tricks.' },
-  { q: 'Bietet ihr auch individuelle Software an?', a: 'Ja — neben unseren Standard-Produkten bauen wir Custom-Apps für Ihren Betrieb. Kontaktformular → Preisverhandlung → Umsetzung in Festpreis.' },
+  { q: 'Wie lange dauert die Einrichtung wirklich?', a: 'Das Onboarding von ServeFlow dauert typischerweise 30 Minuten — inklusive Konto-Setup, Menü-Import und Erstellung des QR-Codes für die Tische. Custom-Projekte dauern 1–4 Wochen je nach Umfang. Sie bekommen vorher immer einen verbindlichen Zeitplan.' },
+  { q: 'Was kostet das Ganze?', a: 'ServeFlow startet bei 99 €/Monat pro Standort, inklusive Updates, Hosting und Support. Webseiten ab 499 € einmalig, Landingpages ab 299 €. Custom-Projekte werden nach Aufwand zum Festpreis kalkuliert — transparent, ohne versteckte Kosten.' },
+  { q: 'Wo liegen meine Daten?', a: 'Ausschließlich auf deutschen Servern bei Hetzner in Nürnberg (FSN1-Rechenzentrum). Alle Verbindungen TLS 1.3-verschlüsselt, Backups täglich mit AES-256, keine Weitergabe an Dritte. DSGVO-konform nach aktuellem Stand.' },
+  { q: 'Kann ich das Produkt vorher testen?', a: 'Ja. Nach dem unverbindlichen Erstgespräch bekommen Sie einen Demo-Zugang zu ServeFlow mit Musterdaten. Die ersten 30 Tage sind kostenfrei — ohne Kündigungsfrist, ohne Hakenkreuz im Kleingedruckten.' },
+  { q: 'Was passiert, wenn ich wechseln möchte?', a: 'Alle Ihre Daten gehören Ihnen. Wir exportieren sie auf Wunsch jederzeit als CSV, JSON oder direkt in das Zielsystem. Keine Vendor-Lock-in-Tricks, keine Extra-Gebühren für den Export.' },
+  { q: 'Bietet ihr auch individuelle Software an?', a: 'Ja. Neben unseren Standard-Produkten bauen wir Custom-Apps — von der Prozessautomatisierung bis zur kompletten Branchen-Plattform. Kontaktformular ausfüllen, kostenfreies Angebot, Umsetzung zum Festpreis.' },
 ];
 
 const PRODUKTE = [
-  { name: 'ServeFlow', desc: 'Digitales Betriebssystem für Restaurants — QR-Bestellung, Tischverwaltung, Reservierungen.', status: 'Live', branche: 'Gastronomie', href: '/produkte/serveflow' },
-  { name: 'Webseiten', desc: 'Professioneller Online-Auftritt — SEO-optimiert, modern. Ab 499 € einmalig.', status: 'Live', branche: 'Alle Branchen', href: '/leistungen/webseiten' },
-  { name: 'HandBase', desc: 'Handwerker-SaaS — Aufträge, Zeiterfassung, Rechnungen, Kundenverwaltung.', status: 'In Entw.', branche: 'Handwerk', href: '/branchen' },
-  { name: 'BeautyBase', desc: 'Terminbuchung, Kundenkartei, Produktverwaltung für Beauty-Betriebe.', status: 'Geplant', branche: 'Beauty', href: '/branchen' },
-  { name: 'CleanBase', desc: 'Einsatzplanung, Abrechnung, Schichten für Reinigungsfirmen.', status: 'Geplant', branche: 'Reinigung', href: '/branchen' },
-  { name: 'CaterBase', desc: 'Catering-Planung, Events, Angebote — für Caterer und Event-Gastronomie.', status: 'Geplant', branche: 'Catering', href: '/branchen' },
+  { name: 'ServeFlow', desc: 'Digitales Betriebssystem für Restaurants — QR-Bestellung, Tischverwaltung, Reservierungen. Ab 99 €/Monat.', status: 'Live', branche: 'Gastronomie', href: '/produkte/serveflow' },
+  { name: 'Webseiten', desc: 'SEO-optimierte Unternehmens-Websites und Landingpages. Lieferung in 5 Werktagen, ab 499 € einmalig.', status: 'Live', branche: 'Alle Branchen', href: '/leistungen/webseiten' },
+  { name: 'HandBase', desc: 'Handwerker-SaaS — Auftragsmanagement, Zeiterfassung, digitale Rechnungen, mobile App für das Team.', status: 'Q3 2026', branche: 'Handwerk', href: '/branchen' },
+  { name: 'BeautyBase', desc: 'Online-Terminbuchung, digitale Kundenkartei, Produkt- und Dienstleistungsverwaltung.', status: 'Q4 2026', branche: 'Beauty', href: '/branchen' },
+  { name: 'CleanBase', desc: 'Einsatz- und Schichtplanung, Kundenverwaltung und Leistungserfassung für Reinigungsfirmen.', status: 'Q1 2027', branche: 'Reinigung', href: '/branchen' },
+  { name: 'CaterBase', desc: 'Event-Planung, Angebotserstellung und Personaldisposition für Caterer und Event-Gastronomie.', status: 'Q2 2027', branche: 'Catering', href: '/branchen' },
 ];
 
-const MARQUEE = ['DSGVO-konform', 'Server in Nürnberg', '30 Min Go-Live', 'Made in Germany', 'Branchensoftware', 'Custom SaaS', '24h Antwortzeit'];
+const MARQUEE = ['DSGVO-konform', 'Server in Nürnberg', '30 Min Go-Live', 'Made in Germany', 'Branchensoftware', 'Custom SaaS', '24h Antwortzeit', 'Ohne Vendor Lock-in'];
 
 const TRUST_LOGOS = [
   { name: 'Ristorante Bella', style: 'serif' },
@@ -355,6 +535,14 @@ export default function Startseite() {
         schema={{ '@context': 'https://schema.org', '@type': 'WebSite', name: 'DRVN', url: 'https://drvnautomatisations.com' }}
       />
 
+      {/* Inline keyframes for bento */}
+      <style>{`
+        @keyframes floatLabel {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      `}</style>
+
       {/* ============================================
           HERO
       ============================================ */}
@@ -367,7 +555,6 @@ export default function Startseite() {
         <motion.div
           style={{ opacity: heroOpacity, y: heroY, position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '0 32px' }}
         >
-          {/* Status badge */}
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -383,7 +570,10 @@ export default function Startseite() {
                 border: '1px solid rgba(255,255,255,0.08)',
                 borderRadius: '100px', textDecoration: 'none',
                 transition: 'background 0.2s, border-color 0.2s',
+                cursor: 'pointer',
               }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
             >
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', padding: '3px 8px', background: 'rgba(34,197,94,0.12)', color: '#22C55E', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '100px', letterSpacing: '0.04em', fontWeight: 500 }}>
                 NEU
@@ -413,8 +603,8 @@ export default function Startseite() {
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             style={{ textAlign: 'center', margin: '0 auto 44px', maxWidth: '600px', fontSize: '1.1rem', lineHeight: 1.55, color: 'rgba(255,255,255,0.6)', fontWeight: 400 }}
           >
-            DRVN entwickelt branchenspezifische SaaS-Lösungen für deutsche Unternehmen —
-            DSGVO-konform, sofort einsetzbar, Server in Deutschland.
+            Keine generischen Tools. Keine US-Cloud. Kein Feature-Chaos.<br />
+            Nur Software, die Ihren Betrieb wirklich versteht — gebaut in Stuttgart.
           </motion.p>
 
           <motion.div
@@ -423,15 +613,14 @@ export default function Startseite() {
             transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             style={{ display: 'flex', justifyContent: 'center', gap: '10px', flexWrap: 'wrap' }}
           >
-            <Link to="/produkte/serveflow" className="btn-primary">
+            <Link to="/produkte/serveflow" className="btn-primary" style={{ cursor: 'pointer' }}>
               Produkte entdecken <ArrowRight size={15} />
             </Link>
-            <Link to="/kontakt" className="btn-ghost">
-              Demo buchen
+            <Link to="/kontakt" className="btn-ghost" style={{ cursor: 'pointer' }}>
+              30-Min-Demo buchen
             </Link>
           </motion.div>
 
-          {/* Hero Metrics Bar */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -456,7 +645,6 @@ export default function Startseite() {
           </motion.div>
         </motion.div>
 
-        {/* Product Mockup */}
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
@@ -473,7 +661,7 @@ export default function Startseite() {
       </section>
 
       {/* ============================================
-          TRUST LOGOS BAR
+          TRUST LOGOS
       ============================================ */}
       <Section style={{ padding: '80px 32px 60px', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.01)' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
@@ -483,16 +671,13 @@ export default function Startseite() {
           >
             Im Einsatz bei Betrieben in ganz Deutschland
           </motion.p>
-          <motion.div
-            variants={fadeUp}
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '24px', alignItems: 'center' }}
-          >
+          <motion.div variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '24px', alignItems: 'center' }}>
             {TRUST_LOGOS.map((logo) => (
               <div
                 key={logo.name}
                 style={{
                   textAlign: 'center',
-                  fontFamily: logo.style === 'serif' ? 'var(--font-mono)' : logo.style === 'mono' ? 'var(--font-mono)' : 'var(--font-sans)',
+                  fontFamily: logo.style === 'sans' ? 'var(--font-sans)' : 'var(--font-mono)',
                   fontStyle: logo.style === 'serif' ? 'italic' : 'normal',
                   fontSize: logo.style === 'mono' ? '0.78rem' : '0.92rem',
                   fontWeight: logo.style === 'sans' ? 700 : 500,
@@ -527,52 +712,72 @@ export default function Startseite() {
       </div>
 
       {/* ============================================
-          FEATURES
+          BENTO GRID FEATURES
       ============================================ */}
-      <Section style={{ padding: '120px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <Section style={{ padding: '140px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-          <motion.div variants={fadeUp} style={{ maxWidth: '680px', marginBottom: '72px' }}>
+          <motion.div variants={fadeUp} style={{ maxWidth: '680px', marginBottom: '64px' }}>
             <p className="eyebrow" style={{ marginBottom: '16px' }}>Warum DRVN</p>
             <h2 className="display-2" style={{ margin: '0 0 20px' }}>
               Kein Feature-Chaos.<br />
               <span style={{ color: 'rgba(255,255,255,0.4)' }}>Nur was wirklich funktioniert.</span>
             </h2>
             <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.58)', lineHeight: 1.65, margin: 0 }}>
-              Wir bauen keine Tools von der Stange. Jedes Produkt folgt einem klaren Versprechen: Ihre Prozesse abbilden, nicht umgekehrt.
+              Vier konkrete Versprechen, die wir in jedem Projekt halten. Nicht aus der Marketing-Abteilung, sondern aus dem Alltag unserer Kunden.
             </p>
           </motion.div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-            {FEATURES.map((f) => (
-              <motion.div key={f.titel} variants={fadeUp} className="card" style={{ padding: '32px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-                  <div style={{ width: '36px', height: '36px', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.22)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3B82F6' }}>
-                    {f.icon}
-                  </div>
-                  <h3 className="display-3" style={{ margin: 0, fontSize: 'clamp(20px, 2vw, 26px)' }}>{f.titel}</h3>
-                </div>
-                <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.58)', lineHeight: 1.6, margin: 0 }}>{f.text}</p>
-              </motion.div>
-            ))}
+          {/* Bento 6-column grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '16px' }}>
+            <BentoCard
+              gridColumn="span 3"
+              eyebrow="Compliance"
+              title="DSGVO by Default."
+              description="Alle Daten liegen auf deutschen Servern bei Hetzner in Nürnberg. TLS 1.3 verschlüsselt, AES-256 Backups, keine Drittanbieter-Cookies. Ohne Aufpreis, ohne Zusatzvertrag."
+              visual={<DSGVOVisual />}
+            />
+            <BentoCard
+              gridColumn="span 3"
+              eyebrow="Geschwindigkeit"
+              title="In 30 Minuten live."
+              description="Kein wochenlanges Setup. Kontoerstellung, Konfiguration und erste Bestellung am selben Nachmittag. Ihre Mitarbeiter können sofort produktiv arbeiten."
+              visual={<SpeedVisual />}
+            />
+            <BentoCard
+              gridColumn="span 2"
+              eyebrow="Infrastruktur"
+              title="Server in Deutschland."
+              description="Redundant im FSN1-Rechenzentrum Nürnberg. Tägliche Backups, 99.9% Uptime-SLA, Datenhoheit bleibt bei Ihnen."
+              visual={<ServerVisual />}
+            />
+            <BentoCard
+              gridColumn="span 4"
+              eyebrow="Branchen"
+              title="Eine Lösung pro Branche — nicht ein Tool für alle."
+              description="Gastronomie funktioniert anders als Handwerk, Handwerk anders als Beauty. Jedes unserer Produkte ist für die jeweilige Branche designt — vom Wording über die Icons bis zu den Workflows. Kein Kompromiss, keine überladenen Menüs."
+              visual={<CustomVisual />}
+            />
           </div>
         </div>
       </Section>
 
       {/* ============================================
-          HOW IT WORKS — 3 STEPS
+          HOW IT WORKS
       ============================================ */}
       <Section style={{ padding: '120px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
           <motion.div variants={fadeUp} style={{ textAlign: 'center', marginBottom: '72px' }}>
             <p className="eyebrow" style={{ marginBottom: '16px' }}>So läuft es ab</p>
-            <h2 className="display-2" style={{ margin: '0 0 16px', maxWidth: '720px', marginLeft: 'auto', marginRight: 'auto' }}>
+            <h2 className="display-2" style={{ margin: '0 auto 16px', maxWidth: '720px' }}>
               Von der ersten Nachricht<br />
               <span style={{ color: 'rgba(255,255,255,0.4)' }}>zum Go-Live in 3 Schritten.</span>
             </h2>
+            <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.58)', lineHeight: 1.65, margin: '0 auto', maxWidth: '580px' }}>
+              Kein Angebotsmarathon. Kein monatelanges Warten. Schnelle Entscheidungen, konkrete Ergebnisse.
+            </p>
           </motion.div>
 
           <div style={{ position: 'relative' }}>
-            {/* Connection line */}
             <div style={{ position: 'absolute', top: '36px', left: '12%', right: '12%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(59,130,246,0.3) 20%, rgba(59,130,246,0.3) 80%, transparent)' }} />
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px', position: 'relative' }}>
@@ -580,25 +785,16 @@ export default function Startseite() {
                 <motion.div key={step.num} variants={fadeUp} style={{ textAlign: 'center' }}>
                   <div style={{
                     width: '72px', height: '72px', margin: '0 auto 24px',
-                    background: '#0A0A0B',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    borderRadius: '16px',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    position: 'relative',
+                    background: '#0A0A0B', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '16px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative',
                   }}>
                     <div style={{ position: 'absolute', top: '-8px', right: '-8px', fontFamily: 'var(--font-mono)', fontSize: '0.58rem', padding: '3px 6px', background: 'rgba(59,130,246,0.15)', border: '1px solid rgba(59,130,246,0.3)', color: '#3B82F6', borderRadius: '4px', letterSpacing: '0.05em', fontWeight: 600 }}>
                       {step.num}
                     </div>
-                    <div style={{ color: '#3B82F6' }}>
-                      {step.icon}
-                    </div>
+                    <div style={{ color: '#3B82F6' }}>{step.icon}</div>
                   </div>
-                  <h3 className="display-3" style={{ fontSize: '1.4rem', margin: '0 0 12px' }}>
-                    {step.titel}
-                  </h3>
-                  <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, margin: '0 auto', maxWidth: '320px' }}>
-                    {step.text}
-                  </p>
+                  <h3 className="display-3" style={{ fontSize: '1.4rem', margin: '0 0 12px' }}>{step.titel}</h3>
+                  <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, margin: '0 auto', maxWidth: '320px' }}>{step.text}</p>
                 </motion.div>
               ))}
             </div>
@@ -607,30 +803,24 @@ export default function Startseite() {
       </Section>
 
       {/* ============================================
-          COMPARISON TABLE
+          COMPARISON
       ============================================ */}
       <Section style={{ padding: '120px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <motion.div variants={fadeUp} style={{ marginBottom: '56px' }}>
             <p className="eyebrow" style={{ marginBottom: '16px' }}>Vergleich</p>
             <h2 className="display-2" style={{ margin: '0 0 16px' }}>
-              DRVN im Vergleich.
+              DRVN im direkten Vergleich.
             </h2>
             <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.58)', lineHeight: 1.65, margin: 0, maxWidth: '560px' }}>
-              Warum eine DRVN-Lösung und nicht generische SaaS-Tools oder eine Custom-Agentur?
+              Warum eine DRVN-Lösung und nicht US-SaaS oder die nächstbeste Agentur? Hier die ehrlichen Unterschiede.
             </p>
           </motion.div>
 
           <motion.div
             variants={fadeUp}
-            style={{
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: '14px',
-              overflow: 'hidden',
-              background: '#0D0D10',
-            }}
+            style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', overflow: 'hidden', background: '#0D0D10' }}
           >
-            {/* Header */}
             <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr', borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
               <div style={{ padding: '20px 24px' }} />
               <div style={{ padding: '20px 24px', textAlign: 'center', borderLeft: '1px solid rgba(59,130,246,0.2)', background: 'rgba(59,130,246,0.05)', position: 'relative' }}>
@@ -641,20 +831,15 @@ export default function Startseite() {
                 <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'rgba(255,255,255,0.5)', margin: '2px 0 0', letterSpacing: '0.05em' }}>EMPFOHLEN</p>
               </div>
               <div style={{ padding: '20px 24px', textAlign: 'center', borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
-                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.95rem', fontWeight: 500, color: 'rgba(255,255,255,0.75)', margin: 0 }}>
-                  Generic SaaS
-                </p>
+                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.95rem', fontWeight: 500, color: 'rgba(255,255,255,0.75)', margin: 0 }}>Generic SaaS</p>
                 <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'rgba(255,255,255,0.35)', margin: '2px 0 0', letterSpacing: '0.05em' }}>AUS DEN USA</p>
               </div>
               <div style={{ padding: '20px 24px', textAlign: 'center', borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
-                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.95rem', fontWeight: 500, color: 'rgba(255,255,255,0.75)', margin: 0 }}>
-                  Custom-Agentur
-                </p>
+                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.95rem', fontWeight: 500, color: 'rgba(255,255,255,0.75)', margin: 0 }}>Custom-Agentur</p>
                 <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'rgba(255,255,255,0.35)', margin: '2px 0 0', letterSpacing: '0.05em' }}>EIGENENTWICKLUNG</p>
               </div>
             </div>
 
-            {/* Rows */}
             {[
               { label: 'Startzeit', drvn: '30 Minuten', saas: '1–2 Tage', agency: '3–6 Monate' },
               { label: 'Kosten', drvn: 'ab 99 €/Monat', saas: 'ab 50 €/Monat', agency: 'ab 15.000 € einmalig' },
@@ -666,11 +851,7 @@ export default function Startseite() {
             ].map((row, i, arr) => (
               <div
                 key={row.label}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1.5fr 1fr 1fr 1fr',
-                  borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-                }}
+                style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr', borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}
               >
                 <div style={{ padding: '18px 24px', fontFamily: 'var(--font-sans)', fontSize: '0.92rem', color: '#FAFAFA', fontWeight: 500 }}>
                   {row.label}
@@ -683,13 +864,10 @@ export default function Startseite() {
                   <div
                     key={idx}
                     style={{
-                      padding: '18px 24px',
-                      textAlign: 'center',
+                      padding: '18px 24px', textAlign: 'center',
                       borderLeft: cell.highlight ? '1px solid rgba(59,130,246,0.2)' : '1px solid rgba(255,255,255,0.05)',
                       background: cell.highlight ? 'rgba(59,130,246,0.03)' : 'transparent',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
                     }}
                   >
                     {cell.val === true ? (
@@ -724,8 +902,11 @@ export default function Startseite() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
             {TESTIMONIALS.map((t) => (
-              <motion.div key={t.name} variants={fadeUp} className="card" style={{ padding: '40px' }}>
-                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '1.15rem', color: '#FAFAFA', lineHeight: 1.55, margin: '0 0 28px', fontWeight: 400, letterSpacing: '-0.015em' }}>
+              <motion.div key={t.name} variants={fadeUp} className="card" style={{ padding: '40px', position: 'relative' }}>
+                <div style={{ position: 'absolute', top: '32px', right: '32px', fontFamily: 'var(--font-mono)', fontSize: '0.62rem', padding: '3px 8px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E', borderRadius: '4px', letterSpacing: '0.05em' }}>
+                  {t.stat}
+                </div>
+                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '1.1rem', color: '#FAFAFA', lineHeight: 1.55, margin: '0 0 28px', fontWeight: 400, letterSpacing: '-0.015em' }}>
                   „{t.quote}"
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
@@ -733,12 +914,8 @@ export default function Startseite() {
                     {t.initials}
                   </div>
                   <div>
-                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: '#FAFAFA', margin: 0, fontWeight: 500 }}>
-                      {t.name}
-                    </p>
-                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)', margin: 0, letterSpacing: '0.02em' }}>
-                      {t.role}
-                    </p>
+                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: '#FAFAFA', margin: 0, fontWeight: 500 }}>{t.name}</p>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)', margin: 0, letterSpacing: '0.02em' }}>{t.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -760,7 +937,7 @@ export default function Startseite() {
                 <span style={{ color: 'rgba(255,255,255,0.4)' }}>pro Branche.</span>
               </h2>
             </div>
-            <Link to="/branchen" className="btn-ghost">
+            <Link to="/branchen" className="btn-ghost" style={{ cursor: 'pointer' }}>
               Alle Branchen <ArrowRight size={14} />
             </Link>
           </motion.div>
@@ -774,15 +951,15 @@ export default function Startseite() {
                     display: 'flex', flexDirection: 'column', padding: '28px',
                     background: '#111113', border: '1px solid rgba(255,255,255,0.06)',
                     borderRadius: '12px', textDecoration: 'none', height: '100%',
-                    transition: 'background 0.2s, border-color 0.2s',
-                    opacity: p.status === 'Live' ? 1 : 0.65,
+                    transition: 'background 0.2s, border-color 0.2s', cursor: 'pointer',
+                    opacity: p.status === 'Live' ? 1 : 0.75,
                   }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = '#16161A'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = '#111113'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
                     <span className="eyebrow-muted">{p.branche}</span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.05em', padding: '2px 7px', borderRadius: '3px', background: p.status === 'Live' ? 'rgba(34,197,94,0.1)' : 'rgba(255,255,255,0.04)', color: p.status === 'Live' ? '#22C55E' : 'rgba(255,255,255,0.4)', border: p.status === 'Live' ? '1px solid rgba(34,197,94,0.25)' : '1px solid rgba(255,255,255,0.08)', fontWeight: 500 }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.05em', padding: '2px 7px', borderRadius: '3px', background: p.status === 'Live' ? 'rgba(34,197,94,0.1)' : 'rgba(245,158,11,0.08)', color: p.status === 'Live' ? '#22C55E' : '#F59E0B', border: p.status === 'Live' ? '1px solid rgba(34,197,94,0.25)' : '1px solid rgba(245,158,11,0.2)', fontWeight: 500 }}>
                       {p.status.toUpperCase()}
                     </span>
                   </div>
@@ -807,7 +984,7 @@ export default function Startseite() {
             <p className="eyebrow" style={{ marginBottom: '16px' }}>FAQ</p>
             <h2 className="display-2" style={{ margin: 0 }}>
               Häufige Fragen<br />
-              <span style={{ color: 'rgba(255,255,255,0.4)' }}>kurz beantwortet.</span>
+              <span style={{ color: 'rgba(255,255,255,0.4)' }}>klar beantwortet.</span>
             </h2>
           </motion.div>
 
@@ -820,8 +997,7 @@ export default function Startseite() {
                     onClick={() => setOpenFaq(isOpen ? null : i)}
                     style={{
                       width: '100%', padding: '22px 28px', background: 'transparent', border: 'none', cursor: 'pointer',
-                      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
-                      textAlign: 'left',
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', textAlign: 'left',
                       transition: 'background 0.15s',
                     }}
                     onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
@@ -856,7 +1032,7 @@ export default function Startseite() {
 
           <motion.p variants={fadeUp} style={{ textAlign: 'center', marginTop: '36px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)' }}>
             Noch Fragen?{' '}
-            <Link to="/kontakt" style={{ color: '#3B82F6', textDecoration: 'none', fontWeight: 500 }}>
+            <Link to="/kontakt" style={{ color: '#3B82F6', textDecoration: 'none', fontWeight: 500, cursor: 'pointer' }}>
               Direkt kontaktieren →
             </Link>
           </motion.p>
@@ -876,12 +1052,16 @@ export default function Startseite() {
             <span className="text-gradient">die Ihre Branche versteht?</span>
           </motion.h2>
           <motion.p variants={fadeUp} style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.58)', lineHeight: 1.65, margin: '0 auto 44px', maxWidth: '520px' }}>
-            Erzählen Sie uns von Ihrem Unternehmen — wir melden uns innerhalb
-            von 24 Stunden mit einem konkreten Vorschlag.
+            30 Minuten Erstgespräch, 24 Stunden bis zum konkreten Angebot.
+            Keine Verpflichtung, kein Kleingedrucktes.
           </motion.p>
           <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'center', gap: '10px', flexWrap: 'wrap' }}>
-            <Link to="/kontakt" className="btn-primary">Projekt anfragen <ArrowRight size={15} /></Link>
-            <Link to="/produkte/serveflow" className="btn-ghost">ServeFlow ansehen</Link>
+            <Link to="/kontakt" className="btn-primary" style={{ cursor: 'pointer' }}>
+              Projekt anfragen <ArrowRight size={15} />
+            </Link>
+            <Link to="/produkte/serveflow" className="btn-ghost" style={{ cursor: 'pointer' }}>
+              ServeFlow ansehen
+            </Link>
           </motion.div>
           <motion.div variants={fadeUp} style={{ marginTop: '64px', paddingTop: '40px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'center', gap: '32px', flexWrap: 'wrap' }}>
             {['Kostenlose Erstberatung', 'Angebot in 24 Stunden', 'DSGVO-konform', 'Kein Setup-Aufwand'].map((t) => (
