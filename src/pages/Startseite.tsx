@@ -1,24 +1,53 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronRight, Zap, Shield, Globe, Monitor, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Zap, Shield, Monitor, Cpu, Globe } from 'lucide-react';
 import { BRANCHEN } from '../lib/constants';
 import SEO from '../components/SEO';
 
-/* ===== Marquee Ticker ===== */
+/* ===== Ticker ===== */
 const TICKER = [
-  'DSGVO-konform', 'Server in Deutschland', 'In 30 Min. live',
-  'ServeFlow jetzt verfügbar', 'Keine Setup-Kosten', 'Webseiten ab 499 €',
-  'Branchensoftware für KMU', '100% Made in Germany',
+  'DSGVO-konform', 'Server in Nürnberg', 'In 30 Min. live',
+  'ServeFlow verfügbar', 'Keine Setup-Kosten', 'Webseiten ab 499 €',
+  'Branchensoftware für KMU', 'Made in Germany',
 ];
 
-function Marquee() {
+function Ticker() {
   const items = [...TICKER, ...TICKER, ...TICKER];
   return (
-    <div className="border-y border-border py-4 overflow-hidden mask-edges bg-surface/40">
-      <div className="flex animate-marquee gap-12" style={{ width: 'max-content' }}>
+    <div
+      style={{
+        borderTop: '1px solid rgba(255,255,255,0.05)',
+        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        padding: '14px 0',
+        overflow: 'hidden',
+      }}
+      className="mask-edges"
+    >
+      <div className="animate-marquee" style={{ gap: '56px' }}>
         {items.map((item, i) => (
-          <span key={i} className="flex items-center gap-3 text-sm font-medium text-text-muted whitespace-nowrap">
-            <span className="w-1 h-1 rounded-full bg-primary/70 flex-shrink-0" />
-            {item}
+          <span
+            key={i}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.7rem',
+              letterSpacing: '0.1em',
+              color: 'var(--color-text-muted)',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <span
+              style={{
+                width: '3px',
+                height: '3px',
+                borderRadius: '50%',
+                background: 'var(--color-primary)',
+                opacity: 0.6,
+                flexShrink: 0,
+              }}
+            />
+            {item.toUpperCase()}
           </span>
         ))}
       </div>
@@ -28,51 +57,172 @@ function Marquee() {
 
 /* ===== Stats ===== */
 const STATS = [
-  { zahl: '30 Min.', label: 'bis zum ersten Live-Betrieb' },
-  { zahl: '100%', label: 'DSGVO-konform by Default' },
-  { zahl: '5+', label: 'Branchen in Entwicklung' },
-  { zahl: '24h', label: 'Antwortzeit garantiert' },
+  { zahl: '30 Min.', label: 'bis zum Go-Live' },
+  { zahl: '100%', label: 'DSGVO-konform' },
+  { zahl: '5+', label: 'Branchen geplant' },
+  { zahl: '24h', label: 'Antwortgarantie' },
 ];
 
-/* ===== Mini Product Card ===== */
-function ProductCard({ to, icon, name, tag, desc, highlight = false }: {
+/* ===== Produkt Card ===== */
+function ProduktCard({
+  to, icon, name, tag, desc, highlight = false,
+}: {
   to: string; icon: React.ReactNode; name: string;
   tag: string; desc: string; highlight?: boolean;
 }) {
   return (
     <Link
       to={to}
-      className={`group flex flex-col p-6 rounded-2xl border transition-all duration-300 card-hover ${
-        highlight
-          ? 'gradient-border bg-bg shadow-lg shadow-primary/5'
-          : 'bg-bg border-border hover:border-border-light'
-      }`}
       data-animate
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '28px',
+        background: highlight ? 'rgba(59,130,246,0.04)' : 'var(--color-surface)',
+        border: highlight
+          ? '1px solid rgba(59,130,246,0.25)'
+          : '1px solid rgba(255,255,255,0.05)',
+        borderRadius: '6px',
+        textDecoration: 'none',
+        transition: 'border-color 0.2s, transform 0.2s',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+      className="card-lift"
     >
-      <div className="flex items-start justify-between mb-5">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-          highlight ? 'bg-gradient-to-br from-primary to-secondary' : 'bg-surface border border-border'
-        }`}>
+      {highlight && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '1px',
+            background: 'linear-gradient(90deg, transparent, rgba(59,130,246,0.6), transparent)',
+          }}
+        />
+      )}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
+        <div
+          style={{
+            width: '38px',
+            height: '38px',
+            background: highlight ? 'rgba(59,130,246,0.15)' : 'rgba(255,255,255,0.04)',
+            border: '1px solid rgba(255,255,255,0.06)',
+            borderRadius: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           {icon}
         </div>
-        <span className={`text-[11px] rounded-full px-2.5 py-1 font-medium border ${
-          tag === 'Live'
-            ? 'bg-success/10 text-success border-success/20'
-            : 'bg-surface text-text-muted border-border'
-        }`}>{tag}</span>
+        <span
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.62rem',
+            letterSpacing: '0.1em',
+            padding: '3px 8px',
+            borderRadius: '2px',
+            background: tag === 'Live' ? 'rgba(34,197,94,0.08)' : 'rgba(255,255,255,0.04)',
+            color: tag === 'Live' ? '#22C55E' : 'var(--color-text-muted)',
+            border: tag === 'Live' ? '1px solid rgba(34,197,94,0.2)' : '1px solid rgba(255,255,255,0.06)',
+          }}
+        >
+          {tag === 'Live' ? 'LIVE' : tag.toUpperCase()}
+        </span>
       </div>
-      <h3 className="font-bold text-base mb-1.5">{name}</h3>
-      <p className="text-sm text-text-muted leading-relaxed flex-1">{desc}</p>
-      <div className="flex items-center gap-1 text-primary text-xs font-medium mt-4 group-hover:gap-2 transition-all">
-        Mehr erfahren <ChevronRight size={12} />
-      </div>
+      <h3
+        style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: '1rem',
+          fontWeight: 700,
+          color: 'var(--color-text)',
+          margin: '0 0 8px',
+        }}
+      >
+        {name}
+      </h3>
+      <p
+        style={{
+          fontSize: '0.85rem',
+          color: 'var(--color-text-muted)',
+          lineHeight: 1.65,
+          margin: '0 0 20px',
+          flex: 1,
+        }}
+      >
+        {desc}
+      </p>
+      <span
+        style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.72rem',
+          letterSpacing: '0.08em',
+          color: 'var(--color-primary)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '4px',
+        }}
+      >
+        MEHR ERFAHREN <ArrowUpRight size={11} />
+      </span>
     </Link>
+  );
+}
+
+/* ===== Feature Row ===== */
+function FeatureRow({ icon, titel, text, delay }: { icon: React.ReactNode; titel: string; text: string; delay: string }) {
+  return (
+    <div
+      data-animate
+      data-animate-delay={delay}
+      style={{
+        display: 'flex',
+        gap: '20px',
+        padding: '28px 0',
+        borderBottom: '1px solid rgba(255,255,255,0.04)',
+      }}
+    >
+      <div
+        style={{
+          width: '40px',
+          height: '40px',
+          background: 'rgba(59,130,246,0.08)',
+          border: '1px solid rgba(59,130,246,0.12)',
+          borderRadius: '4px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
+          marginTop: '2px',
+        }}
+      >
+        {icon}
+      </div>
+      <div>
+        <h3
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '1rem',
+            fontWeight: 700,
+            color: 'var(--color-text)',
+            margin: '0 0 6px',
+          }}
+        >
+          {titel}
+        </h3>
+        <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', lineHeight: 1.65, margin: 0 }}>
+          {text}
+        </p>
+      </div>
+    </div>
   );
 }
 
 export default function Startseite() {
   return (
-    <div className="pt-16">
+    <div>
       <SEO
         title="DRVN — Branchenspezifische SaaS-Lösungen für Deutschland"
         description="DRVN entwickelt digitale Plattformen für Gastronomie, Handwerk und mehr — DSGVO-konform, sofort einsetzbar, Server in Deutschland."
@@ -87,197 +237,491 @@ export default function Startseite() {
       />
 
       {/* ===== HERO ===== */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 dot-grid opacity-30 pointer-events-none" />
-        <div className="absolute top-[-15%] left-[5%] w-[800px] h-[800px] bg-primary/7 rounded-full blur-[160px] pointer-events-none orb-animate" />
-        <div className="absolute bottom-[-20%] right-[0%] w-[600px] h-[600px] bg-secondary/5 rounded-full blur-[140px] pointer-events-none orb-animate-slow" />
+      <section
+        style={{
+          position: 'relative',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          paddingTop: '68px',
+        }}
+        className="blueprint-grid"
+      >
+        {/* Single blue glow */}
+        <div
+          className="glow-orb"
+          style={{
+            width: '700px',
+            height: '700px',
+            background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)',
+            top: '-15%',
+            right: '-10%',
+          }}
+        />
+        <div
+          className="glow-orb"
+          style={{
+            width: '400px',
+            height: '400px',
+            background: 'radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 70%)',
+            bottom: '10%',
+            left: '-5%',
+          }}
+        />
 
-        <div className="max-w-6xl mx-auto px-6 pt-24 pb-20 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* Diagonal accent line */}
+        <svg
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            pointerEvents: 'none',
+            opacity: 0.06,
+          }}
+          preserveAspectRatio="none"
+        >
+          <line x1="65%" y1="0%" x2="100%" y2="100%" stroke="#3B82F6" strokeWidth="1" />
+          <line x1="70%" y1="0%" x2="100%" y2="80%" stroke="#06B6D4" strokeWidth="0.5" />
+        </svg>
 
-            {/* Links: Text */}
-            <div>
-              <div className="inline-flex items-center gap-2 bg-surface/80 backdrop-blur-sm border border-border rounded-full px-4 py-1.5 text-xs text-text-muted mb-7 animate-fade-in-up">
-                <span className="w-1.5 h-1.5 bg-success rounded-full animate-pulse" />
-                ServeFlow für Gastronomie ist live
-              </div>
+        <div
+          style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '80px 48px 100px',
+            width: '100%',
+            position: 'relative',
+            zIndex: 1,
+          }}
+        >
+          {/* Status badge */}
+          <div
+            className="anim-0"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.07)',
+              borderRadius: '2px',
+              padding: '6px 14px',
+              marginBottom: '40px',
+            }}
+          >
+            <span
+              className="animate-pulse"
+              style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E', flexShrink: 0 }}
+            />
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.7rem',
+                letterSpacing: '0.12em',
+                color: 'var(--color-text-muted)',
+              }}
+            >
+              SERVEFLOW FÜR GASTRONOMIE IST JETZT LIVE
+            </span>
+          </div>
 
-              <h1 className="text-5xl md:text-6xl font-bold leading-[1.06] tracking-tight mb-6 animate-fade-in-up-delay-1">
-                Software die<br />
-                <span className="text-gradient">wirklich passt.</span>
-              </h1>
+          {/* Massive headline */}
+          <h1
+            className="anim-1"
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(52px, 8.5vw, 130px)',
+              fontWeight: 800,
+              lineHeight: 0.95,
+              letterSpacing: '-0.04em',
+              color: 'var(--color-text)',
+              margin: '0 0 8px',
+              maxWidth: '900px',
+            }}
+          >
+            Software
+          </h1>
+          <h1
+            className="anim-2"
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(52px, 8.5vw, 130px)',
+              fontWeight: 800,
+              lineHeight: 0.95,
+              letterSpacing: '-0.04em',
+              margin: '0 0 40px',
+              background: 'linear-gradient(125deg, #3B82F6 0%, #06B6D4 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            die wirklich passt.
+          </h1>
 
-              <p className="text-text-muted text-lg leading-relaxed mb-8 max-w-lg animate-fade-in-up-delay-2">
-                DRVN entwickelt branchenspezifische Lösungen für deutsche Unternehmen —
-                DSGVO-konform, sofort einsetzbar, Server in Deutschland.
-              </p>
+          {/* Animated underline */}
+          <div
+            className="anim-line"
+            style={{
+              height: '1px',
+              background: 'linear-gradient(to right, rgba(59,130,246,0.6), rgba(6,182,212,0.3), transparent)',
+              maxWidth: '600px',
+              marginBottom: '40px',
+            }}
+          />
 
-              <ul className="space-y-2 mb-8 animate-fade-in-up-delay-3">
-                {['Keine generischen Tools', 'In 30 Minuten live', 'Voller Support inklusive'].map((f) => (
-                  <li key={f} className="flex items-center gap-2.5 text-sm text-text-muted">
-                    <CheckCircle2 size={15} className="text-primary flex-shrink-0" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
+          {/* Subtext + CTAs */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '32px',
+              maxWidth: '560px',
+            }}
+          >
+            <p
+              className="anim-3"
+              style={{
+                fontSize: '1.1rem',
+                color: 'var(--color-text-muted)',
+                lineHeight: 1.7,
+                margin: 0,
+              }}
+            >
+              DRVN entwickelt branchenspezifische Lösungen für deutsche Unternehmen —
+              DSGVO-konform, sofort einsetzbar, Server in Deutschland.
+            </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up-delay-4">
-                <Link
-                  to="/produkte/serveflow"
-                  className="bg-primary hover:bg-primary/90 text-white font-semibold px-7 py-3.5 rounded-xl transition-all glow-blue inline-flex items-center justify-center gap-2"
-                >
-                  Produkte entdecken <ArrowRight size={17} />
-                </Link>
-                <Link
-                  to="/kontakt"
-                  className="border border-border-light hover:border-text-muted/40 bg-surface/50 backdrop-blur-sm text-text-muted hover:text-text font-medium px-7 py-3.5 rounded-xl transition-all inline-flex items-center justify-center gap-2"
-                >
-                  Kontakt aufnehmen
-                </Link>
-              </div>
+            <div className="anim-4" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <Link to="/produkte/serveflow" className="btn-primary">
+                Produkte entdecken <ArrowRight size={15} />
+              </Link>
+              <Link to="/kontakt" className="btn-ghost">
+                Kontakt aufnehmen
+              </Link>
             </div>
+          </div>
 
-            {/* Rechts: Feature Karten Stack */}
-            <div className="hidden lg:flex flex-col gap-3 animate-fade-in-up-delay-2">
-              {[
-                { icon: <Zap size={16} className="text-white" />, color: 'bg-gradient-to-br from-primary to-secondary', title: 'ServeFlow', sub: 'Restaurant Software · Live' },
-                { icon: <Monitor size={16} className="text-white" />, color: 'bg-gradient-to-br from-secondary to-primary', title: 'Webseiten & Landingpages', sub: 'Ab 499 € · Sofort buchbar' },
-                { icon: <Shield size={16} className="text-primary" />, color: 'bg-primary/10', title: 'DSGVO by Default', sub: 'Server in Nürnberg, Deutschland' },
-                { icon: <Globe size={16} className="text-secondary" />, color: 'bg-secondary/10', title: '5+ Branchen in Entwicklung', sub: 'Handwerk · Beauty · Fitness · Hotels' },
-              ].map((card, i) => (
+          {/* Right side: floating tech cards */}
+          <div
+            className="anim-3"
+            style={{
+              position: 'absolute',
+              right: '48px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+              width: '260px',
+            }}
+          >
+            {[
+              { icon: <Zap size={14} style={{ color: '#3B82F6' }} />, title: 'ServeFlow', sub: 'Restaurant Software', tag: 'LIVE', offset: 0 },
+              { icon: <Monitor size={14} style={{ color: '#06B6D4' }} />, title: 'Webseiten', sub: 'Ab 499 € — sofort buchbar', tag: 'LIVE', offset: 24 },
+              { icon: <Shield size={14} style={{ color: '#3B82F6' }} />, title: 'DSGVO by Default', sub: 'Server in Nürnberg, DE', tag: 'AKTIV', offset: 0 },
+              { icon: <Globe size={14} style={{ color: '#06B6D4' }} />, title: '5+ Branchen', sub: 'Handwerk · Beauty · Fitness', tag: 'BALD', offset: 24 },
+            ].map((card) => (
+              <div
+                key={card.title}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                  borderRadius: '4px',
+                  padding: '12px 16px',
+                  marginLeft: `${card.offset}px`,
+                  backdropFilter: 'blur(8px)',
+                }}
+                className="card-lift"
+              >
                 <div
-                  key={card.title}
-                  className="flex items-center gap-4 bg-surface/80 backdrop-blur-sm border border-border rounded-2xl px-5 py-4 card-hover"
-                  style={{ transform: `translateX(${i % 2 === 0 ? '0' : '24px'})` }}
+                  style={{
+                    width: '30px',
+                    height: '30px',
+                    background: 'rgba(59,130,246,0.08)',
+                    borderRadius: '3px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
                 >
-                  <div className={`w-9 h-9 ${card.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                    {card.icon}
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold">{card.title}</p>
-                    <p className="text-xs text-text-muted">{card.sub}</p>
-                  </div>
+                  {card.icon}
                 </div>
-              ))}
-            </div>
-
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text)', margin: 0 }}>
+                    {card.title}
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--color-text-muted)', margin: 0 }}>
+                    {card.sub}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ===== MARQUEE ===== */}
-      <Marquee />
+      {/* ===== TICKER ===== */}
+      <Ticker />
 
       {/* ===== STATS ===== */}
-      <section className="border-b border-border bg-surface">
-        <div className="max-w-5xl mx-auto px-6 py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {STATS.map((s, i) => (
-              <div key={s.zahl} className="text-center" data-animate data-animate-delay={String(i + 1)}>
-                <p className="text-3xl md:text-4xl font-bold text-gradient mb-1">{s.zahl}</p>
-                <p className="text-text-muted text-sm leading-snug">{s.label}</p>
-              </div>
-            ))}
-          </div>
+      <section
+        style={{
+          borderBottom: '1px solid rgba(255,255,255,0.05)',
+          background: 'var(--color-surface)',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '64px 48px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '0',
+          }}
+        >
+          {STATS.map((s, i) => (
+            <div
+              key={s.zahl}
+              data-animate
+              data-animate-delay={String(i + 1)}
+              style={{
+                padding: '0 32px',
+                borderRight: i < STATS.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                textAlign: i === 0 ? 'left' : 'center',
+              }}
+            >
+              <p className="stat-number">{s.zahl}</p>
+              <p
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.7rem',
+                  letterSpacing: '0.1em',
+                  color: 'var(--color-text-muted)',
+                  margin: '8px 0 0',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {s.label}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* ===== WARUM DRVN ===== */}
-      <section className="border-b border-border">
-        <div className="max-w-5xl mx-auto px-6 py-24">
-          <div className="text-center mb-14" data-animate>
-            <p className="text-primary text-sm font-medium tracking-wider uppercase mb-3">Warum DRVN</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Keine Einheitslösung.<br />Software die passt.
-            </h2>
-            <p className="text-text-muted max-w-xl mx-auto leading-relaxed">
-              Jede Branche funktioniert anders. Deshalb bauen wir keine generischen Tools —
-              sondern Plattformen die auf Ihren Arbeitsalltag zugeschnitten sind.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              {
-                icon: <Shield size={22} />,
-                titel: 'DSGVO-konform',
-                text: 'Datenschutz nach deutschem Standard — kein Aufpreis, kein Nachdenken. Server bei Hetzner in Nürnberg.',
-              },
-              {
-                icon: <Zap size={22} />,
-                titel: 'Sofort einsetzbar',
-                text: 'Kein monatelanges Setup. Onboarding in 30 Minuten — Ihre Mitarbeiter können direkt starten.',
-              },
-              {
-                icon: <Monitor size={22} />,
-                titel: 'Webseiten & Software',
-                text: 'Von der einfachen Unternehmensseite bis zur komplexen SaaS-Plattform — alles aus einer Hand.',
-              },
-            ].map((f, i) => (
-              <div
-                key={f.titel}
-                className="bg-surface rounded-2xl p-7 border border-border card-hover"
-                data-animate
-                data-animate-delay={String(i + 1)}
-              >
-                <div className="w-11 h-11 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-5">
-                  {f.icon}
-                </div>
-                <h3 className="font-bold mb-2">{f.titel}</h3>
-                <p className="text-text-muted text-sm leading-relaxed">{f.text}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-10" data-animate>
-            <Link
-              to="/leistungen"
-              className="text-primary text-sm font-medium inline-flex items-center gap-1.5 hover:gap-2.5 transition-all"
+      <section style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div
+          style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '100px 48px',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '80px',
+            alignItems: 'start',
+          }}
+        >
+          {/* Left: heading */}
+          <div data-animate style={{ position: 'sticky', top: '100px' }}>
+            <p className="mono-label" style={{ marginBottom: '16px' }}>Warum DRVN</p>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(32px, 4vw, 52px)',
+                fontWeight: 800,
+                lineHeight: 1.05,
+                letterSpacing: '-0.03em',
+                color: 'var(--color-text)',
+                margin: '0 0 24px',
+              }}
             >
-              Alle Leistungen ansehen <ArrowRight size={15} />
+              Keine Einheitslösung.
+              <br />
+              <span
+                style={{
+                  background: 'linear-gradient(125deg, #3B82F6, #06B6D4)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Software die passt.
+              </span>
+            </h2>
+            <p
+              style={{
+                fontSize: '0.95rem',
+                color: 'var(--color-text-muted)',
+                lineHeight: 1.7,
+                margin: '0 0 32px',
+              }}
+            >
+              Jede Branche funktioniert anders. Deshalb bauen wir keine generischen Tools —
+              sondern Plattformen, die auf Ihren Arbeitsalltag zugeschnitten sind.
+            </p>
+            <Link to="/leistungen" className="btn-ghost" style={{ display: 'inline-flex' }}>
+              Alle Leistungen <ArrowRight size={14} />
             </Link>
+          </div>
+
+          {/* Right: feature list */}
+          <div>
+            <FeatureRow
+              icon={<Shield size={18} style={{ color: '#3B82F6' }} />}
+              titel="DSGVO-konform by Default"
+              text="Datenschutz nach deutschem Standard — kein Aufpreis, kein Nachdenken. Alle Daten liegen auf Hetzner-Servern in Nürnberg."
+              delay="1"
+            />
+            <FeatureRow
+              icon={<Zap size={18} style={{ color: '#3B82F6' }} />}
+              titel="In 30 Minuten live"
+              text="Kein monatelanges Setup. Onboarding in 30 Minuten — Ihre Mitarbeiter können sofort starten."
+              delay="2"
+            />
+            <FeatureRow
+              icon={<Cpu size={18} style={{ color: '#3B82F6' }} />}
+              titel="Prozesse automatisiert"
+              text="Wiederkehrende Aufgaben übernimmt die Software. Sie konzentrieren sich auf Ihr Kerngeschäft."
+              delay="3"
+            />
+            <FeatureRow
+              icon={<Monitor size={18} style={{ color: '#3B82F6' }} />}
+              titel="Alles aus einer Hand"
+              text="Von der Unternehmenswebseite bis zur komplexen SaaS-Plattform — DRVN liefert vollständige Lösungen."
+              delay="4"
+            />
           </div>
         </div>
       </section>
 
       {/* ===== PRODUKTE ===== */}
-      <section className="border-b border-border bg-surface">
-        <div className="max-w-5xl mx-auto px-6 py-24">
-          <div className="mb-12" data-animate>
-            <p className="text-primary text-sm font-medium tracking-wider uppercase mb-3">Unsere Produkte</p>
-            <h2 className="text-3xl md:text-4xl font-bold">Eine Lösung pro Branche.</h2>
+      <section
+        style={{
+          background: 'var(--color-surface)',
+          borderBottom: '1px solid rgba(255,255,255,0.05)',
+        }}
+      >
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '100px 48px' }}>
+          <div
+            data-animate
+            style={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              marginBottom: '48px',
+              flexWrap: 'wrap',
+              gap: '16px',
+            }}
+          >
+            <div>
+              <p className="mono-label" style={{ marginBottom: '12px' }}>Unsere Produkte</p>
+              <h2
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(28px, 3.5vw, 44px)',
+                  fontWeight: 800,
+                  letterSpacing: '-0.03em',
+                  color: 'var(--color-text)',
+                  margin: 0,
+                  lineHeight: 1.1,
+                }}
+              >
+                Eine Lösung pro Branche.
+              </h2>
+            </div>
+            <Link to="/branchen" className="btn-ghost" style={{ display: 'inline-flex' }}>
+              Alle Branchen <ArrowRight size={14} />
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <ProductCard
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '16px',
+            }}
+          >
+            <ProduktCard
               to="/produkte/serveflow"
-              icon={<Zap size={18} className="text-white" />}
+              icon={<Zap size={16} style={{ color: '#3B82F6' }} />}
               name="ServeFlow"
               tag="Live"
               desc="QR-Bestellung, Tischverwaltung und Reservierungen — das digitale Betriebssystem für Restaurants."
               highlight
             />
-            <ProductCard
+            <ProduktCard
               to="/leistungen/webseiten"
-              icon={<Monitor size={18} className="text-secondary" />}
+              icon={<Monitor size={16} style={{ color: '#06B6D4' }} />}
               name="Webseiten & Landingpages"
               tag="Live"
-              desc="Professioneller Online-Auftritt für Ihr Unternehmen — SEO-optimiert, ab 499 € einmalig."
+              desc="Professioneller Online-Auftritt — SEO-optimiert, modern, ab 499 € einmalig."
             />
             {BRANCHEN.slice(1, 4).map((b) => (
               <div
                 key={b.title}
-                className="bg-bg rounded-2xl p-6 border border-border opacity-50"
                 data-animate
+                style={{
+                  padding: '28px',
+                  background: 'rgba(255,255,255,0.01)',
+                  border: '1px solid rgba(255,255,255,0.04)',
+                  borderRadius: '6px',
+                  opacity: 0.45,
+                }}
               >
-                <div className="flex items-center justify-between mb-5">
-                  <div className="w-10 h-10 bg-surface rounded-xl border border-border" />
-                  <span className="text-[11px] bg-surface text-text-muted border border-border rounded-full px-2.5 py-1 font-medium">
-                    {b.status}
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    marginBottom: '20px',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '38px',
+                      height: '38px',
+                      background: 'rgba(255,255,255,0.03)',
+                      border: '1px solid rgba(255,255,255,0.05)',
+                      borderRadius: '4px',
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.62rem',
+                      letterSpacing: '0.1em',
+                      padding: '3px 8px',
+                      borderRadius: '2px',
+                      background: 'rgba(255,255,255,0.03)',
+                      color: 'var(--color-text-muted)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                    }}
+                  >
+                    {b.status.toUpperCase()}
                   </span>
                 </div>
-                <h3 className="font-bold text-base mb-1">{b.title}</h3>
-                <p className="text-sm text-text-muted leading-relaxed">{b.beschreibung}</p>
+                <h3
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '1rem',
+                    fontWeight: 700,
+                    color: 'var(--color-text)',
+                    margin: '0 0 8px',
+                  }}
+                >
+                  {b.title}
+                </h3>
+                <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', lineHeight: 1.65, margin: 0 }}>
+                  {b.beschreibung}
+                </p>
               </div>
             ))}
           </div>
@@ -286,32 +730,110 @@ export default function Startseite() {
 
       {/* ===== CTA ===== */}
       <section>
-        <div className="max-w-3xl mx-auto px-6 py-28 text-center" data-animate>
-          <p className="text-primary text-sm font-medium tracking-wider uppercase mb-4">Jetzt starten</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ihr Betrieb. Digital.<br />
-            <span className="text-gradient">In 30 Minuten.</span>
-          </h2>
-          <p className="text-text-muted mb-10 max-w-md mx-auto leading-relaxed">
-            Erzählen Sie uns von Ihrem Unternehmen — wir melden uns innerhalb von 24 Stunden mit einem konkreten Vorschlag.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              to="/kontakt"
-              className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-4 rounded-xl transition-all glow-blue inline-flex items-center justify-center gap-2 text-base"
+        <div
+          style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '120px 48px',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '80px',
+            alignItems: 'center',
+          }}
+        >
+          <div data-animate>
+            <p className="mono-label" style={{ marginBottom: '16px' }}>Jetzt starten</p>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(32px, 4vw, 56px)',
+                fontWeight: 800,
+                lineHeight: 1.0,
+                letterSpacing: '-0.04em',
+                color: 'var(--color-text)',
+                margin: '0 0 24px',
+              }}
             >
-              Projekt anfragen <ArrowRight size={18} />
-            </Link>
-            <Link
-              to="/produkte/serveflow"
-              className="border border-border-light hover:border-text-muted/40 text-text-muted hover:text-text font-medium px-8 py-4 rounded-xl transition-all inline-flex items-center justify-center gap-2"
+              Ihr Betrieb.
+              <br />
+              <span
+                style={{
+                  background: 'linear-gradient(125deg, #3B82F6, #06B6D4)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Digital. In 30 Min.
+              </span>
+            </h2>
+            <p
+              style={{
+                fontSize: '0.95rem',
+                color: 'var(--color-text-muted)',
+                lineHeight: 1.7,
+                margin: '0 0 36px',
+              }}
             >
-              ServeFlow ansehen <ChevronRight size={16} />
-            </Link>
+              Erzählen Sie uns von Ihrem Unternehmen — wir melden uns innerhalb von 24 Stunden
+              mit einem konkreten Vorschlag.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <Link to="/kontakt" className="btn-primary">
+                Projekt anfragen <ArrowRight size={15} />
+              </Link>
+              <Link to="/produkte/serveflow" className="btn-ghost">
+                ServeFlow ansehen
+              </Link>
+            </div>
+          </div>
+
+          {/* Right: mini checklist */}
+          <div data-animate data-animate-delay="2">
+            {[
+              'Persönliche Beratung — kostenlos und unverbindlich',
+              'Konkretes Angebot innerhalb von 24 Stunden',
+              'Kein Setup-Aufwand — wir übernehmen alles',
+              'DSGVO-konform von Anfang an',
+              'Aktiver Support nach Go-Live inklusive',
+            ].map((punkt, i) => (
+              <div
+                key={i}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '14px',
+                  padding: '16px 0',
+                  borderBottom: i < 4 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.65rem',
+                    color: 'var(--color-primary)',
+                    marginTop: '2px',
+                    flexShrink: 0,
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <p
+                  style={{
+                    fontSize: '0.9rem',
+                    color: 'var(--color-text-muted)',
+                    margin: 0,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {punkt}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-
     </div>
   );
 }
