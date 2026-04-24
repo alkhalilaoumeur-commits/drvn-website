@@ -1,68 +1,55 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight, Zap, Shield, Monitor, CheckCircle2, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import {
   motion,
   useInView,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
   type Variants,
 } from 'framer-motion';
-import { BRANCHEN } from '../lib/constants';
 import SEO from '../components/SEO';
 
-/* ===== Animation Variants ===== */
+/* ============================================
+   ANIMATION VARIANTS
+============================================ */
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } },
 };
 
 const stagger: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
 };
 
-const slideLeft: Variants = {
-  hidden: { opacity: 0, x: -24 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
-};
+/* ============================================
+   CURSOR GLOW
+============================================ */
+function CursorGlow() {
+  const x = useMotionValue(-500);
+  const y = useMotionValue(-500);
+  const springX = useSpring(x, { stiffness: 100, damping: 20 });
+  const springY = useSpring(y, { stiffness: 100, damping: 20 });
 
-const floatingVariants: Variants = {
-  initial: { y: 0, rotate: 0, scale: 1 },
-  animate: {
-    y: [-20, 20, -20],
-    rotate: [0, 360],
-    scale: [1, 1.2, 1],
-    transition: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
-  } as never,
-};
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      x.set(e.clientX - 250);
+      y.set(e.clientY - 250);
+    };
+    window.addEventListener('mousemove', move);
+    return () => window.removeEventListener('mousemove', move);
+  }, [x, y]);
 
-const pulseVariants: Variants = {
-  initial: { scale: 1, opacity: 0.5 },
-  animate: {
-    scale: [1, 1.5, 1],
-    opacity: [0.5, 0.8, 0.5],
-    transition: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
-  } as never,
-};
+  return <motion.div className="cursor-glow" style={{ x: springX, y: springY }} />;
+}
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2, delayChildren: 0.3 },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-/* ===== Section wrapper with useInView ===== */
-function Section({ children, style = {} }: { children: React.ReactNode; style?: React.CSSProperties }) {
+/* ============================================
+   SECTION WRAPPER
+============================================ */
+function Section({ children, style = {}, className = '' }: { children: React.ReactNode; style?: React.CSSProperties; className?: string }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
   return (
@@ -72,28 +59,97 @@ function Section({ children, style = {} }: { children: React.ReactNode; style?: 
       initial="hidden"
       animate={inView ? 'visible' : 'hidden'}
       style={style}
+      className={className}
     >
       {children}
     </motion.section>
   );
 }
 
-/* ===== Ticker ===== */
-const TICKER = [
-  'DSGVO-konform', 'Server in Nürnberg', 'In 30 Min. live',
-  'ServeFlow verfügbar', 'Keine Setup-Kosten', 'Webseiten ab 499 €',
-  'Branchensoftware für KMU', 'Made in Germany',
+/* ============================================
+   REVEAL TEXT (word by word mask reveal)
+============================================ */
+function RevealLine({ children, delay = 0, as: Component = 'span' }: { children: React.ReactNode; delay?: number; as?: 'span' | 'div' }) {
+  return (
+    <Component style={{ display: 'block', overflow: 'hidden' }}>
+      <motion.span
+        style={{ display: 'block' }}
+        initial={{ y: '110%' }}
+        animate={{ y: 0 }}
+        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay }}
+      >
+        {children}
+      </motion.span>
+    </Component>
+  );
+}
+
+/* ============================================
+   MAGNETIC BUTTON
+============================================ */
+function MagneticLink({ to, children, primary = false }: { to: string; children: React.ReactNode; primary?: boolean }) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 20 });
+  const springY = useSpring(y, { stiffness: 200, damping: 20 });
+
+  const handleMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const relX = e.clientX - rect.left - rect.width / 2;
+    const relY = e.clientY - rect.top - rect.height / 2;
+    x.set(relX * 0.25);
+    y.set(relY * 0.25);
+  };
+  const handleLeave = () => { x.set(0); y.set(0); };
+
+  return (
+    <motion.a
+      ref={ref}
+      style={{ x: springX, y: springY, display: 'inline-block' }}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      href={to}
+    >
+      <Link to={to} className={primary ? 'btn-primary' : 'btn-ghost'}>
+        {children}
+      </Link>
+    </motion.a>
+  );
+}
+
+/* ============================================
+   MARQUEE
+============================================ */
+const MARQUEE_WORDS = [
+  'Branchensoftware', 'DSGVO-konform', 'Server DE', 'Made in Germany',
+  '30 Min Live', 'ServeFlow', 'Custom SaaS', 'Automatisierung',
 ];
 
-function Ticker() {
-  const items = [...TICKER, ...TICKER, ...TICKER];
+function MarqueeBand() {
+  const items = [...MARQUEE_WORDS, ...MARQUEE_WORDS, ...MARQUEE_WORDS];
   return (
-    <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '13px 0', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }} className="mask-edges">
-      <div className="animate-marquee" style={{ gap: '56px' }}>
-        {items.map((item, i) => (
-          <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.35)', whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
-            <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#3B82F6', opacity: 0.6, flexShrink: 0 }} />
-            {item}
+    <div style={{ padding: '40px 0', overflow: 'hidden', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#08080A' }}>
+      <div className="animate-marquee" style={{ gap: '64px' }}>
+        {items.map((word, i) => (
+          <span
+            key={i}
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontStyle: 'italic',
+              fontSize: 'clamp(48px, 6vw, 96px)',
+              fontWeight: 900,
+              letterSpacing: '-0.04em',
+              color: i % 3 === 1 ? '#3B82F6' : '#F4F4F6',
+              whiteSpace: 'nowrap',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '64px',
+            }}
+          >
+            {word}
+            <span style={{ fontSize: '0.4em', color: 'rgba(255,255,255,0.3)' }}>✦</span>
           </span>
         ))}
       </div>
@@ -101,366 +157,400 @@ function Ticker() {
   );
 }
 
-/* ===== Feature Card ===== */
-function FeatureCard({ icon, titel, text }: { icon: React.ReactNode; titel: string; text: string }) {
-  return (
-    <motion.div
-      variants={fadeUp}
-      whileHover={{ y: -4, borderColor: 'rgba(59,130,246,0.3)' }}
-      style={{ padding: '32px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', transition: 'border-color 0.2s' }}
-    >
-      <div style={{ width: '44px', height: '44px', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-        {icon}
-      </div>
-      <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '1rem', fontWeight: 700, color: '#F4F4F6', margin: '0 0 8px' }}>{titel}</h3>
-      <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.45)', lineHeight: 1.65, margin: 0 }}>{text}</p>
-    </motion.div>
-  );
-}
+/* ============================================
+   STATS
+============================================ */
+const STATS = [
+  { zahl: '30', unit: 'Min.', label: 'bis zum Go-Live' },
+  { zahl: '100', unit: '%', label: 'DSGVO-konform' },
+  { zahl: '5', unit: '+', label: 'Branchen geplant' },
+  { zahl: '24', unit: 'h', label: 'Antwortzeit' },
+];
 
-/* ===== Produkt Card ===== */
-function ProduktCard({ to, icon, name, tag, desc, highlight = false }: { to: string; icon: React.ReactNode; name: string; tag: string; desc: string; highlight?: boolean }) {
-  return (
-    <motion.div variants={fadeUp} whileHover={{ y: -4 }}>
-      <Link
-        to={to}
-        style={{
-          display: 'flex', flexDirection: 'column', padding: '28px',
-          background: highlight ? 'rgba(59,130,246,0.12)' : 'rgba(255,255,255,0.03)',
-          border: `1px solid ${highlight ? 'rgba(59,130,246,0.35)' : 'rgba(255,255,255,0.06)'}`,
-          borderRadius: '12px', textDecoration: 'none', height: '100%',
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
-          <div style={{ width: '40px', height: '40px', background: highlight ? 'rgba(59,130,246,0.2)' : 'rgba(255,255,255,0.06)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {icon}
-          </div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.1em', padding: '3px 8px', borderRadius: '4px', background: tag === 'Live' ? 'rgba(34,197,94,0.1)' : 'rgba(255,255,255,0.04)', color: tag === 'Live' ? '#22C55E' : 'rgba(255,255,255,0.4)', border: tag === 'Live' ? '1px solid rgba(34,197,94,0.25)' : '1px solid rgba(255,255,255,0.06)' }}>
-            {tag === 'Live' ? 'LIVE' : tag.toUpperCase()}
-          </span>
-        </div>
-        <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.05rem', fontWeight: 700, color: '#F4F4F6', margin: '0 0 8px' }}>{name}</h3>
-        <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.45)', lineHeight: 1.65, margin: '0 0 20px', flex: 1 }}>{desc}</p>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.08em', color: '#3B82F6', display: 'flex', alignItems: 'center', gap: '4px' }}>
-          MEHR ERFAHREN <ArrowUpRight size={11} />
-        </span>
-      </Link>
-    </motion.div>
-  );
-}
+/* ============================================
+   FEATURES
+============================================ */
+const FEATURES = [
+  { titel: 'DSGVO by Default', text: 'Datenschutz nach deutschem Standard — Server bei Hetzner in Nürnberg, keine Cookies zu Drittanbietern, verschlüsselte Verbindungen.' },
+  { titel: 'In 30 Minuten live', text: 'Kein monatelanges Setup. Onboarding, Einrichtung und erste Bestellung laufen am selben Tag. Ihre Mitarbeiter starten sofort.' },
+  { titel: 'Branchenspezifisch', text: 'Keine Universal-Tools. Jede Lösung ist für die konkrete Branche designt — vom Wording bis zum Workflow.' },
+  { titel: 'Alles aus einer Hand', text: 'Von der Unternehmenswebseite bis zur komplexen SaaS-Plattform. Wir liefern, hosten und supporten alles selbst.' },
+];
+
+/* ============================================
+   PRODUKTE
+============================================ */
+const PRODUKTE = [
+  { name: 'ServeFlow', desc: 'Digitales Betriebssystem für Restaurants — QR-Bestellung, Tische, Reservierungen, Personal.', status: 'Live', branche: 'Gastronomie', href: '/produkte/serveflow', highlight: true },
+  { name: 'Webseiten & Landingpages', desc: 'Professioneller Online-Auftritt — SEO-optimiert, modern, schnell. Ab 499 € einmalig.', status: 'Live', branche: 'Alle Branchen', href: '/leistungen/webseiten' },
+  { name: 'HandBase', desc: 'Handwerker-SaaS — Aufträge, Zeiterfassung, Rechnungen, Kundenverwaltung.', status: 'In Entw.', branche: 'Handwerk', href: '/branchen' },
+  { name: 'BeautyBase', desc: 'Terminbuchung, Kundenkartei, Produktverwaltung für Beauty-Betriebe.', status: 'Geplant', branche: 'Beauty & Wellness', href: '/branchen' },
+];
 
 export default function Startseite() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 800], [0, -200]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const [time, setTime] = useState('');
+
+  useEffect(() => {
+    const update = () => {
+      const now = new Date();
+      setTime(now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' }));
+    };
+    update();
+    const interval = setInterval(update, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div style={{ background: '#060609' }}>
+    <div style={{ background: '#08080A', position: 'relative' }}>
       <SEO
         title="DRVN — Branchenspezifische SaaS-Lösungen für Deutschland"
         description="DRVN entwickelt digitale Plattformen für Gastronomie, Handwerk und mehr — DSGVO-konform, sofort einsetzbar, Server in Deutschland."
         path="/"
-        keywords="SaaS Deutschland, Branchensoftware, Gastronomie Software, Handwerk Software, DSGVO-konform, digitale Transformation KMU"
+        keywords="SaaS Deutschland, Branchensoftware, Gastronomie Software, Handwerk Software, DSGVO-konform"
         schema={{ '@context': 'https://schema.org', '@type': 'WebSite', name: 'DRVN', url: 'https://drvnautomatisations.com' }}
       />
 
-      {/* ===== HERO (von 21st.dev) ===== */}
-      <div className="relative min-h-screen w-full overflow-hidden" style={{ backgroundColor: '#060609', paddingTop: '64px' }}>
+      <CursorGlow />
 
-        {/* Animated Background Orbs */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl"
-            style={{ background: 'radial-gradient(circle, #3B82F6 0%, transparent 70%)' }}
-            animate={{ scale: [1, 1.5, 1], x: [-50, 50, -50], y: [-30, 30, -30], opacity: [0.2, 0.4, 0.2], rotate: [0, 180, 360] }}
-            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl"
-            style={{ background: 'radial-gradient(circle, #06B6D4 0%, transparent 70%)' }}
-            animate={{ scale: [1.5, 1, 1.5], x: [50, -50, 50], y: [30, -30, 30], opacity: [0.3, 0.5, 0.3], rotate: [360, 180, 0] }}
-            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-          />
-          <motion.div
-            className="absolute top-1/2 left-1/2 w-[600px] h-[600px] rounded-full opacity-10 blur-3xl"
-            style={{ background: 'radial-gradient(circle, #8B5CF6 0%, transparent 70%)', transform: 'translate(-50%, -50%)' }}
-            animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.25, 0.1], rotate: [0, 360] }}
-            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-          />
-        </div>
+      {/* ============================================
+          HERO
+      ============================================ */}
+      <section
+        ref={heroRef}
+        style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: '72px' }}
+      >
+        {/* Background accent */}
+        <div style={{ position: 'absolute', top: '20%', right: '-10%', width: '800px', height: '800px', background: 'radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 65%)', pointerEvents: 'none', borderRadius: '50%' }} />
 
-        {/* Grid Pattern */}
-        <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: `linear-gradient(rgba(59,130,246,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.4) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px',
-          }}
-        />
+        <motion.div style={{ y: heroY, opacity: heroOpacity, position: 'relative', zIndex: 2 }}>
+          <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '60px 40px', width: '100%' }}>
 
-        {/* Hero Content */}
-        <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="max-w-5xl mx-auto text-center"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* Badge */}
-            <motion.div variants={itemVariants} className="flex justify-center mb-8">
-              <motion.div
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border relative overflow-hidden"
-                style={{ borderColor: '#3B82F6', backgroundColor: 'rgba(59,130,246,0.1)' }}
-                whileHover={{ scale: 1.05 }}
-                animate={{ boxShadow: ['0 0 20px rgba(59,130,246,0.3)', '0 0 30px rgba(6,182,212,0.5)', '0 0 20px rgba(59,130,246,0.3)'] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                <motion.div
-                  className="absolute inset-0 opacity-30"
-                  style={{ background: 'linear-gradient(90deg, transparent, rgba(6,182,212,0.5), transparent)' }}
-                  animate={{ x: ['-100%', '100%'] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                />
-                <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}>
-                  <Sparkles className="w-4 h-4" style={{ color: '#06B6D4' }} />
-                </motion.div>
-                <span className="text-sm font-medium relative z-10" style={{ color: '#06B6D4' }}>
-                  ServeFlow für Gastronomie ist jetzt live
-                </span>
-              </motion.div>
+            {/* Top meta row */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '80px', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <span className="pulse-dot" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22C55E', display: 'inline-block' }} />
+                <span style={{ color: '#22C55E' }}>ServeFlow live</span>
+              </div>
+              <div style={{ display: 'flex', gap: '32px' }}>
+                <span>Stuttgart, DE</span>
+                <span>{time} CET</span>
+                <span>v2.4</span>
+              </div>
             </motion.div>
 
-            {/* Headline */}
-            <motion.h1
-              variants={itemVariants}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
-            >
-              <motion.span
-                className="block text-white"
-                animate={{ textShadow: ['0 0 20px rgba(255,255,255,0.1)', '0 0 40px rgba(255,255,255,0.2)', '0 0 20px rgba(255,255,255,0.1)'] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                Software die
-              </motion.span>
-              <motion.span
-                className="block bg-clip-text text-transparent"
-                style={{ backgroundImage: 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)' }}
-              >
-                wirklich passt
-              </motion.span>
-            </motion.h1>
-
-            {/* Subline */}
-            <motion.p
-              variants={itemVariants}
-              className="text-lg sm:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed"
-            >
-              DRVN entwickelt branchenspezifische SaaS-Lösungen für deutsche Unternehmen —
-              DSGVO-konform, sofort einsetzbar, Server in Deutschland.
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <motion.div whileHover={{ scale: 1.06, y: -4 }} whileTap={{ scale: 0.96 }}>
-                <Link
-                  to="/produkte/serveflow"
-                  className="inline-flex items-center gap-2 text-base px-8 py-4 rounded-full font-semibold relative overflow-hidden group"
-                  style={{ backgroundColor: '#3B82F6', color: 'white', textDecoration: 'none', boxShadow: '0 0 30px rgba(59,130,246,0.4)' }}
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20"
-                    animate={{ x: ['-100%', '100%'] }}
-                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 0.5 }}
-                  />
-                  <span className="relative z-10">Produkte entdecken</span>
-                  <motion.span animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
-                    <ArrowRight className="w-5 h-5" />
-                  </motion.span>
-                </Link>
-              </motion.div>
-
-              <motion.div whileHover={{ scale: 1.06, y: -4 }} whileTap={{ scale: 0.96 }}>
-                <Link
-                  to="/kontakt"
-                  className="inline-flex items-center gap-2 text-base px-8 py-4 rounded-full font-semibold relative overflow-hidden"
-                  style={{ borderColor: '#06B6D4', color: '#06B6D4', backgroundColor: 'rgba(6,182,212,0.1)', textDecoration: 'none', border: '1px solid #06B6D4' }}
-                >
-                  Kontakt aufnehmen
-                </Link>
-              </motion.div>
-            </motion.div>
-
-            {/* Floating dots */}
-            <div className="absolute inset-0 pointer-events-none">
-              {[
-                { top: '20px', left: '40px', size: 12, color: '#3B82F6', delay: 0 },
-                { top: '80px', right: '80px', size: 16, color: '#06B6D4', delay: 0.5 },
-                { bottom: '120px', left: '80px', size: 12, color: '#8B5CF6', delay: 1 },
-                { bottom: '60px', right: '40px', size: 16, color: '#06B6D4', delay: 1.5 },
-              ].map((dot, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute rounded-full"
-                  style={{ width: dot.size, height: dot.size, backgroundColor: dot.color, boxShadow: `0 0 20px ${dot.color}`, top: dot.top, bottom: (dot as { bottom?: string }).bottom, left: (dot as { left?: string }).left, right: (dot as { right?: string }).right }}
-                  variants={floatingVariants}
-                  initial="initial"
-                  animate="animate"
-                  transition={{ delay: dot.delay } as never}
-                />
-              ))}
-              {[
-                { top: '33%', left: '25%', color: '#3B82F6', delay: 0 },
-                { top: '66%', right: '33%', color: '#06B6D4', delay: 0.7 },
-                { top: '50%', left: '40px', color: '#8B5CF6', delay: 1.2 },
-              ].map((dot, i) => (
-                <motion.div
-                  key={`pulse-${i}`}
-                  className="absolute w-2 h-2 rounded-full"
-                  style={{ backgroundColor: dot.color, boxShadow: `0 0 15px ${dot.color}`, top: dot.top, left: (dot as { left?: string }).left, right: (dot as { right?: string }).right }}
-                  variants={pulseVariants}
-                  initial="initial"
-                  animate="animate"
-                  transition={{ delay: dot.delay } as never}
-                />
-              ))}
+            {/* MASSIVE Hero Type */}
+            <div style={{ marginBottom: '40px' }}>
+              <h1 style={{ margin: 0, fontFamily: 'var(--font-display)' }}>
+                <RevealLine delay={0.3}>
+                  <span className="hero-script" style={{ display: 'inline-block' }}>Wir bauen</span>
+                </RevealLine>
+                <RevealLine delay={0.45}>
+                  <span className="hero-massive" style={{ display: 'inline-block' }}>
+                    Software
+                  </span>
+                </RevealLine>
+                <RevealLine delay={0.6}>
+                  <span className="hero-massive" style={{ display: 'inline-block' }}>
+                    <span className="text-gradient-blue">die passt</span>
+                    <span style={{ color: '#3B82F6' }}>.</span>
+                  </span>
+                </RevealLine>
+              </h1>
             </div>
 
-            {/* Stats */}
-            <motion.div variants={itemVariants} className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto">
-              {[
-                { value: '30 Min.', label: 'bis Go-Live' },
-                { value: '100%', label: 'DSGVO-konform' },
-                { value: '24h', label: 'Antwortgarantie' },
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  className="text-center relative group"
-                  whileHover={{ y: -8, scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <motion.div
-                    className="text-3xl sm:text-4xl font-bold mb-2"
-                    style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
-                  >
-                    {stat.value}
-                  </motion.div>
-                  <div className="text-gray-400 text-sm sm:text-base">{stat.label}</div>
-                </motion.div>
-              ))}
+            {/* Subtext + CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'end', marginTop: '32px' }}
+            >
+              <div>
+                <p className="mono-label" style={{ marginBottom: '16px' }}>01 — Mission</p>
+                <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 'clamp(18px, 1.8vw, 24px)', lineHeight: 1.35, color: 'rgba(255,255,255,0.75)', margin: 0, maxWidth: '480px' }}>
+                  Branchenspezifische SaaS-Lösungen für deutsche Unternehmen —
+                  DSGVO-konform, sofort einsetzbar, Server in Deutschland.
+                </p>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px' }}>
+                <p className="mono-label">02 — Start</p>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                  <MagneticLink to="/produkte/serveflow" primary>
+                    Produkte entdecken <ArrowRight size={15} />
+                  </MagneticLink>
+                  <MagneticLink to="/kontakt">
+                    Kontakt →
+                  </MagneticLink>
+                </div>
+              </div>
             </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none" style={{ background: 'linear-gradient(to top, #060609, transparent)' }} />
-      </div>
-
-      {/* ===== TICKER ===== */}
-      <Ticker />
-
-      {/* ===== WARUM DRVN ===== */}
-      <Section style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '100px 40px' }}>
-          <motion.div variants={fadeUp} style={{ textAlign: 'center', marginBottom: '64px' }}>
-            <p className="mono-label" style={{ marginBottom: '16px' }}>Warum DRVN</p>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 700, letterSpacing: '-0.03em', color: '#F4F4F6', margin: '0 0 16px', fontStyle: 'italic', lineHeight: 1.1 }}>
-              Keine Einheitslösung.{' '}
-              <span style={{ background: 'linear-gradient(135deg, #3B82F6, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                Software die passt.
-              </span>
-            </h2>
-            <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, margin: '0 auto', maxWidth: '520px' }}>
-              Jede Branche funktioniert anders. Deshalb bauen wir keine generischen Tools — sondern Plattformen für Ihren Alltag.
-            </p>
-          </motion.div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-            <FeatureCard icon={<Shield size={20} style={{ color: '#3B82F6' }} />} titel="DSGVO-konform by Default" text="Datenschutz nach deutschem Standard — kein Aufpreis. Server bei Hetzner in Nürnberg." />
-            <FeatureCard icon={<Zap size={20} style={{ color: '#3B82F6' }} />} titel="In 30 Minuten live" text="Kein monatelanges Setup. Onboarding in 30 Minuten — Ihre Mitarbeiter starten sofort." />
-            <FeatureCard icon={<Monitor size={20} style={{ color: '#3B82F6' }} />} titel="Alles aus einer Hand" text="Von der Unternehmenswebseite bis zur komplexen SaaS-Plattform — vollständige Lösungen." />
           </div>
+        </motion.div>
 
-          <motion.div variants={fadeUp} style={{ textAlign: 'center', marginTop: '40px' }}>
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} style={{ display: 'inline-block' }}>
-              <Link to="/leistungen" className="btn-ghost">Alle Leistungen ansehen <ArrowRight size={14} /></Link>
-            </motion.div>
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.8, duration: 0.8 }}
+          style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-mono)', fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase' }}
+        >
+          <span>Scroll</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ width: '1px', height: '32px', background: 'linear-gradient(to bottom, rgba(255,255,255,0.5), transparent)' }}
+          />
+        </motion.div>
+      </section>
+
+      {/* ============================================
+          MARQUEE BAND
+      ============================================ */}
+      <MarqueeBand />
+
+      {/* ============================================
+          MANIFESTO
+      ============================================ */}
+      <Section style={{ padding: '160px 40px', background: '#08080A', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <motion.div variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '40px', alignItems: 'start' }}>
+            <p className="index-num" style={{ marginTop: '24px' }}>03 / MANIFEST</p>
+            <div>
+              <h2 className="h-display" style={{ fontSize: 'clamp(42px, 6vw, 96px)', margin: 0 }}>
+                Jede Branche verdient
+                <br />
+                <span className="text-gradient-blue">Software die passt.</span>
+              </h2>
+              <motion.p
+                variants={fadeUp}
+                style={{ marginTop: '48px', fontSize: '1.15rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: '640px' }}
+              >
+                Die meisten SaaS-Produkte versuchen alles für alle zu sein. Das Ergebnis: aufgeblähte Tools,
+                die niemanden wirklich glücklich machen. Wir gehen den anderen Weg. Pro Branche eine Lösung.
+                Pro Problem ein klarer Workflow. Vom Restaurant bis zum Handwerksbetrieb — gebaut für den echten Alltag.
+              </motion.p>
+            </div>
           </motion.div>
         </div>
       </Section>
 
-      {/* ===== PRODUKTE ===== */}
-      <Section style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '100px 40px' }}>
-          <motion.div variants={fadeUp} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '48px', flexWrap: 'wrap', gap: '16px' }}>
-            <div>
-              <p className="mono-label" style={{ marginBottom: '12px' }}>Unsere Produkte</p>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 3.5vw, 44px)', fontWeight: 700, letterSpacing: '-0.03em', color: '#F4F4F6', margin: 0, fontStyle: 'italic', lineHeight: 1.1 }}>
-                Eine Lösung pro Branche.
-              </h2>
-            </div>
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Link to="/branchen" className="btn-ghost">Alle Branchen <ArrowRight size={14} /></Link>
-            </motion.div>
-          </motion.div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-            <ProduktCard to="/produkte/serveflow" icon={<Zap size={17} style={{ color: '#3B82F6' }} />} name="ServeFlow" tag="Live" desc="QR-Bestellung, Tischverwaltung und Reservierungen — das digitale Betriebssystem für Restaurants." highlight />
-            <ProduktCard to="/leistungen/webseiten" icon={<Monitor size={17} style={{ color: '#06B6D4' }} />} name="Webseiten & Landingpages" tag="Live" desc="Professioneller Online-Auftritt — SEO-optimiert, modern, ab 499 € einmalig." />
-            {BRANCHEN.slice(1, 4).map((b) => (
-              <motion.div key={b.title} variants={fadeUp}>
-                <div style={{ padding: '28px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', opacity: 0.45, height: '100%' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
-                    <div style={{ width: '40px', height: '40px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px' }} />
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.1em', padding: '3px 8px', borderRadius: '4px', background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.3)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                      {b.status.toUpperCase()}
-                    </span>
-                  </div>
-                  <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '1rem', fontWeight: 700, color: '#F4F4F6', margin: '0 0 8px' }}>{b.title}</h3>
-                  <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.35)', lineHeight: 1.65, margin: 0 }}>{b.beschreibung}</p>
+      {/* ============================================
+          STATS — Huge typography
+      ============================================ */}
+      <Section style={{ padding: '120px 40px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+          <motion.p variants={fadeUp} className="index-num" style={{ marginBottom: '40px' }}>04 / ZAHLEN</motion.p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+            {STATS.map((s, i) => (
+              <motion.div
+                key={s.label}
+                variants={fadeUp}
+                style={{ padding: '32px 0', borderTop: '1px solid rgba(255,255,255,0.1)' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '16px' }}>
+                  <span className="stat-big">{s.zahl}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(24px, 3vw, 48px)', color: '#3B82F6' }}>
+                    {s.unit}
+                  </span>
                 </div>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', margin: 0 }}>
+                  {String(i + 1).padStart(2, '0')} — {s.label}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </Section>
 
-      {/* ===== CTA ===== */}
-      <Section>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '120px 40px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+      {/* ============================================
+          FEATURES — Editorial list
+      ============================================ */}
+      <Section style={{ padding: '160px 40px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <motion.div variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', marginBottom: '80px', alignItems: 'end' }}>
             <div>
-              <motion.p variants={fadeUp} className="mono-label" style={{ marginBottom: '16px' }}>Jetzt starten</motion.p>
-              <motion.h2 variants={fadeUp} style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 60px)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.04em', color: '#F4F4F6', margin: '0 0 24px', fontStyle: 'italic' }}>
-                Ihr Betrieb.
+              <p className="index-num" style={{ marginBottom: '24px' }}>05 / WARUM DRVN</p>
+              <h2 className="h-display" style={{ fontSize: 'clamp(36px, 5vw, 72px)', margin: 0 }}>
+                Vier Gründe
                 <br />
-                <span style={{ background: 'linear-gradient(135deg, #3B82F6, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                  Digital. In 30 Min.
-                </span>
-              </motion.h2>
-              <motion.p variants={fadeUp} style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, margin: '0 0 36px' }}>
-                Erzählen Sie uns von Ihrem Unternehmen — wir melden uns innerhalb von 24 Stunden mit einem konkreten Vorschlag zurück.
-              </motion.p>
-              <motion.div variants={fadeUp} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
-                  <Link to="/kontakt" className="btn-primary">Projekt anfragen <ArrowRight size={15} /></Link>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
-                  <Link to="/produkte/serveflow" className="btn-ghost">ServeFlow ansehen</Link>
-                </motion.div>
-              </motion.div>
+                <span style={{ color: 'rgba(255,255,255,0.4)' }}>für DRVN.</span>
+              </h2>
             </div>
+            <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, margin: 0 }}>
+              Wir bauen keine Tools von der Stange. Jedes Produkt folgt einem klaren Versprechen:
+              Ihre Prozesse abbilden, nicht das andersrum.
+            </p>
+          </motion.div>
 
-            <motion.div variants={stagger}>
-              {[
-                'Persönliche Beratung — kostenlos und unverbindlich',
-                'Konkretes Angebot innerhalb von 24 Stunden',
-                'Kein Setup-Aufwand — wir übernehmen alles',
-                'DSGVO-konform von Anfang an',
-                'Aktiver Support nach Go-Live inklusive',
-              ].map((punkt, i) => (
-                <motion.div key={i} variants={slideLeft} style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', padding: '16px 0', borderBottom: i < 4 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
-                  <CheckCircle2 size={17} style={{ color: '#3B82F6', flexShrink: 0, marginTop: '2px' }} />
-                  <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.5 }}>{punkt}</p>
-                </motion.div>
-              ))}
-            </motion.div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            {FEATURES.map((f, i) => (
+              <motion.div
+                key={f.titel}
+                variants={fadeUp}
+                whileHover={{ background: 'rgba(255,255,255,0.025)' }}
+                style={{ background: '#08080A', padding: '48px', transition: 'background 0.25s' }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+                  <span className="index-num">{String(i + 1).padStart(2, '0')}</span>
+                  <ArrowUpRight size={18} style={{ color: 'rgba(255,255,255,0.3)' }} />
+                </div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 700, fontSize: 'clamp(28px, 3vw, 42px)', letterSpacing: '-0.03em', color: '#F4F4F6', margin: '0 0 16px', lineHeight: 1.05 }}>
+                  {f.titel}
+                </h3>
+                <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, margin: 0, maxWidth: '440px' }}>
+                  {f.text}
+                </p>
+              </motion.div>
+            ))}
           </div>
+        </div>
+      </Section>
+
+      {/* ============================================
+          PRODUKTE — Featured showcase
+      ============================================ */}
+      <Section style={{ padding: '160px 40px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+          <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '80px', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
+              <p className="index-num" style={{ marginBottom: '24px' }}>06 / PRODUKTE</p>
+              <h2 className="h-display" style={{ fontSize: 'clamp(36px, 5vw, 72px)', margin: 0 }}>
+                Eine Lösung
+                <br />
+                <span className="text-gradient-blue">pro Branche.</span>
+              </h2>
+            </div>
+            <MagneticLink to="/branchen">
+              Alle Branchen <ArrowRight size={14} />
+            </MagneticLink>
+          </motion.div>
+
+          {/* Featured Product Row */}
+          <motion.div variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', border: '1px solid rgba(255,255,255,0.08)', marginBottom: '24px', minHeight: '420px' }}>
+            <div style={{ padding: '64px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(6,182,212,0.04) 100%)' }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.15em', padding: '3px 8px', borderRadius: '2px', background: 'rgba(34,197,94,0.12)', color: '#22C55E', border: '1px solid rgba(34,197,94,0.3)' }}>LIVE</span>
+                  <span className="mono-label-accent">Gastronomie</span>
+                </div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 900, fontSize: 'clamp(48px, 5.5vw, 88px)', letterSpacing: '-0.05em', lineHeight: 0.95, color: '#F4F4F6', margin: '0 0 32px' }}>
+                  ServeFlow
+                </h3>
+                <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, margin: 0, maxWidth: '420px' }}>
+                  Das digitale Betriebssystem für Restaurants — QR-Bestellung, Tischverwaltung, Reservierungen, Personalplanung und Kassen-Integration.
+                </p>
+              </div>
+              <MagneticLink to="/produkte/serveflow" primary>
+                ServeFlow entdecken <ArrowRight size={15} />
+              </MagneticLink>
+            </div>
+            <div style={{ padding: '64px', borderLeft: '1px solid rgba(255,255,255,0.08)', background: '#0A0A0D', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '24px' }}>
+              {[
+                { label: 'QR-Bestellung am Tisch', val: '✓' },
+                { label: 'Tischverwaltung Echtzeit', val: '✓' },
+                { label: 'Online-Reservierungen', val: '✓' },
+                { label: 'Personalplanung', val: '✓' },
+                { label: 'DSGVO-konform', val: '✓' },
+                { label: 'Kassen-Integration', val: '✓' },
+              ].map((item) => (
+                <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.95rem', color: 'rgba(255,255,255,0.8)' }}>{item.label}</span>
+                  <span style={{ color: '#3B82F6', fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>{item.val}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Product Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            {PRODUKTE.slice(1).map((p, i) => (
+              <motion.div
+                key={p.name}
+                variants={fadeUp}
+                whileHover={{ background: 'rgba(255,255,255,0.025)' }}
+                style={{ background: '#08080A', padding: '40px', transition: 'background 0.25s', cursor: 'pointer' }}
+              >
+                <Link to={p.href} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
+                    <span className="index-num">{String(i + 2).padStart(2, '0')}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.15em', padding: '2px 7px', borderRadius: '2px', background: p.status === 'Live' ? 'rgba(34,197,94,0.12)' : 'rgba(255,255,255,0.04)', color: p.status === 'Live' ? '#22C55E' : 'rgba(255,255,255,0.4)', border: p.status === 'Live' ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(255,255,255,0.08)', textTransform: 'uppercase' }}>
+                      {p.status}
+                    </span>
+                  </div>
+                  <p className="mono-label" style={{ marginBottom: '8px' }}>{p.branche}</p>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 700, fontSize: 'clamp(22px, 2.5vw, 32px)', letterSpacing: '-0.03em', color: '#F4F4F6', margin: '0 0 16px', lineHeight: 1.1 }}>
+                    {p.name}
+                  </h3>
+                  <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, margin: '0 0 24px' }}>
+                    {p.desc}
+                  </p>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.12em', color: '#3B82F6', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                    MEHR ERFAHREN <ArrowUpRight size={11} />
+                  </span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* ============================================
+          BIG CTA
+      ============================================ */}
+      <Section style={{ padding: '160px 40px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-20%', left: '50%', transform: 'translateX(-50%)', width: '1200px', height: '1200px', background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 55%)', pointerEvents: 'none', borderRadius: '50%' }} />
+
+        <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <motion.p variants={fadeUp} className="index-num" style={{ marginBottom: '32px', textAlign: 'center' }}>
+            07 / START
+          </motion.p>
+
+          <motion.h2
+            variants={fadeUp}
+            className="h-display"
+            style={{ fontSize: 'clamp(56px, 10vw, 180px)', textAlign: 'center', margin: '0 0 48px', letterSpacing: '-0.06em' }}
+          >
+            Bereit?
+          </motion.h2>
+
+          <motion.p
+            variants={fadeUp}
+            style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: '0 auto 56px', maxWidth: '580px', textAlign: 'center', fontFamily: 'var(--font-display)', fontStyle: 'italic' }}
+          >
+            Erzählen Sie uns von Ihrem Unternehmen — wir melden uns innerhalb von 24 Stunden
+            mit einem konkreten Vorschlag.
+          </motion.p>
+
+          <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <MagneticLink to="/kontakt" primary>
+              Projekt anfragen <ArrowRight size={16} />
+            </MagneticLink>
+            <MagneticLink to="/produkte/serveflow">
+              ServeFlow ansehen
+            </MagneticLink>
+          </motion.div>
+
+          {/* Trust marks */}
+          <motion.div
+            variants={fadeUp}
+            style={{ marginTop: '120px', display: 'flex', justifyContent: 'center', gap: '48px', flexWrap: 'wrap', paddingTop: '48px', borderTop: '1px solid rgba(255,255,255,0.06)' }}
+          >
+            {['DSGVO-konform', 'Server in Deutschland', 'Made in Stuttgart', 'Antwort in 24h'].map((t, i) => (
+              <span key={t} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ color: '#3B82F6' }}>{String(i + 1).padStart(2, '0')}</span>
+                {t}
+              </span>
+            ))}
+          </motion.div>
         </div>
       </Section>
     </div>
