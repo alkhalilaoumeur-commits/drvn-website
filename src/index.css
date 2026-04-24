@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
-/* ===== DRVN Light Theme Tokens ===== */
+/* ===== DRVN Dark Theme Tokens ===== */
 @theme {
-  --color-bg: #FAFAF7;
-  --color-surface: #FFFFFF;
-  --color-surface-muted: #F4F4F0;
-  --color-primary: #2563EB;
-  --color-secondary: #0891B2;
-  --color-text: #111110;
-  --color-text-muted: #6B6B68;
-  --color-text-subtle: #A8A8A4;
-  --color-border: #E8E8E5;
-  --color-border-light: #F0F0EC;
-  --color-success: #16A34A;
+  --color-bg: #060609;
+  --color-surface: #0D0D12;
+  --color-surface-muted: rgba(255,255,255,0.03);
+  --color-primary: #3B82F6;
+  --color-secondary: #06B6D4;
+  --color-text: #F4F4F6;
+  --color-text-muted: rgba(255,255,255,0.5);
+  --color-text-subtle: rgba(255,255,255,0.25);
+  --color-border: rgba(255,255,255,0.06);
+  --color-border-light: rgba(255,255,255,0.04);
+  --color-success: #22C55E;
 
   --font-display: 'Fraunces', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
@@ -24,8 +24,8 @@
 
 body {
   margin: 0;
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: #060609;
+  color: #F4F4F6;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
