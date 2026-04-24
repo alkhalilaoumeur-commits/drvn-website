@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { ContainerScroll } from '../components/ContainerScroll';
 import {
   ArrowRight, CheckCircle2, ChevronDown, ExternalLink,
   QrCode, CalendarCheck, LayoutDashboard, Users,
   Palette, Shield, Globe, Lock, Clock, Smartphone,
-  BarChart3, Bell, Zap, Star, ChevronRight,
+  BarChart3, Bell, Star, ChevronRight,
 } from 'lucide-react';
 
 const DEMO_URL = 'http://n11hq0nbyhc32xlcw7kf9dua.178.104.147.61.sslip.io';
@@ -12,9 +13,9 @@ const DEMO_URL = 'http://n11hq0nbyhc32xlcw7kf9dua.178.104.147.61.sslip.io';
 /* ===== Dashboard Mockup ===== */
 function DashboardMockup() {
   return (
-    <div className="bg-[#0D1117] border border-border rounded-2xl overflow-hidden shadow-2xl">
+    <div className="bg-[#0D1117] border border-border rounded-xl overflow-hidden shadow-2xl h-full flex flex-col">
       {/* Browser Bar */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-[#161B22]">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-[#161B22] flex-shrink-0">
         <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
         <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
         <div className="w-3 h-3 rounded-full bg-[#28C840]" />
@@ -23,7 +24,7 @@ function DashboardMockup() {
         </div>
       </div>
       {/* Dashboard Content */}
-      <div className="p-5 space-y-4">
+      <div className="p-5 space-y-4 flex-1 overflow-hidden">
         {/* Stats Row */}
         <div className="grid grid-cols-3 gap-3">
           {[
@@ -157,72 +158,68 @@ export default function ServeFlow() {
         }}
       />
 
-      {/* ===== HERO ===== */}
-      <section className="relative overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/6 rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[120px] pointer-events-none" />
+      {/* ===== HERO — Container Scroll Animation ===== */}
+      <section style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Background glows */}
+        <div style={{ position: 'absolute', top: 0, left: '25%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 65%)', borderRadius: '50%', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: 0, right: '25%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 65%)', borderRadius: '50%', pointerEvents: 'none' }} />
 
-        <div className="max-w-6xl mx-auto px-6 pt-20 pb-16 md:pt-28 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
-            {/* Links: Text */}
-            <div>
-              <div className="inline-flex items-center gap-2 bg-surface border border-border rounded-full px-3 py-1.5 text-xs text-text-muted mb-6">
-                <span className="w-1.5 h-1.5 bg-success rounded-full animate-pulse" />
-                Live · Ein DRVN Produkt
+        <ContainerScroll
+          titleComponent={
+            <>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '5px 14px 5px 5px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '100px', marginBottom: '28px' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', padding: '3px 8px', background: 'rgba(34,197,94,0.12)', color: '#22C55E', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '100px', letterSpacing: '0.04em', fontWeight: 500 }}>
+                  LIVE
+                </span>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.75)', fontWeight: 500 }}>
+                  Ein DRVN Produkt
+                </span>
               </div>
 
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-11 h-11 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center flex-shrink-0">
-                  <Zap size={22} className="text-white" />
-                </div>
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-                  Serve<span className="text-gradient">Flow</span>
-                </h1>
-              </div>
+              <h1
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: 'clamp(40px, 6vw, 80px)',
+                  fontWeight: 700,
+                  lineHeight: 1.0,
+                  letterSpacing: '-0.035em',
+                  margin: '0 0 24px',
+                  color: '#FAFAFA',
+                }}
+              >
+                Das digitale Betriebssystem<br />
+                <span style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                  für Ihr Restaurant.
+                </span>
+              </h1>
 
-              <p className="text-lg md:text-xl text-text-muted leading-relaxed mb-8">
-                QR-Bestellung, Online-Reservierungen und Echtzeit-Dashboard —
-                das digitale Betriebssystem für Restaurants. In 30 Minuten startklar.
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(16px, 1.3vw, 20px)', lineHeight: 1.55, color: 'rgba(255,255,255,0.6)', maxWidth: '620px', margin: '0 auto 36px' }}>
+                QR-Bestellung, Online-Reservierungen, Echtzeit-Dashboard.
+                In 30 Minuten startklar — DSGVO-konform, Server in Deutschland.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link
-                  to="/kontakt"
-                  className="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-3 rounded-xl transition-all glow-blue inline-flex items-center justify-center gap-2"
-                >
-                  14 Tage kostenlos testen <ArrowRight size={17} />
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', flexWrap: 'wrap', marginBottom: '24px' }}>
+                <Link to="/kontakt" className="btn-primary-blue" style={{ cursor: 'pointer' }}>
+                  14 Tage kostenlos testen <ArrowRight size={15} />
                 </Link>
-                <a
-                  href={DEMO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border border-border-light hover:border-primary/40 text-text font-medium px-6 py-3 rounded-xl transition-all inline-flex items-center justify-center gap-2 group"
-                >
-                  <ExternalLink size={16} className="text-text-muted group-hover:text-primary transition-colors" />
-                  Live-Demo ansehen
+                <a href={DEMO_URL} target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ cursor: 'pointer' }}>
+                  <ExternalLink size={14} /> Live-Demo ansehen
                 </a>
               </div>
 
-              <div className="flex flex-wrap gap-x-5 gap-y-2 mt-6">
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
                 {['DSGVO-konform', 'Server in Deutschland', 'Monatlich kündbar'].map((t) => (
-                  <div key={t} className="flex items-center gap-1.5 text-xs text-text-muted">
-                    <CheckCircle2 size={12} className="text-success" />
+                  <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>
+                    <CheckCircle2 size={12} style={{ color: '#22C55E' }} />
                     {t}
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* Rechts: Dashboard Mockup */}
-            <div className="relative">
-              <div className="absolute -inset-4 bg-primary/5 rounded-3xl blur-2xl" />
-              <div className="relative">
-                <DashboardMockup />
-              </div>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        >
+          <DashboardMockup />
+        </ContainerScroll>
       </section>
 
       {/* ===== TRUST BAR ===== */}
