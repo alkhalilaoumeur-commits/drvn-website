@@ -1,13 +1,11 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Shield, Zap, Code2, Headphones, Check } from 'lucide-react';
 import {
   motion,
   useInView,
   useScroll,
   useTransform,
-  useMotionValue,
-  useSpring,
   type Variants,
 } from 'framer-motion';
 import SEO from '../components/SEO';
@@ -16,40 +14,19 @@ import SEO from '../components/SEO';
    ANIMATION VARIANTS
 ============================================ */
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } },
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
 };
 
 const stagger: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
 };
-
-/* ============================================
-   CURSOR GLOW
-============================================ */
-function CursorGlow() {
-  const x = useMotionValue(-500);
-  const y = useMotionValue(-500);
-  const springX = useSpring(x, { stiffness: 100, damping: 20 });
-  const springY = useSpring(y, { stiffness: 100, damping: 20 });
-
-  useEffect(() => {
-    const move = (e: MouseEvent) => {
-      x.set(e.clientX - 250);
-      y.set(e.clientY - 250);
-    };
-    window.addEventListener('mousemove', move);
-    return () => window.removeEventListener('mousemove', move);
-  }, [x, y]);
-
-  return <motion.div className="cursor-glow" style={{ x: springX, y: springY }} />;
-}
 
 /* ============================================
    SECTION WRAPPER
 ============================================ */
-function Section({ children, style = {}, className = '' }: { children: React.ReactNode; style?: React.CSSProperties; className?: string }) {
+function Section({ children, style = {} }: { children: React.ReactNode; style?: React.CSSProperties }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
   return (
@@ -59,7 +36,6 @@ function Section({ children, style = {}, className = '' }: { children: React.Rea
       initial="hidden"
       animate={inView ? 'visible' : 'hidden'}
       style={style}
-      className={className}
     >
       {children}
     </motion.section>
@@ -67,145 +43,178 @@ function Section({ children, style = {}, className = '' }: { children: React.Rea
 }
 
 /* ============================================
-   REVEAL TEXT (word by word mask reveal)
+   PRODUCT MOCKUP — ServeFlow Dashboard
 ============================================ */
-function RevealLine({ children, delay = 0, as: Component = 'span' }: { children: React.ReactNode; delay?: number; as?: 'span' | 'div' }) {
+function ServeFlowMockup() {
   return (
-    <Component style={{ display: 'block', overflow: 'hidden' }}>
-      <motion.span
-        style={{ display: 'block' }}
-        initial={{ y: '110%' }}
-        animate={{ y: 0 }}
-        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay }}
-      >
-        {children}
-      </motion.span>
-    </Component>
-  );
-}
+    <div className="dash-window" style={{ width: '100%', maxWidth: '1100px', margin: '0 auto' }}>
+      {/* Window header */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+        <div style={{ display: 'flex', gap: '6px' }}>
+          <span style={{ width: '11px', height: '11px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+          <span style={{ width: '11px', height: '11px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+          <span style={{ width: '11px', height: '11px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+        </div>
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', padding: '4px 14px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '6px', letterSpacing: '0.01em' }}>
+            serveflow.drvn.de/dashboard
+          </div>
+        </div>
+      </div>
 
-/* ============================================
-   MAGNETIC BUTTON
-============================================ */
-function MagneticLink({ to, children, primary = false }: { to: string; children: React.ReactNode; primary?: boolean }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 200, damping: 20 });
-  const springY = useSpring(y, { stiffness: 200, damping: 20 });
+      {/* Dashboard body */}
+      <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr', minHeight: '520px' }}>
 
-  const handleMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const relX = e.clientX - rect.left - rect.width / 2;
-    const relY = e.clientY - rect.top - rect.height / 2;
-    x.set(relX * 0.25);
-    y.set(relY * 0.25);
-  };
-  const handleLeave = () => { x.set(0); y.set(0); };
+        {/* Sidebar */}
+        <div style={{ borderRight: '1px solid rgba(255,255,255,0.06)', padding: '20px 12px', background: 'rgba(255,255,255,0.015)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', padding: '0 8px' }}>
+            <div style={{ width: '24px', height: '24px', borderRadius: '6px', background: 'linear-gradient(135deg, #3B82F6, #06B6D4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Zap size={12} style={{ color: '#fff' }} />
+            </div>
+            <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.82rem', fontWeight: 600, color: '#FAFAFA' }}>ServeFlow</span>
+          </div>
 
-  return (
-    <motion.a
-      ref={ref}
-      style={{ x: springX, y: springY, display: 'inline-block' }}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      href={to}
-    >
-      <Link to={to} className={primary ? 'btn-primary' : 'btn-ghost'}>
-        {children}
-      </Link>
-    </motion.a>
-  );
-}
+          {[
+            { label: 'Dashboard', active: true },
+            { label: 'Bestellungen', badge: '12' },
+            { label: 'Tische' },
+            { label: 'Reservierungen', badge: '4' },
+            { label: 'Personal' },
+            { label: 'Berichte' },
+            { label: 'Einstellungen' },
+          ].map((item) => (
+            <div
+              key={item.label}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '7px 10px',
+                borderRadius: '5px',
+                marginBottom: '2px',
+                background: item.active ? 'rgba(59,130,246,0.1)' : 'transparent',
+                border: item.active ? '1px solid rgba(59,130,246,0.2)' : '1px solid transparent',
+              }}
+            >
+              <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.78rem', color: item.active ? '#3B82F6' : 'rgba(255,255,255,0.6)', fontWeight: item.active ? 500 : 400 }}>
+                {item.label}
+              </span>
+              {item.badge && (
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.7)', padding: '1px 5px', borderRadius: '3px' }}>
+                  {item.badge}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
 
-/* ============================================
-   MARQUEE
-============================================ */
-const MARQUEE_WORDS = [
-  'Branchensoftware', 'DSGVO-konform', 'Server DE', 'Made in Germany',
-  '30 Min Live', 'ServeFlow', 'Custom SaaS', 'Automatisierung',
-];
+        {/* Main content */}
+        <div style={{ padding: '24px' }}>
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+            <div>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.05em', textTransform: 'uppercase', margin: '0 0 4px' }}>Heute · 24. April</p>
+              <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.1rem', fontWeight: 600, color: '#FAFAFA', margin: 0, letterSpacing: '-0.02em' }}>Dashboard</h3>
+            </div>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', padding: '5px 10px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', color: '#22C55E', borderRadius: '5px', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                <span className="pulse-dot" style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#22C55E' }} />
+                Live
+              </span>
+            </div>
+          </div>
 
-function MarqueeBand() {
-  const items = [...MARQUEE_WORDS, ...MARQUEE_WORDS, ...MARQUEE_WORDS];
-  return (
-    <div style={{ padding: '40px 0', overflow: 'hidden', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#08080A' }}>
-      <div className="animate-marquee" style={{ gap: '64px' }}>
-        {items.map((word, i) => (
-          <span
-            key={i}
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontStyle: 'italic',
-              fontSize: 'clamp(48px, 6vw, 96px)',
-              fontWeight: 900,
-              letterSpacing: '-0.04em',
-              color: i % 3 === 1 ? '#3B82F6' : '#F4F4F6',
-              whiteSpace: 'nowrap',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '64px',
-            }}
-          >
-            {word}
-            <span style={{ fontSize: '0.4em', color: 'rgba(255,255,255,0.3)' }}>✦</span>
-          </span>
-        ))}
+          {/* Metric cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '20px' }}>
+            {[
+              { label: 'Umsatz heute', value: '€ 2.847', delta: '+12%', positive: true },
+              { label: 'Offene Tische', value: '8 / 24', delta: '33%', positive: null },
+              { label: 'Ø Bonwert', value: '€ 34,20', delta: '+4,80', positive: true },
+            ].map((m) => (
+              <div key={m.label} style={{ padding: '14px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '8px' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.03em', margin: '0 0 8px', textTransform: 'uppercase' }}>
+                  {m.label}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '1.15rem', fontWeight: 600, color: '#FAFAFA', letterSpacing: '-0.02em' }}>{m.value}</span>
+                  {m.delta && (
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: m.positive === true ? '#22C55E' : m.positive === false ? '#EF4444' : 'rgba(255,255,255,0.5)' }}>
+                      {m.delta}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Orders table */}
+          <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '8px', overflow: 'hidden' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '50px 1fr 90px 90px 80px', padding: '10px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.015)' }}>
+              {['Tisch', 'Bestellung', 'Zeit', 'Betrag', 'Status'].map((h) => (
+                <span key={h} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 500 }}>
+                  {h}
+                </span>
+              ))}
+            </div>
+            {[
+              { tisch: '4', items: '2× Pizza, 1× Pasta, Getränke', zeit: '19:24', betrag: '€ 47,50', status: 'Serviert', color: '#22C55E' },
+              { tisch: '12', items: '1× Burger, 2× Cola, Dessert', zeit: '19:18', betrag: '€ 32,80', status: 'Küche', color: '#F59E0B' },
+              { tisch: '7', items: '3× Menü, 1× Wein', zeit: '19:11', betrag: '€ 89,40', status: 'Bezahlt', color: 'rgba(255,255,255,0.6)' },
+              { tisch: '2', items: '1× Salat, 1× Wasser', zeit: '19:02', betrag: '€ 14,20', status: 'Bezahlt', color: 'rgba(255,255,255,0.6)' },
+            ].map((row, i) => (
+              <div
+                key={i}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '50px 1fr 90px 90px 80px',
+                  padding: '11px 16px',
+                  borderBottom: i < 3 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                  alignItems: 'center',
+                }}
+              >
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: '#3B82F6', fontWeight: 500 }}>#{row.tisch}</span>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.78)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{row.items}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.5)' }}>{row.zeit}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>{row.betrag}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: row.color, letterSpacing: '0.02em' }}>{row.status}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
 /* ============================================
-   STATS
-============================================ */
-const STATS = [
-  { zahl: '30', unit: 'Min.', label: 'bis zum Go-Live' },
-  { zahl: '100', unit: '%', label: 'DSGVO-konform' },
-  { zahl: '5', unit: '+', label: 'Branchen geplant' },
-  { zahl: '24', unit: 'h', label: 'Antwortzeit' },
-];
-
-/* ============================================
-   FEATURES
+   DATA
 ============================================ */
 const FEATURES = [
-  { titel: 'DSGVO by Default', text: 'Datenschutz nach deutschem Standard — Server bei Hetzner in Nürnberg, keine Cookies zu Drittanbietern, verschlüsselte Verbindungen.' },
-  { titel: 'In 30 Minuten live', text: 'Kein monatelanges Setup. Onboarding, Einrichtung und erste Bestellung laufen am selben Tag. Ihre Mitarbeiter starten sofort.' },
-  { titel: 'Branchenspezifisch', text: 'Keine Universal-Tools. Jede Lösung ist für die konkrete Branche designt — vom Wording bis zum Workflow.' },
-  { titel: 'Alles aus einer Hand', text: 'Von der Unternehmenswebseite bis zur komplexen SaaS-Plattform. Wir liefern, hosten und supporten alles selbst.' },
+  { icon: <Shield size={18} strokeWidth={1.6} />, titel: 'DSGVO by Default', text: 'Datenschutz nach deutschem Standard. Server bei Hetzner in Nürnberg, verschlüsselte Verbindungen, keine Drittanbieter-Cookies.' },
+  { icon: <Zap size={18} strokeWidth={1.6} />, titel: 'In 30 Minuten live', text: 'Kein wochenlanges Setup. Onboarding, Einrichtung und erste Bestellung am selben Tag — Ihre Mitarbeiter starten sofort.' },
+  { icon: <Code2 size={18} strokeWidth={1.6} />, titel: 'Branchenspezifisch', text: 'Keine Universal-Tools. Jede Lösung ist für die konkrete Branche designt — vom Wording bis zum Workflow.' },
+  { icon: <Headphones size={18} strokeWidth={1.6} />, titel: 'Alles aus einer Hand', text: 'Von der Unternehmenswebseite bis zur komplexen SaaS-Plattform. Wir liefern, hosten und supporten alles selbst.' },
 ];
 
-/* ============================================
-   PRODUKTE
-============================================ */
 const PRODUKTE = [
-  { name: 'ServeFlow', desc: 'Digitales Betriebssystem für Restaurants — QR-Bestellung, Tische, Reservierungen, Personal.', status: 'Live', branche: 'Gastronomie', href: '/produkte/serveflow', highlight: true },
-  { name: 'Webseiten & Landingpages', desc: 'Professioneller Online-Auftritt — SEO-optimiert, modern, schnell. Ab 499 € einmalig.', status: 'Live', branche: 'Alle Branchen', href: '/leistungen/webseiten' },
+  { name: 'ServeFlow', desc: 'Digitales Betriebssystem für Restaurants — QR-Bestellung, Tischverwaltung, Reservierungen.', status: 'Live', branche: 'Gastronomie', href: '/produkte/serveflow' },
+  { name: 'Webseiten', desc: 'Professioneller Online-Auftritt — SEO-optimiert, modern. Ab 499 € einmalig.', status: 'Live', branche: 'Alle Branchen', href: '/leistungen/webseiten' },
   { name: 'HandBase', desc: 'Handwerker-SaaS — Aufträge, Zeiterfassung, Rechnungen, Kundenverwaltung.', status: 'In Entw.', branche: 'Handwerk', href: '/branchen' },
-  { name: 'BeautyBase', desc: 'Terminbuchung, Kundenkartei, Produktverwaltung für Beauty-Betriebe.', status: 'Geplant', branche: 'Beauty & Wellness', href: '/branchen' },
+  { name: 'BeautyBase', desc: 'Terminbuchung, Kundenkartei, Produktverwaltung für Beauty-Betriebe.', status: 'Geplant', branche: 'Beauty', href: '/branchen' },
+  { name: 'CleanBase', desc: 'Einsatzplanung, Abrechnung, Schichten für Reinigungsfirmen.', status: 'Geplant', branche: 'Reinigung', href: '/branchen' },
+  { name: 'CaterBase', desc: 'Catering-Planung, Events, Angebote — für Caterer und Event-Gastronomie.', status: 'Geplant', branche: 'Catering', href: '/branchen' },
 ];
+
+const MARQUEE = ['DSGVO-konform', 'Server in Nürnberg', '30 Min Go-Live', 'Made in Germany', 'Branchensoftware', 'Custom SaaS', '24h Antwortzeit'];
 
 export default function Startseite() {
-  const heroRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 800], [0, -200]);
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const [time, setTime] = useState('');
-
-  useEffect(() => {
-    const update = () => {
-      const now = new Date();
-      setTime(now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' }));
-    };
-    update();
-    const interval = setInterval(update, 60000);
-    return () => clearInterval(interval);
-  }, []);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.5]);
+  const heroY = useTransform(scrollY, [0, 400], [0, -40]);
 
   return (
-    <div style={{ background: '#08080A', position: 'relative' }}>
+    <div style={{ background: '#0A0A0B' }}>
       <SEO
         title="DRVN — Branchenspezifische SaaS-Lösungen für Deutschland"
         description="DRVN entwickelt digitale Plattformen für Gastronomie, Handwerk und mehr — DSGVO-konform, sofort einsetzbar, Server in Deutschland."
@@ -214,199 +223,171 @@ export default function Startseite() {
         schema={{ '@context': 'https://schema.org', '@type': 'WebSite', name: 'DRVN', url: 'https://drvnautomatisations.com' }}
       />
 
-      <CursorGlow />
-
       {/* ============================================
           HERO
       ============================================ */}
       <section
         ref={heroRef}
-        style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: '72px' }}
+        style={{ position: 'relative', paddingTop: '140px', paddingBottom: '100px', overflow: 'hidden' }}
       >
-        {/* Background accent */}
-        <div style={{ position: 'absolute', top: '20%', right: '-10%', width: '800px', height: '800px', background: 'radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 65%)', pointerEvents: 'none', borderRadius: '50%' }} />
+        <div className="hero-ambient" />
 
-        <motion.div style={{ y: heroY, opacity: heroOpacity, position: 'relative', zIndex: 2 }}>
-          <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '60px 40px', width: '100%' }}>
+        <motion.div
+          style={{ opacity: heroOpacity, y: heroY, position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '0 32px' }}
+        >
 
-            {/* Top meta row */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '80px', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}
+          {/* Status badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            style={{ display: 'flex', justifyContent: 'center', marginBottom: '36px' }}
+          >
+            <Link
+              to="/produkte/serveflow"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '5px 14px 5px 5px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '100px',
+                textDecoration: 'none',
+                transition: 'background 0.2s, border-color 0.2s',
+              }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span className="pulse-dot" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22C55E', display: 'inline-block' }} />
-                <span style={{ color: '#22C55E' }}>ServeFlow live</span>
-              </div>
-              <div style={{ display: 'flex', gap: '32px' }}>
-                <span>Stuttgart, DE</span>
-                <span>{time} CET</span>
-                <span>v2.4</span>
-              </div>
-            </motion.div>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', padding: '3px 8px', background: 'rgba(34,197,94,0.12)', color: '#22C55E', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '100px', letterSpacing: '0.04em', fontWeight: 500 }}>
+                NEU
+              </span>
+              <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.75)', fontWeight: 500 }}>
+                ServeFlow für Gastronomie ist jetzt live
+              </span>
+              <ArrowRight size={12} style={{ color: 'rgba(255,255,255,0.5)' }} />
+            </Link>
+          </motion.div>
 
-            {/* MASSIVE Hero Type */}
-            <div style={{ marginBottom: '40px' }}>
-              <h1 style={{ margin: 0, fontFamily: 'var(--font-display)' }}>
-                <RevealLine delay={0.3}>
-                  <span className="hero-script" style={{ display: 'inline-block' }}>Wir bauen</span>
-                </RevealLine>
-                <RevealLine delay={0.45}>
-                  <span className="hero-massive" style={{ display: 'inline-block' }}>
-                    Software
-                  </span>
-                </RevealLine>
-                <RevealLine delay={0.6}>
-                  <span className="hero-massive" style={{ display: 'inline-block' }}>
-                    <span className="text-gradient-blue">die passt</span>
-                    <span style={{ color: '#3B82F6' }}>.</span>
-                  </span>
-                </RevealLine>
-              </h1>
-            </div>
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="display-1"
+            style={{ textAlign: 'center', margin: '0 auto 24px', maxWidth: '960px' }}
+          >
+            Software, die für <span className="text-gradient">Ihre Branche</span>
+            <br />
+            gebaut ist<span style={{ color: '#3B82F6' }}>.</span>
+          </motion.h1>
 
-            {/* Subtext + CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
-              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'end', marginTop: '32px' }}
-            >
-              <div>
-                <p className="mono-label" style={{ marginBottom: '16px' }}>01 — Mission</p>
-                <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 'clamp(18px, 1.8vw, 24px)', lineHeight: 1.35, color: 'rgba(255,255,255,0.75)', margin: 0, maxWidth: '480px' }}>
-                  Branchenspezifische SaaS-Lösungen für deutsche Unternehmen —
-                  DSGVO-konform, sofort einsetzbar, Server in Deutschland.
-                </p>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px' }}>
-                <p className="mono-label">02 — Start</p>
-                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                  <MagneticLink to="/produkte/serveflow" primary>
-                    Produkte entdecken <ArrowRight size={15} />
-                  </MagneticLink>
-                  <MagneticLink to="/kontakt">
-                    Kontakt →
-                  </MagneticLink>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+          {/* Subline */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              textAlign: 'center',
+              margin: '0 auto 44px',
+              maxWidth: '600px',
+              fontSize: '1.1rem',
+              lineHeight: 1.55,
+              color: 'rgba(255,255,255,0.6)',
+              fontWeight: 400,
+            }}
+          >
+            DRVN entwickelt branchenspezifische SaaS-Lösungen für deutsche Unternehmen —
+            DSGVO-konform, sofort einsetzbar, Server in Deutschland.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            style={{ display: 'flex', justifyContent: 'center', gap: '10px', flexWrap: 'wrap' }}
+          >
+            <Link to="/produkte/serveflow" className="btn-primary">
+              Produkte entdecken <ArrowRight size={15} />
+            </Link>
+            <Link to="/kontakt" className="btn-ghost">
+              Demo buchen
+            </Link>
+          </motion.div>
+
+          {/* Trust row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            style={{ display: 'flex', justifyContent: 'center', gap: '28px', flexWrap: 'wrap', marginTop: '56px' }}
+          >
+            {['DSGVO-konform', 'Server in Deutschland', '30 Min Go-Live', '24h Antwortzeit'].map((t) => (
+              <span key={t} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.01em' }}>
+                <Check size={11} strokeWidth={2.5} style={{ color: '#3B82F6' }} />
+                {t}
+              </span>
+            ))}
+          </motion.div>
         </motion.div>
 
-        {/* Scroll indicator */}
+        {/* Product Mockup */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 0.8 }}
-          style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-mono)', fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase' }}
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          style={{ marginTop: '96px', padding: '0 32px', position: 'relative', zIndex: 2 }}
         >
-          <span>Scroll</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ width: '1px', height: '32px', background: 'linear-gradient(to bottom, rgba(255,255,255,0.5), transparent)' }}
-          />
+          <ServeFlowMockup />
         </motion.div>
       </section>
 
       {/* ============================================
-          MARQUEE BAND
+          MARQUEE STRIP
       ============================================ */}
-      <MarqueeBand />
-
-      {/* ============================================
-          MANIFESTO
-      ============================================ */}
-      <Section style={{ padding: '160px 40px', background: '#08080A', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <motion.div variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '40px', alignItems: 'start' }}>
-            <p className="index-num" style={{ marginTop: '24px' }}>03 / MANIFEST</p>
-            <div>
-              <h2 className="h-display" style={{ fontSize: 'clamp(42px, 6vw, 96px)', margin: 0 }}>
-                Jede Branche verdient
-                <br />
-                <span className="text-gradient-blue">Software die passt.</span>
-              </h2>
-              <motion.p
-                variants={fadeUp}
-                style={{ marginTop: '48px', fontSize: '1.15rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: '640px' }}
-              >
-                Die meisten SaaS-Produkte versuchen alles für alle zu sein. Das Ergebnis: aufgeblähte Tools,
-                die niemanden wirklich glücklich machen. Wir gehen den anderen Weg. Pro Branche eine Lösung.
-                Pro Problem ein klarer Workflow. Vom Restaurant bis zum Handwerksbetrieb — gebaut für den echten Alltag.
-              </motion.p>
-            </div>
-          </motion.div>
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '20px 0', overflow: 'hidden', background: 'rgba(255,255,255,0.01)' }}>
+        <div className="animate-marquee" style={{ display: 'flex', gap: '56px', whiteSpace: 'nowrap' }}>
+          {[...MARQUEE, ...MARQUEE, ...MARQUEE, ...MARQUEE].map((item, i) => (
+            <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', fontFamily: 'var(--font-mono)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.42)', letterSpacing: '0.02em' }}>
+              {item}
+              <span style={{ color: 'rgba(255,255,255,0.18)' }}>·</span>
+            </span>
+          ))}
         </div>
-      </Section>
+      </div>
 
       {/* ============================================
-          STATS — Huge typography
+          FEATURES
       ============================================ */}
-      <Section style={{ padding: '120px 40px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-          <motion.p variants={fadeUp} className="index-num" style={{ marginBottom: '40px' }}>04 / ZAHLEN</motion.p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
-            {STATS.map((s, i) => (
-              <motion.div
-                key={s.label}
-                variants={fadeUp}
-                style={{ padding: '32px 0', borderTop: '1px solid rgba(255,255,255,0.1)' }}
-              >
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '16px' }}>
-                  <span className="stat-big">{s.zahl}</span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(24px, 3vw, 48px)', color: '#3B82F6' }}>
-                    {s.unit}
-                  </span>
-                </div>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', margin: 0 }}>
-                  {String(i + 1).padStart(2, '0')} — {s.label}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* ============================================
-          FEATURES — Editorial list
-      ============================================ */}
-      <Section style={{ padding: '160px 40px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <motion.div variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', marginBottom: '80px', alignItems: 'end' }}>
-            <div>
-              <p className="index-num" style={{ marginBottom: '24px' }}>05 / WARUM DRVN</p>
-              <h2 className="h-display" style={{ fontSize: 'clamp(36px, 5vw, 72px)', margin: 0 }}>
-                Vier Gründe
-                <br />
-                <span style={{ color: 'rgba(255,255,255,0.4)' }}>für DRVN.</span>
-              </h2>
-            </div>
-            <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, margin: 0 }}>
-              Wir bauen keine Tools von der Stange. Jedes Produkt folgt einem klaren Versprechen:
-              Ihre Prozesse abbilden, nicht das andersrum.
+      <Section style={{ padding: '120px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
+          <motion.div variants={fadeUp} style={{ maxWidth: '680px', marginBottom: '72px' }}>
+            <p className="eyebrow" style={{ marginBottom: '16px' }}>Warum DRVN</p>
+            <h2 className="display-2" style={{ margin: '0 0 20px' }}>
+              Kein Feature-Chaos.<br />
+              <span style={{ color: 'rgba(255,255,255,0.4)' }}>Nur was wirklich funktioniert.</span>
+            </h2>
+            <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.58)', lineHeight: 1.65, margin: 0 }}>
+              Wir bauen keine Tools von der Stange. Jedes Produkt folgt einem klaren Versprechen: Ihre Prozesse abbilden, nicht umgekehrt.
             </p>
           </motion.div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            {FEATURES.map((f, i) => (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+            {FEATURES.map((f) => (
               <motion.div
                 key={f.titel}
                 variants={fadeUp}
-                whileHover={{ background: 'rgba(255,255,255,0.025)' }}
-                style={{ background: '#08080A', padding: '48px', transition: 'background 0.25s' }}
+                className="card"
+                style={{ padding: '32px' }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
-                  <span className="index-num">{String(i + 1).padStart(2, '0')}</span>
-                  <ArrowUpRight size={18} style={{ color: 'rgba(255,255,255,0.3)' }} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+                  <div style={{ width: '36px', height: '36px', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.22)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3B82F6' }}>
+                    {f.icon}
+                  </div>
+                  <h3 className="display-3" style={{ margin: 0, fontSize: 'clamp(20px, 2vw, 26px)' }}>
+                    {f.titel}
+                  </h3>
                 </div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 700, fontSize: 'clamp(28px, 3vw, 42px)', letterSpacing: '-0.03em', color: '#F4F4F6', margin: '0 0 16px', lineHeight: 1.05 }}>
-                  {f.titel}
-                </h3>
-                <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, margin: 0, maxWidth: '440px' }}>
+                <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.58)', lineHeight: 1.6, margin: 0 }}>
                   {f.text}
                 </p>
               </motion.div>
@@ -416,86 +397,58 @@ export default function Startseite() {
       </Section>
 
       {/* ============================================
-          PRODUKTE — Featured showcase
+          PRODUKTE
       ============================================ */}
-      <Section style={{ padding: '160px 40px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-          <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '80px', flexWrap: 'wrap', gap: '16px' }}>
-            <div>
-              <p className="index-num" style={{ marginBottom: '24px' }}>06 / PRODUKTE</p>
-              <h2 className="h-display" style={{ fontSize: 'clamp(36px, 5vw, 72px)', margin: 0 }}>
-                Eine Lösung
-                <br />
-                <span className="text-gradient-blue">pro Branche.</span>
+      <Section style={{ padding: '120px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
+          <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '56px', flexWrap: 'wrap', gap: '24px' }}>
+            <div style={{ maxWidth: '540px' }}>
+              <p className="eyebrow" style={{ marginBottom: '16px' }}>Produkte</p>
+              <h2 className="display-2" style={{ margin: 0 }}>
+                Eine Lösung<br />
+                <span style={{ color: 'rgba(255,255,255,0.4)' }}>pro Branche.</span>
               </h2>
             </div>
-            <MagneticLink to="/branchen">
+            <Link to="/branchen" className="btn-ghost">
               Alle Branchen <ArrowRight size={14} />
-            </MagneticLink>
+            </Link>
           </motion.div>
 
-          {/* Featured Product Row */}
-          <motion.div variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', border: '1px solid rgba(255,255,255,0.08)', marginBottom: '24px', minHeight: '420px' }}>
-            <div style={{ padding: '64px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(6,182,212,0.04) 100%)' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.15em', padding: '3px 8px', borderRadius: '2px', background: 'rgba(34,197,94,0.12)', color: '#22C55E', border: '1px solid rgba(34,197,94,0.3)' }}>LIVE</span>
-                  <span className="mono-label-accent">Gastronomie</span>
-                </div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 900, fontSize: 'clamp(48px, 5.5vw, 88px)', letterSpacing: '-0.05em', lineHeight: 0.95, color: '#F4F4F6', margin: '0 0 32px' }}>
-                  ServeFlow
-                </h3>
-                <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, margin: 0, maxWidth: '420px' }}>
-                  Das digitale Betriebssystem für Restaurants — QR-Bestellung, Tischverwaltung, Reservierungen, Personalplanung und Kassen-Integration.
-                </p>
-              </div>
-              <MagneticLink to="/produkte/serveflow" primary>
-                ServeFlow entdecken <ArrowRight size={15} />
-              </MagneticLink>
-            </div>
-            <div style={{ padding: '64px', borderLeft: '1px solid rgba(255,255,255,0.08)', background: '#0A0A0D', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '24px' }}>
-              {[
-                { label: 'QR-Bestellung am Tisch', val: '✓' },
-                { label: 'Tischverwaltung Echtzeit', val: '✓' },
-                { label: 'Online-Reservierungen', val: '✓' },
-                { label: 'Personalplanung', val: '✓' },
-                { label: 'DSGVO-konform', val: '✓' },
-                { label: 'Kassen-Integration', val: '✓' },
-              ].map((item) => (
-                <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.95rem', color: 'rgba(255,255,255,0.8)' }}>{item.label}</span>
-                  <span style={{ color: '#3B82F6', fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>{item.val}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Product Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            {PRODUKTE.slice(1).map((p, i) => (
-              <motion.div
-                key={p.name}
-                variants={fadeUp}
-                whileHover={{ background: 'rgba(255,255,255,0.025)' }}
-                style={{ background: '#08080A', padding: '40px', transition: 'background 0.25s', cursor: 'pointer' }}
-              >
-                <Link to={p.href} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
-                    <span className="index-num">{String(i + 2).padStart(2, '0')}</span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.15em', padding: '2px 7px', borderRadius: '2px', background: p.status === 'Live' ? 'rgba(34,197,94,0.12)' : 'rgba(255,255,255,0.04)', color: p.status === 'Live' ? '#22C55E' : 'rgba(255,255,255,0.4)', border: p.status === 'Live' ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(255,255,255,0.08)', textTransform: 'uppercase' }}>
-                      {p.status}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+            {PRODUKTE.map((p) => (
+              <motion.div key={p.name} variants={fadeUp}>
+                <Link
+                  to={p.href}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '28px',
+                    background: '#111113',
+                    border: '1px solid rgba(255,255,255,0.06)',
+                    borderRadius: '12px',
+                    textDecoration: 'none',
+                    height: '100%',
+                    transition: 'background 0.2s, border-color 0.2s',
+                    opacity: p.status === 'Live' ? 1 : 0.65,
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = '#16161A'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = '#111113'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+                    <span className="eyebrow-muted">{p.branche}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.05em', padding: '2px 7px', borderRadius: '3px', background: p.status === 'Live' ? 'rgba(34,197,94,0.1)' : 'rgba(255,255,255,0.04)', color: p.status === 'Live' ? '#22C55E' : 'rgba(255,255,255,0.4)', border: p.status === 'Live' ? '1px solid rgba(34,197,94,0.25)' : '1px solid rgba(255,255,255,0.08)', fontWeight: 500 }}>
+                      {p.status.toUpperCase()}
                     </span>
                   </div>
-                  <p className="mono-label" style={{ marginBottom: '8px' }}>{p.branche}</p>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 700, fontSize: 'clamp(22px, 2.5vw, 32px)', letterSpacing: '-0.03em', color: '#F4F4F6', margin: '0 0 16px', lineHeight: 1.1 }}>
+                  <h3 className="display-3" style={{ margin: '0 0 10px', fontSize: '1.35rem', fontWeight: 600 }}>
                     {p.name}
                   </h3>
-                  <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, margin: '0 0 24px' }}>
+                  <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.55, margin: 0, flex: 1 }}>
                     {p.desc}
                   </p>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.12em', color: '#3B82F6', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                    MEHR ERFAHREN <ArrowUpRight size={11} />
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '24px', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#3B82F6', letterSpacing: '0.02em' }}>
+                    Mehr erfahren <ArrowUpRight size={12} />
+                  </div>
                 </Link>
               </motion.div>
             ))}
@@ -504,49 +457,72 @@ export default function Startseite() {
       </Section>
 
       {/* ============================================
-          BIG CTA
+          STATS BAND
       ============================================ */}
-      <Section style={{ padding: '160px 40px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '-20%', left: '50%', transform: 'translateX(-50%)', width: '1200px', height: '1200px', background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 55%)', pointerEvents: 'none', borderRadius: '50%' }} />
+      <Section style={{ padding: '100px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: '1240px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px' }}>
+          {[
+            { num: '30', unit: 'Min', label: 'Durchschnittliche Go-Live-Zeit' },
+            { num: '100', unit: '%', label: 'DSGVO-konform von Tag 1' },
+            { num: '6', unit: '+', label: 'Branchen in Planung' },
+            { num: '24', unit: 'h', label: 'Antwort-Garantie' },
+          ].map((s) => (
+            <motion.div key={s.label} variants={fadeUp}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '12px' }}>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(48px, 5.5vw, 72px)', fontWeight: 600, color: '#FAFAFA', letterSpacing: '-0.045em', lineHeight: 0.95 }}>
+                  {s.num}
+                </span>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(20px, 2.2vw, 28px)', fontWeight: 500, color: '#3B82F6', letterSpacing: '-0.02em' }}>
+                  {s.unit}
+                </span>
+              </div>
+              <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.5, margin: 0, maxWidth: '220px' }}>
+                {s.label}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
 
-        <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <motion.p variants={fadeUp} className="index-num" style={{ marginBottom: '32px', textAlign: 'center' }}>
-            07 / START
+      {/* ============================================
+          CTA
+      ============================================ */}
+      <Section style={{ padding: '140px 32px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-30%', left: '50%', transform: 'translateX(-50%)', width: '900px', height: '700px', background: 'radial-gradient(ellipse at center, rgba(59,130,246,0.1) 0%, transparent 55%)', pointerEvents: 'none' }} />
+
+        <div style={{ maxWidth: '840px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+          <motion.p variants={fadeUp} className="eyebrow" style={{ marginBottom: '20px' }}>
+            Starten Sie heute
           </motion.p>
-
-          <motion.h2
-            variants={fadeUp}
-            className="h-display"
-            style={{ fontSize: 'clamp(56px, 10vw, 180px)', textAlign: 'center', margin: '0 0 48px', letterSpacing: '-0.06em' }}
-          >
-            Bereit?
+          <motion.h2 variants={fadeUp} className="display-1" style={{ margin: '0 0 24px' }}>
+            Bereit für Software,<br />
+            <span className="text-gradient">die Ihre Branche versteht?</span>
           </motion.h2>
-
           <motion.p
             variants={fadeUp}
-            style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: '0 auto 56px', maxWidth: '580px', textAlign: 'center', fontFamily: 'var(--font-display)', fontStyle: 'italic' }}
+            style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.58)', lineHeight: 1.65, margin: '0 auto 44px', maxWidth: '520px' }}
           >
-            Erzählen Sie uns von Ihrem Unternehmen — wir melden uns innerhalb von 24 Stunden
-            mit einem konkreten Vorschlag.
+            Erzählen Sie uns von Ihrem Unternehmen — wir melden uns innerhalb
+            von 24 Stunden mit einem konkreten Vorschlag.
           </motion.p>
-
-          <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-            <MagneticLink to="/kontakt" primary>
-              Projekt anfragen <ArrowRight size={16} />
-            </MagneticLink>
-            <MagneticLink to="/produkte/serveflow">
+          <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <Link to="/kontakt" className="btn-primary">
+              Projekt anfragen <ArrowRight size={15} />
+            </Link>
+            <Link to="/produkte/serveflow" className="btn-ghost">
               ServeFlow ansehen
-            </MagneticLink>
+            </Link>
           </motion.div>
 
-          {/* Trust marks */}
-          <motion.div
-            variants={fadeUp}
-            style={{ marginTop: '120px', display: 'flex', justifyContent: 'center', gap: '48px', flexWrap: 'wrap', paddingTop: '48px', borderTop: '1px solid rgba(255,255,255,0.06)' }}
-          >
-            {['DSGVO-konform', 'Server in Deutschland', 'Made in Stuttgart', 'Antwort in 24h'].map((t, i) => (
-              <span key={t} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ color: '#3B82F6' }}>{String(i + 1).padStart(2, '0')}</span>
+          <motion.div variants={fadeUp} style={{ marginTop: '64px', paddingTop: '40px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'center', gap: '32px', flexWrap: 'wrap' }}>
+            {[
+              'Kostenlose Erstberatung',
+              'Angebot in 24 Stunden',
+              'DSGVO-konform',
+              'Kein Setup-Aufwand',
+            ].map((t) => (
+              <span key={t} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'rgba(255,255,255,0.55)' }}>
+                <Check size={13} strokeWidth={2.5} style={{ color: '#3B82F6', flexShrink: 0 }} />
                 {t}
               </span>
             ))}
