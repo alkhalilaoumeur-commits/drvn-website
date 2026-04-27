@@ -284,6 +284,109 @@ export default function Webseiten() {
         </div>
       </section>
 
+      {/* ===== BEISPIEL-SHOWCASE ===== */}
+      <section className="border-t border-border bg-gradient-to-b from-bg via-surface/40 to-bg relative overflow-hidden">
+        {/* Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-primary/8 rounded-full blur-[140px] pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-6 py-24 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Text */}
+            <div>
+              <p className="text-primary text-sm font-medium tracking-wider uppercase mb-3">Live-Beispiel</p>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-5">
+                Sehen Sie es <span className="text-gradient">in Aktion.</span>
+              </h2>
+              <p className="text-text-muted leading-relaxed mb-8 text-lg">
+                Wir haben für ein fiktives italienisches Restaurant in Stuttgart eine
+                vollständige Webseite gebaut — Hero mit Glasmorphismus, asymmetrisches
+                Editorial-Layout, Marquee-Galerie, Speisekarte, Bewertungen, Reservierungs-CTA.
+                Genau so detailliert wie wir es auch für Sie umsetzen würden.
+              </p>
+              <ul className="space-y-3 mb-8">
+                {[
+                  'Eigenes Design-System (Farben, Fonts, Typografie)',
+                  'Responsiv für Smartphone, Tablet, Desktop',
+                  'Scroll-Animationen + Mikrointeraktionen',
+                  'Lighthouse-Score 95+ für Performance & SEO',
+                ].map((p) => (
+                  <li key={p} className="flex items-center gap-3 text-sm text-text">
+                    <CheckCircle2 size={15} className="text-primary flex-shrink-0" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to="/beispiel/casa-lupo"
+                  className="bg-primary hover:bg-primary/90 text-white font-semibold px-7 py-3.5 rounded-xl transition-all glow-blue inline-flex items-center gap-2"
+                >
+                  Beispiel-Webseite öffnen <ChevronRight size={16} />
+                </Link>
+                <Link
+                  to="/kontakt"
+                  className="border border-border-light hover:border-primary/40 text-text font-medium px-7 py-3.5 rounded-xl transition-all inline-flex items-center gap-2"
+                >
+                  Eigenes Projekt besprechen
+                </Link>
+              </div>
+            </div>
+
+            {/* Visueller Anker — gefakter Browser-Frame mit Casa-Lupo-Preview */}
+            <div className="relative">
+              <Link
+                to="/beispiel/casa-lupo"
+                className="block group rounded-2xl overflow-hidden shadow-2xl border border-border hover:border-primary/40 transition-all"
+                style={{ background: '#1F0F0A' }}
+              >
+                {/* Browser-Bar */}
+                <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-[#16161A]">
+                  <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
+                  <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
+                  <div className="w-3 h-3 rounded-full bg-[#28C840]" />
+                  <div className="ml-3 flex-1 bg-[#0D1117] rounded-md px-3 py-1 text-[11px] text-text-muted font-mono">
+                    casa-lupo.de
+                  </div>
+                </div>
+                {/* Mockup-Inhalt — Casa-Lupo-Hero-Snippet */}
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80"
+                    alt="Casa Lupo Beispiel"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: 'linear-gradient(180deg, rgba(31,15,10,0.50) 0%, rgba(31,15,10,0.30) 40%, rgba(31,15,10,0.85) 100%)',
+                    }}
+                  />
+                  <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                    <div className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#C99B4A] mb-3">
+                      ── Trattoria · Stuttgart-Mitte
+                    </div>
+                    <div
+                      className="text-white text-3xl md:text-4xl leading-[0.95] mb-3"
+                      style={{ fontFamily: "'Instrument Serif', Georgia, serif", letterSpacing: '-0.02em' }}
+                    >
+                      La cucina<br />
+                      <em style={{ color: '#C99B4A', fontStyle: 'italic' }}>della famiglia.</em>
+                    </div>
+                    <div className="text-white/70 text-xs max-w-xs">
+                      Echte italienische Küche aus der Toskana. Pasta von Hand,
+                      Brot aus dem Steinofen.
+                    </div>
+                  </div>
+                </div>
+              </Link>
+              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-bg border border-primary/30 text-primary text-[11px] font-semibold tracking-wider uppercase px-4 py-1.5 rounded-full shadow-lg">
+                Klicken zum Öffnen
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===== PREISE ===== */}
       <section id="preise" className="border-t border-border bg-surface">
         <div className="max-w-6xl mx-auto px-6 py-20">
