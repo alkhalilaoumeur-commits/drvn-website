@@ -3,12 +3,13 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import SEO from '../components/SEO';
 import { ContainerScroll } from '../components/ContainerScroll';
+import { CinematicFooter } from '@/components/ui/motion-footer';
 import {
   ArrowRight, CheckCircle2, ChevronDown, ExternalLink,
   QrCode, CalendarCheck, LayoutDashboard, Users,
   Palette, Shield, Globe, Lock, Clock, Smartphone,
-  BarChart3, Bell, Star, ChevronRight, Zap, TrendingUp,
-  Coffee, Pizza, Utensils, Wine, Sparkles, MousePointerClick,
+  BarChart3, Bell, ChevronRight, TrendingUp,
+  Coffee, Pizza, Utensils, Wine, MousePointerClick,
 } from 'lucide-react';
 
 const DEMO_URL = 'http://n11hq0nbyhc32xlcw7kf9dua.178.104.147.61.sslip.io';
@@ -854,61 +855,12 @@ export default function ServeFlow() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          FINAL CTA
+          CINEMATIC FOOTER
+          Curtain-Reveal-Footer mit GSAP-Animationen, Magnetic Buttons,
+          serve-flow.org als primärer CTA. Ersetzt sowohl Final-CTA als auch
+          den globalen Footer (in App.tsx über ROUTES_OHNE_GLOBAL_FOOTER).
        ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden border-t border-border">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-primary/8 rounded-full blur-[140px] pointer-events-none" />
-        <div className="max-w-3xl mx-auto px-6 py-28 text-center relative">
-          <FadeIn>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full bg-primary/10 border border-primary/20">
-              <Sparkles size={13} className="text-primary" />
-              <span className="text-[11px] font-medium text-primary tracking-wider uppercase">Persönlich begleitet</span>
-            </div>
-
-            <h2 className="text-4xl md:text-6xl font-bold mb-5 tracking-tight">
-              Bereit für das digitale<br />
-              <span className="text-gradient">Restaurant?</span>
-            </h2>
-            <p className="text-text-muted mb-10 max-w-md mx-auto text-lg">
-              14 Tage kostenlos testen — kein Risiko, keine Kreditkarte.
-              Wir richten ServeFlow gemeinsam mit Ihnen ein.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <Link
-                to="/kontakt"
-                className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-4 rounded-xl transition-all glow-blue inline-flex items-center justify-center gap-2"
-              >
-                <Zap size={18} />
-                Kostenlos starten <ArrowRight size={18} />
-              </Link>
-              <a
-                href={DEMO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border border-border-light hover:border-primary/40 text-text font-medium px-8 py-4 rounded-xl transition-all inline-flex items-center justify-center gap-2"
-              >
-                <ExternalLink size={16} />
-                Erst die Demo
-              </a>
-            </div>
-
-            {/* Trust-Footer */}
-            <div className="flex flex-wrap justify-center gap-6 pt-8 border-t border-border">
-              {[
-                { icon: <Shield size={13} />, text: 'DSGVO-konform' },
-                { icon: <Globe size={13} />, text: 'Server in Frankfurt' },
-                { icon: <Clock size={13} />, text: 'Kündbar zum Monatsende' },
-                { icon: <Star size={13} className="fill-current" />, text: 'Persönlicher Support' },
-              ].map((t) => (
-                <div key={t.text} className="flex items-center gap-2 text-xs text-text-muted">
-                  <span className="text-primary">{t.icon}</span>
-                  {t.text}
-                </div>
-              ))}
-            </div>
-          </FadeIn>
-        </div>
-      </section>
+      <CinematicFooter />
     </div>
   );
 }

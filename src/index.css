@@ -32,6 +32,23 @@
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+
+  /* shadcn-Style Aliase auf DRVN-Tokens — für Komponenten die standard-Tokens erwarten */
+  --color-foreground: var(--color-text);
+  --color-background: var(--color-bg);
+  --color-muted-foreground: var(--color-text-muted);
+  --color-destructive: #EF4444;
+}
+
+/* Root-Level Aliase: standard CSS-Variablen ohne Tailwind-Prefix für color-mix etc. */
+:root {
+  --foreground: #FAFAFA;
+  --background: #0A0A0B;
+  --primary: #3B82F6;
+  --secondary: #06B6D4;
+  --muted-foreground: rgba(255,255,255,0.58);
+  --border: rgba(255,255,255,0.06);
+  --destructive: #EF4444;
 }
 
 /* ===== Base ===== */

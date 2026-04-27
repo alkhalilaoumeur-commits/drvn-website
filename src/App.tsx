@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Startseite from './pages/Startseite';
@@ -10,6 +10,16 @@ import Impressum from './pages/Impressum';
 import Datenschutz from './pages/Datenschutz';
 import ServeFlow from './pages/ServeFlow';
 import Webseiten from './pages/Webseiten';
+
+// Seiten die einen eigenen Footer mitbringen (CinematicFooter etc.) —
+// auf diesen wird der globale Footer ausgeblendet, sonst doppelt unten.
+const ROUTES_OHNE_GLOBAL_FOOTER = ['/produkte/serveflow'];
+
+function ConditionalFooter() {
+  const { pathname } = useLocation();
+  if (ROUTES_OHNE_GLOBAL_FOOTER.includes(pathname)) return null;
+  return <Footer />;
+}
 
 export default function App() {
   return (
@@ -27,7 +37,7 @@ export default function App() {
           <Route path="/produkte/serveflow" element={<ServeFlow />} />
           <Route path="/leistungen/webseiten" element={<Webseiten />} />
         </Routes>
-        <Footer />
+        <ConditionalFooter />
       </div>
     </BrowserRouter>
   );
