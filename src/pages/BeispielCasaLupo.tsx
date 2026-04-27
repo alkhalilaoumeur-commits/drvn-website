@@ -1,238 +1,298 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import {
-  ArrowRight, MapPin, Phone, Mail, Clock, Star,
-  Leaf, Flame, ChevronRight, Wine,
+  ArrowRight, ArrowUpRight, MapPin, Phone, Mail, Calendar,
+  Star, Wine, Clock, Plus,
 } from 'lucide-react';
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Casa Lupo — fiktive italienische Trattoria, Beispiel-Webseite für DRVN
-// Stil: warmes Editorial, Burgunder + Olivgrün + Creme, Italic-Highlights,
-// asymmetrische Sections, Glasmorphismus-Hero, Marquee, dunkles Review-Section.
-//
-// Inspiriert von der Quan-An-Seite die Ilias gebaut hat — gleicher Editorial-Vibe,
-// aber italienisch interpretiert. Stand-alone Page (eigener Header/Footer).
+// Casa Lupo — modernes italienisches Bistro/Wine-Bar
+// Stil: Editorial-Magazine, NICHT klassische Trattoria.
+// Tannengrün + Off-White + Terracotta. Split-Hero, Bento-Grid, Floating-Quotes.
 // ═══════════════════════════════════════════════════════════════════════════
 
 const STYLES = `
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Cabin:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 .casa-lupo-page {
-  /* Surface */
-  --cl-bg: #FAF5EE;             /* warmes Creme */
-  --cl-fg: #1F0F0A;             /* tiefes Burgunder-Schwarz */
-  --cl-muted: #F0E7D5;
-  --cl-muted-fg: #6E5440;
-  --cl-card: #FFFCF6;
-  --cl-border: #E5D7BC;
+  /* Surface — moderne Bistro-Palette */
+  --cl-bg: #F8F5F0;             /* off-white, leicht warm */
+  --cl-fg: #0E0E0E;             /* fast-schwarz, präzise */
+  --cl-paper: #FFFFFF;
+  --cl-stone: #E8E2D5;          /* sand */
+  --cl-stone-deep: #C9C0AE;
+  --cl-fg-soft: #2A2A28;
+  --cl-fg-mute: #6B6862;
 
-  /* Brand */
-  --cl-primary: #7B1F2E;        /* tiefes Burgunder */
-  --cl-secondary: #5C7142;      /* Olivgrün */
-  --cl-accent: #C99B4A;         /* warmes Gold */
-  --cl-terracotta: #C26544;
-
-  /* Glass */
-  --cl-glass-tint: rgba(31, 15, 10, 0.42);
-  --cl-glass-border: rgba(201, 155, 74, 0.45);
-
-  /* Shadows */
-  --cl-shadow-sm: 0 1px 2px rgba(74, 30, 16, 0.06);
-  --cl-shadow-md: 0 4px 12px rgba(74, 30, 16, 0.08), 0 2px 4px rgba(74, 30, 16, 0.05);
-  --cl-shadow-lg: 0 12px 32px rgba(74, 30, 16, 0.10), 0 4px 8px rgba(74, 30, 16, 0.06);
+  /* Brand — Forest + Terracotta */
+  --cl-forest: #1F3A2E;         /* Tannengrün */
+  --cl-forest-deep: #14271F;
+  --cl-terra: #D2693C;          /* Terracotta */
+  --cl-terra-soft: #E89270;
+  --cl-saffron: #E8A53D;
 
   background: var(--cl-bg);
   color: var(--cl-fg);
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.011em;
 }
 
-.cl-display { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; letter-spacing: -0.02em; }
-.cl-ui { font-family: 'Cabin', system-ui, sans-serif; }
-.cl-body { font-family: 'Inter', system-ui, sans-serif; }
+.cl-display {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  letter-spacing: -0.025em;
+}
+.cl-display-italic {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.cl-mono { font-family: 'Inter', system-ui, sans-serif; }
 
-.cl-eyebrow {
-  font-family: 'Cabin', system-ui, sans-serif;
-  font-size: 11px;
+/* Tag-Label (klein, eckig, Mono-Anmutung) */
+.cl-tag {
+  display: inline-block;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--cl-primary);
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
+  padding: 5px 10px;
+  border: 1px solid currentColor;
+  border-radius: 0;
 }
-.cl-eyebrow::before {
-  content: '';
-  width: 36px;
-  height: 1px;
-  background: var(--cl-primary);
-  opacity: 0.4;
+
+/* Big Number Statement */
+.cl-big-num {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+  font-size: clamp(72px, 12vw, 160px);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
 }
-.cl-section-num {
-  color: var(--cl-accent);
-  font-family: 'Instrument Serif', serif;
-  font-size: 14px;
+
+/* Bento-Hover */
+.cl-bento-card {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cl-bento-card:hover { transform: translateY(-4px); }
+
+/* Polaroid-Frame (für Hero-Bild + Image-Stack) */
+.cl-polaroid {
+  background: var(--cl-paper);
+  padding: 12px 12px 48px;
+  box-shadow: 0 24px 48px -16px rgba(14,14,14,0.20), 0 8px 16px -8px rgba(14,14,14,0.10);
+  position: relative;
+}
+.cl-polaroid::after {
+  content: 'Casa Lupo · 2026';
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Fraunces', serif;
   font-style: italic;
-  margin-right: 6px;
-}
-
-/* Drop-cap auf erstem Absatz */
-.cl-drop-cap::first-letter {
-  font-family: 'Instrument Serif', serif;
-  font-size: 4.2em;
-  float: left;
-  line-height: 0.9;
-  margin: 0.05em 0.1em 0 0;
-  color: var(--cl-primary);
-  font-style: italic;
-}
-
-/* Marquee */
-@keyframes cl-marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.cl-marquee { animation: cl-marquee 50s linear infinite; }
-
-/* Glass-Pill für Hero-CTA */
-.cl-glass-cta {
-  background: var(--cl-glass-tint);
-  border: 1px solid var(--cl-glass-border);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  color: #FFFCF6;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.cl-glass-cta:hover {
-  background: rgba(201, 155, 74, 0.85);
-  border-color: var(--cl-accent);
-  transform: translateY(-1px);
+  font-size: 13px;
+  color: var(--cl-fg-mute);
 }
 
 /* Buttons */
 .cl-btn-primary {
-  background: var(--cl-primary);
-  color: #FFFCF6;
-  padding: 14px 28px;
-  border-radius: 999px;
-  font-family: 'Cabin', system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.04em;
+  background: var(--cl-fg);
+  color: var(--cl-bg);
+  padding: 16px 28px;
+  border-radius: 0;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  transition: all 0.25s ease;
-  box-shadow: var(--cl-shadow-md);
+  gap: 10px;
   border: none;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
-.cl-btn-primary:hover {
-  background: #5F1623;
-  transform: translateY(-1px);
-  box-shadow: var(--cl-shadow-lg);
-}
+.cl-btn-primary:hover { background: var(--cl-forest); }
 .cl-btn-ghost {
   background: transparent;
   color: var(--cl-fg);
-  padding: 14px 24px;
-  border-radius: 999px;
-  font-family: 'Cabin', system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.04em;
+  padding: 16px 24px;
+  border-radius: 0;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  border: 1px solid var(--cl-border);
-  transition: all 0.25s ease;
+  gap: 10px;
+  border: 1px solid var(--cl-fg);
   cursor: pointer;
+  transition: all 0.3s ease;
 }
-.cl-btn-ghost:hover {
-  background: var(--cl-muted);
-  border-color: var(--cl-fg);
+.cl-btn-ghost:hover { background: var(--cl-fg); color: var(--cl-bg); }
+
+/* Big-Type-Statement Strip */
+.cl-strip {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-variation-settings: 'opsz' 144;
+  font-size: clamp(40px, 7vw, 96px);
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+/* Pairing-Card */
+.cl-pairing-card {
+  border-top: 1px solid var(--cl-stone-deep);
+  padding: 28px 0;
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 20px;
+  align-items: baseline;
+}
+
+/* Floating Quote */
+.cl-quote-card {
+  background: var(--cl-paper);
+  border: 1px solid var(--cl-stone);
+  padding: 28px;
+  position: relative;
+}
+.cl-quote-card::before {
+  content: '"';
+  position: absolute;
+  top: 8px;
+  left: 18px;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 80px;
+  line-height: 1;
+  color: var(--cl-terra);
+  opacity: 0.35;
 }
 `;
 
-// Bilder von Unsplash (kostenlose Stock-Fotos für Demo)
-const HERO_IMG = 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80';
-const ATMOSPHERE_IMGS = [
-  { src: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=800&q=80', alt: 'Spaghetti alle Vongole' },
-  { src: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80', alt: 'Pizza Margherita aus dem Holzofen' },
-  { src: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=800&q=80', alt: 'Tagliatelle al Tartufo' },
-  { src: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&q=80', alt: 'Hausgemachtes Tiramisu' },
-  { src: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&q=80', alt: 'Frisch gemachte Cannoli' },
-  { src: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80', alt: 'Italienischer Wein-Cellar' },
-  { src: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&q=80', alt: 'Frische Pasta-Werkstatt' },
-  { src: 'https://images.unsplash.com/photo-1576402187878-974f70c890a5?w=800&q=80', alt: 'Bruschetta al Pomodoro' },
-];
+// Bilder von Unsplash (italienisches Bistro-Vibe)
+const HERO_IMG = 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200&q=80'; // Pasta-Schale auf Holz
+const ATMOSPHERE_IMGS = {
+  big: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80',     // Restaurant-Interior
+  pasta: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900&q=80',
+  pizza: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=900&q=80',
+  wine: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=900&q=80',
+  bruschetta: 'https://images.unsplash.com/photo-1576402187878-974f70c890a5?w=900&q=80',
+  tiramisu: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=900&q=80',
+  chef: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=900&q=80',     // Pasta zubereiten
+};
 
-// Menu-Highlights (3 Featured-Gerichte)
-const MENU_HIGHLIGHTS = [
+const MENU_BENTO = [
   {
     name: 'Tagliatelle al Tartufo',
-    beschreibung: 'Hausgemachte Bandnudeln mit schwarzem Sommertrüffel aus den Apuanischen Alpen, Butter, 24-Monate Parmigiano Reggiano.',
+    sub: 'mit schwarzem Sommertrüffel',
     preis: '24,50',
-    img: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=600&q=80',
-    tag: 'Saisonal',
+    img: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=900&q=80',
+    size: 'big',
+    region: 'Piemont',
   },
   {
-    name: 'Spaghetti alle Vongole',
-    beschreibung: 'Spaghetti mit Venusmuscheln, Knoblauch, Petersilie, Weißwein und kaltgepresstem Olivenöl aus Sizilien.',
+    name: 'Spaghetti Vongole',
     preis: '19,80',
-    img: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600&q=80',
-    tag: 'Klassiker',
+    img: ATMOSPHERE_IMGS.pasta,
+    region: 'Sizilien',
   },
   {
-    name: 'Bistecca alla Fiorentina',
-    beschreibung: '1,2 kg T-Bone vom Chianina-Rind, drei Tage trocken gereift. Über offener Flamme gegrillt, Rosmarin, Meersalz, Zitrone.',
+    name: 'Bistecca Fiorentina',
     preis: '78,00',
-    img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80',
-    tag: 'Für Zwei',
+    img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=80',
+    region: 'Toskana · für Zwei',
   },
+  {
+    name: 'Bruschetta Pomodoro',
+    preis: '8,90',
+    img: ATMOSPHERE_IMGS.bruschetta,
+    region: 'Lazio',
+  },
+  {
+    name: 'Tiramisu della Casa',
+    preis: '7,50',
+    img: ATMOSPHERE_IMGS.tiramisu,
+    region: 'Veneto',
+  },
+];
+
+const PAIRINGS = [
+  { jahr: '2019', name: 'Brunello di Montalcino · Banfi', region: 'Toskana', preis: '14,00' },
+  { jahr: '2020', name: 'Barolo · Pio Cesare', region: 'Piemont', preis: '16,50' },
+  { jahr: '2021', name: 'Chianti Classico · Ruffino', region: 'Toskana', preis: '9,80' },
+  { jahr: '2022', name: 'Vermentino · Argiolas', region: 'Sardinien', preis: '8,50' },
 ];
 
 const REVIEWS = [
   {
-    text: 'Wie bei der Nonna in der Toskana. Die Tagliatelle sind ein Gedicht, der Service ist familiär ohne aufdringlich zu sein. Wir kommen wieder.',
+    text: 'Das Tagliatelle al Tartufo war ein Erlebnis. Service unaufdringlich aber präzise — wir bleiben Stammgäste.',
     autor: 'Maria K.',
-    quelle: 'Google',
     datum: 'vor 2 Wochen',
   },
   {
-    text: 'Endlich ein italienisches Restaurant das es ernst meint. Echte Carbonara ohne Sahne, echte Pizza, echter Espresso. In Stuttgart Mangelware.',
+    text: 'Endlich ein italienisches Bistro das es ernst meint. Echte Carbonara, perfekter Espresso, Weinberatung Spitze.',
     autor: 'Thomas B.',
-    quelle: 'Google',
     datum: 'vor 1 Monat',
   },
   {
-    text: 'Der Bistecca war perfekt — innen rosa, außen Kruste. Der Chianti dazu eine Empfehlung des Hauses, beides Spitze.',
+    text: 'Bistecca war auf den Punkt — innen rosa, außen Kruste. Der Brunello dazu eine Empfehlung des Hauses, beides Spitze.',
     autor: 'Christian H.',
-    quelle: 'Google',
     datum: 'vor 3 Wochen',
+  },
+  {
+    text: 'Wir waren mit unseren Eltern da — sie haben das Tiramisu im Vergleich zu Italien gelobt. Das sagt alles.',
+    autor: 'Anna R.',
+    datum: 'vor 1 Woche',
   },
 ];
 
-// ─── Helper: scrolltriggered Fade-In ────────────────────────────────────────
+// ─── Helper-Komponenten ──────────────────────────────────────────────────
 function FadeIn({ children, delay = 0, className = '' }: {
   children: React.ReactNode; delay?: number; className?: string;
 }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: true, margin: '-60px' });
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
       {children}
     </motion.div>
+  );
+}
+
+// Big-Type-Strip mit horizontalem Parallax
+function BigStrip() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const x = useTransform(scrollYProgress, [0, 1], ['10%', '-30%']);
+
+  return (
+    <section ref={ref} className="overflow-hidden py-24 lg:py-36" style={{ background: 'var(--cl-bg)' }}>
+      <motion.div style={{ x }} className="cl-strip flex items-center gap-12 select-none">
+        <span style={{ color: 'var(--cl-fg)' }}>Pasta fresca.</span>
+        <span style={{ color: 'var(--cl-terra)', fontStyle: 'italic' }}>Vino vero.</span>
+        <span style={{ color: 'var(--cl-forest)' }}>Cucina onesta.</span>
+        <span style={{ color: 'var(--cl-fg)', fontStyle: 'italic' }}>Buon appetito.</span>
+        <span style={{ color: 'var(--cl-terra)' }}>Pasta fresca.</span>
+        <span style={{ color: 'var(--cl-fg-soft)', fontStyle: 'italic' }}>Vino vero.</span>
+      </motion.div>
+    </section>
   );
 }
 
@@ -241,10 +301,9 @@ function FadeIn({ children, delay = 0, className = '' }: {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export default function BeispielCasaLupo() {
-  // Body-Background auf das Casa-Lupo-Creme setzen für Bereich außerhalb der Page
   useEffect(() => {
     const prev = document.body.style.background;
-    document.body.style.background = '#FAF5EE';
+    document.body.style.background = '#F8F5F0';
     return () => { document.body.style.background = prev; };
   }, []);
 
@@ -253,397 +312,504 @@ export default function BeispielCasaLupo() {
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
 
       <div className="casa-lupo-page min-h-screen">
-        {/* ─── Header ─────────────────────────────────────────────────── */}
-        <header
-          className="absolute top-0 left-0 right-0 z-50"
-          style={{ padding: '20px 32px' }}
-        >
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            {/* Logo */}
-            <a href="#" className="flex items-center gap-2 group">
-              <span className="cl-display text-2xl text-white tracking-wide" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}>
-                Casa <em style={{ color: '#C99B4A' }}>Lupo</em>
-              </span>
-            </a>
 
-            {/* Nav (Desktop) */}
-            <nav className="hidden md:flex items-center gap-8">
-              {['Speisekarte', 'Geschichte', 'Galerie', 'Reservieren'].map((item) => (
+        {/* ─── Header (sticky, schlicht) ──────────────────────────────── */}
+        <header className="sticky top-0 z-50" style={{ background: 'rgba(248,245,240,0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: '1px solid var(--cl-stone)' }}>
+          <div className="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+            <a href="#" className="flex items-center gap-1">
+              <span className="cl-display text-xl tracking-tight">Casa</span>
+              <span className="cl-display-italic text-xl" style={{ color: 'var(--cl-terra)' }}>Lupo</span>
+            </a>
+            <nav className="hidden md:flex items-center gap-9">
+              {[
+                { label: 'Carta', id: 'carta' },
+                { label: 'Vini', id: 'vini' },
+                { label: 'Casa', id: 'casa' },
+                { label: 'Visitare', id: 'visitare' },
+              ].map((item) => (
                 <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="cl-ui text-xs font-semibold tracking-[0.15em] uppercase text-white/80 hover:text-white transition-colors"
-                  style={{ textShadow: '0 1px 6px rgba(0,0,0,0.4)' }}
+                  key={item.id}
+                  href={`#${item.id}`}
+                  className="text-[11px] font-semibold tracking-[0.18em] uppercase hover:text-[color:var(--cl-terra)] transition-colors"
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
             </nav>
-
-            {/* Demo-Banner: zurück zu DRVN */}
-            <Link
-              to="/leistungen/webseiten"
-              className="cl-glass-cta cl-ui text-[11px] font-semibold tracking-[0.12em] uppercase px-4 py-2 rounded-full inline-flex items-center gap-2"
-            >
-              <ArrowRight size={12} className="rotate-180" /> DRVN-Beispiel
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link
+                to="/leistungen/webseiten"
+                className="hidden sm:inline-flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.18em] uppercase opacity-50 hover:opacity-100 transition-opacity"
+              >
+                <ArrowRight size={11} className="rotate-180" /> DRVN-Beispiel
+              </Link>
+              <button className="cl-btn-primary text-[11px] px-5 py-2.5">
+                Reservieren
+              </button>
+            </div>
           </div>
         </header>
 
-        {/* ─── Hero (Glass over Image) ────────────────────────────────── */}
-        <section className="relative min-h-[100dvh] w-full overflow-hidden">
-          {/* Background Image + Gradient */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src={HERO_IMG}
-              alt=""
-              className="w-full h-full object-cover"
-              loading="eager"
-              fetchPriority="high"
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(180deg, rgba(31,15,10,0.55) 0%, rgba(31,15,10,0.30) 40%, rgba(31,15,10,0.78) 100%)',
-              }}
-            />
-          </div>
-
-          {/* Hero-Content */}
-          <div className="relative z-10 min-h-[100dvh] flex items-center px-6 lg:px-12">
-            <div className="max-w-3xl">
-              <span className="cl-eyebrow text-white/80 mb-6 inline-flex">
-                <span className="cl-section-num">est. 2014</span>
-                Trattoria · Stuttgart-Mitte
-              </span>
-              <h1 className="cl-display text-[clamp(48px,8vw,120px)] leading-[0.95] mt-2 text-white">
-                La cucina<br />
-                <em style={{ color: '#C99B4A', fontStyle: 'italic' }}>della famiglia.</em>
+        {/* ─── HERO: Split-Layout (Type links, Polaroid rechts) ─────────── */}
+        <section className="relative px-6 lg:px-10 pt-20 lg:pt-28 pb-20 lg:pb-32">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-[1.2fr_1fr] gap-14 lg:gap-20 items-center">
+            {/* Left: massive Editorial Type */}
+            <div>
+              <div className="flex items-center gap-3 mb-9">
+                <span className="cl-tag" style={{ color: 'var(--cl-fg-mute)' }}>Stuttgart · 2014</span>
+                <span className="text-[11px] font-medium tracking-[0.18em] uppercase" style={{ color: 'var(--cl-fg-mute)' }}>
+                  Bistro &amp; Vineria
+                </span>
+              </div>
+              <h1 className="cl-display text-[clamp(56px,9vw,156px)] leading-[0.85] tracking-[-0.04em]">
+                Trattoria<br />
+                <span className="cl-display-italic" style={{ color: 'var(--cl-terra)' }}>per davvero.</span>
               </h1>
-              <p className="cl-body text-white/85 text-lg lg:text-xl mt-7 max-w-xl leading-[1.6]">
-                Echte italienische Küche aus der Toskana. Pasta von Hand,
-                Brot aus dem Steinofen, Wein aus eigener Quelle.
+              <p className="text-base lg:text-lg mt-10 max-w-md leading-[1.65]" style={{ color: 'var(--cl-fg-soft)' }}>
+                Italienische Küche ohne Ländler-Klischee. Pasta morgens
+                gemacht, Wein direkt vom Erzeuger, Service ohne Show.
+                Mitten in Stuttgart.
               </p>
-
               <div className="flex flex-wrap gap-3 mt-10">
-                <a href="#reservieren" className="cl-glass-cta cl-ui text-sm font-semibold uppercase tracking-[0.12em] px-7 py-4 rounded-full inline-flex items-center gap-2">
-                  Tisch reservieren <ArrowRight size={14} />
-                </a>
-                <a href="#speisekarte" className="cl-ui text-sm font-semibold uppercase tracking-[0.12em] px-7 py-4 rounded-full inline-flex items-center gap-2 text-white/90 border border-white/20 hover:bg-white/10 transition-colors backdrop-blur-md">
-                  Speisekarte
-                </a>
+                <button className="cl-btn-primary">
+                  <Calendar size={14} /> Tisch reservieren
+                </button>
+                <a href="#carta" className="cl-btn-ghost">Carta ansehen</a>
               </div>
 
-              {/* Quick-Info-Pills */}
-              <div className="flex flex-wrap gap-x-8 gap-y-3 mt-10">
-                {[
-                  { icon: <MapPin size={13} />, text: 'Königstraße 88, Stuttgart' },
-                  { icon: <Clock size={13} />, text: 'Mo–Sa, 12:00 – 23:00' },
-                  { icon: <Star size={13} className="fill-current" />, text: '4,8 · 412 Bewertungen' },
-                ].map((p) => (
-                  <div key={p.text} className="flex items-center gap-2 text-white/75 cl-ui text-xs tracking-wider uppercase">
-                    <span style={{ color: '#C99B4A' }}>{p.icon}</span>
-                    {p.text}
-                  </div>
-                ))}
+              {/* Inline-Stats unter den Buttons (statt Badges) */}
+              <div className="flex flex-wrap gap-x-10 gap-y-3 mt-12 pt-8" style={{ borderTop: '1px solid var(--cl-stone-deep)' }}>
+                <div>
+                  <div className="cl-display text-2xl">4,8 <span style={{ color: 'var(--cl-terra)' }}>★</span></div>
+                  <div className="text-[10px] tracking-[0.2em] uppercase mt-1" style={{ color: 'var(--cl-fg-mute)' }}>412 Bewertungen</div>
+                </div>
+                <div>
+                  <div className="cl-display text-2xl">11</div>
+                  <div className="text-[10px] tracking-[0.2em] uppercase mt-1" style={{ color: 'var(--cl-fg-mute)' }}>Jahre Stuttgart</div>
+                </div>
+                <div>
+                  <div className="cl-display text-2xl">68</div>
+                  <div className="text-[10px] tracking-[0.2em] uppercase mt-1" style={{ color: 'var(--cl-fg-mute)' }}>Weine im Keller</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Polaroid mit Tape */}
+            <div className="relative justify-self-center lg:justify-self-end">
+              {/* Tape oben */}
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 w-24 h-7 rotate-2" style={{ background: 'rgba(232,165,61,0.55)', boxShadow: '0 1px 2px rgba(0,0,0,0.08)' }} />
+              <motion.div
+                initial={{ rotate: -3, opacity: 0, y: 30 }}
+                animate={{ rotate: -3, opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+                className="cl-polaroid w-[320px] sm:w-[400px] lg:w-[440px]"
+              >
+                <div className="aspect-[4/5] overflow-hidden">
+                  <img src={HERO_IMG} alt="" className="w-full h-full object-cover" />
+                </div>
+              </motion.div>
+              {/* Floating Tag rechts unten */}
+              <div className="absolute -bottom-2 -right-2 lg:-right-6 cl-tag rotate-3" style={{ background: 'var(--cl-forest)', color: 'var(--cl-bg)', borderColor: 'var(--cl-forest)' }}>
+                Heute Aperitivo · 18 – 19 h
               </div>
             </div>
           </div>
         </section>
 
-        {/* ─── About ──────────────────────────────────────────────────── */}
-        <section id="geschichte" className="px-6 py-24 lg:py-32" style={{ background: 'var(--cl-bg)' }}>
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <FadeIn>
-              <span className="cl-eyebrow"><span className="cl-section-num">01</span> Die Familie</span>
-              <h2 className="cl-display text-4xl lg:text-6xl mt-5 leading-[1.05]">
-                Toskana,<br />
-                <em style={{ color: 'var(--cl-primary)', fontStyle: 'italic' }}>Großmutter</em>, Stuttgart.
+        {/* ─── BIG-TYPE-STRIP (Parallax) ──────────────────────────────── */}
+        <BigStrip />
+
+        {/* ─── CASA / About — Big-Number-Layout ────────────────────────── */}
+        <section id="casa" className="relative" style={{ background: 'var(--cl-forest)', color: 'var(--cl-bg)' }}>
+          <div className="max-w-7xl mx-auto px-6 lg:px-10 py-24 lg:py-36 grid lg:grid-cols-12 gap-10">
+            <FadeIn className="lg:col-span-5">
+              <span className="cl-tag" style={{ color: 'var(--cl-saffron)', borderColor: 'var(--cl-saffron)' }}>Casa</span>
+              <h2 className="cl-display text-5xl lg:text-7xl mt-6 leading-[0.95]">
+                Eine Familie.<br />
+                <span className="cl-display-italic" style={{ color: 'var(--cl-terra-soft)' }}>Eine Speisekarte.</span>
               </h2>
-              <p className="cl-body text-base lg:text-lg mt-7 leading-[1.7] cl-drop-cap" style={{ color: 'var(--cl-muted-fg)' }}>
-                Casa Lupo wurde 2014 von Giovanni Lupo gegründet — mit den Rezepten seiner Großmutter
-                aus Lucca. Sein Vater betreibt heute noch dieselbe Pasteria, in der Giovanni das Handwerk
-                gelernt hat.
+              <p className="text-base lg:text-lg mt-7 leading-[1.7] opacity-85">
+                Casa Lupo wurde 2014 von Giovanni Lupo gegründet — mit den Rezepten
+                seiner Großmutter aus Lucca. Sein Vater betreibt heute noch dieselbe
+                Pasteria, in der Giovanni das Handwerk gelernt hat.
               </p>
-              <p className="cl-body text-base lg:text-lg mt-5 leading-[1.7]" style={{ color: 'var(--cl-muted-fg)' }}>
+              <p className="text-base lg:text-lg mt-5 leading-[1.7] opacity-75">
                 Wir machen Pasta jeden Morgen frisch — ohne Eier-Pulver, ohne Tiefkühl-Tricks.
-                Unser Olivenöl kommt direkt aus dem Familien-Hain in Toskana, gepresst zwei Wochen
-                vor Lieferung.
+                Olivenöl direkt aus dem Familien-Hain in Lucca, gepresst zwei Wochen vor Lieferung.
               </p>
-
-              {/* Stats-Grid */}
-              <dl className="grid grid-cols-3 gap-6 mt-12 pt-8" style={{ borderTop: '1px solid var(--cl-border)' }}>
-                {[
-                  { val: '4,8', sub: '412 Google-Bewertungen', accent: true },
-                  { val: '11', sub: 'Jahre in Stuttgart' },
-                  { val: '24h', sub: 'Sugo-Reduktion' },
-                ].map((s) => (
-                  <div key={s.sub}>
-                    <dt className="cl-ui text-[10px] tracking-[0.2em] uppercase" style={{ color: 'var(--cl-muted-fg)' }}>
-                      {s.sub.split(' ')[0] === '412' ? 'Bewertung' : s.sub.split(' ').slice(0, 2).join(' ')}
-                    </dt>
-                    <dd className="cl-display text-3xl mt-1">
-                      {s.val} {s.accent && <span style={{ color: 'var(--cl-accent)' }}>★</span>}
-                    </dd>
-                    <p className="cl-body text-xs mt-1" style={{ color: 'var(--cl-muted-fg)' }}>{s.sub}</p>
-                  </div>
-                ))}
-              </dl>
+              <button className="cl-btn-ghost mt-9" style={{ color: 'var(--cl-bg)', borderColor: 'var(--cl-bg)' }}>
+                Unsere Geschichte
+              </button>
             </FadeIn>
 
-            {/* Image-Stapel */}
-            <FadeIn delay={0.15} className="relative h-[500px] lg:h-[640px]">
-              <div className="absolute top-0 left-0 w-[68%] h-[78%] rounded-2xl overflow-hidden" style={{ boxShadow: 'var(--cl-shadow-lg)' }}>
-                <img src={ATMOSPHERE_IMGS[6].src} alt="" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute bottom-0 right-0 w-[58%] h-[55%] rounded-2xl overflow-hidden border-4" style={{ borderColor: 'var(--cl-bg)', boxShadow: 'var(--cl-shadow-lg)' }}>
-                <img src={ATMOSPHERE_IMGS[2].src} alt="" className="w-full h-full object-cover" />
-              </div>
-              {/* Akzent-Element */}
-              <div className="absolute top-[20%] right-[8%] cl-display text-white text-[180px] leading-none italic select-none pointer-events-none" style={{ color: 'var(--cl-accent)', opacity: 0.18 }}>
-                "
-              </div>
-            </FadeIn>
-          </div>
-        </section>
-
-        {/* ─── Atmosphere Marquee ─────────────────────────────────────── */}
-        <section id="galerie" className="relative overflow-hidden py-20 lg:py-28" style={{ background: 'var(--cl-muted)' }}>
-          <FadeIn className="text-center mb-12 px-6">
-            <span className="cl-eyebrow"><span className="cl-section-num">02</span> Atmosphäre</span>
-            <h2 className="cl-display text-4xl lg:text-6xl mt-5 leading-[1.05]">
-              Bei uns am Tisch.
-            </h2>
-          </FadeIn>
-
-          {/* Marquee 1: Links */}
-          <div className="overflow-hidden">
-            <div className="cl-marquee flex gap-5 w-max">
-              {[...ATMOSPHERE_IMGS, ...ATMOSPHERE_IMGS].map((img, i) => (
-                <div key={i} className="w-[280px] h-[200px] lg:w-[360px] lg:h-[260px] flex-shrink-0 rounded-xl overflow-hidden" style={{ boxShadow: 'var(--cl-shadow-md)' }}>
-                  <img src={img.src} alt={img.alt} className="w-full h-full object-cover" loading="lazy" />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Marquee 2: Rechts (reverse) */}
-          <div className="overflow-hidden mt-5">
-            <div className="cl-marquee flex gap-5 w-max" style={{ animationDirection: 'reverse', animationDuration: '60s' }}>
-              {[...ATMOSPHERE_IMGS.slice().reverse(), ...ATMOSPHERE_IMGS.slice().reverse()].map((img, i) => (
-                <div key={i} className="w-[280px] h-[200px] lg:w-[360px] lg:h-[260px] flex-shrink-0 rounded-xl overflow-hidden" style={{ boxShadow: 'var(--cl-shadow-md)' }}>
-                  <img src={img.src} alt={img.alt} className="w-full h-full object-cover" loading="lazy" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ─── Menu-Highlights ───────────────────────────────────────── */}
-        <section id="speisekarte" className="px-6 py-24 lg:py-32" style={{ background: 'var(--cl-bg)' }}>
-          <div className="max-w-6xl mx-auto">
-            <FadeIn className="max-w-2xl mb-14">
-              <span className="cl-eyebrow"><span className="cl-section-num">03</span> Aus der Küche</span>
-              <h2 className="cl-display text-4xl lg:text-6xl mt-5 leading-[1.05]">
-                <em style={{ color: 'var(--cl-primary)', fontStyle: 'italic' }}>Ausgewählte</em><br />
-                Gerichte.
-              </h2>
-              <p className="cl-body text-base lg:text-lg mt-6 leading-[1.7]" style={{ color: 'var(--cl-muted-fg)' }}>
-                Drei Klassiker aus unserer Karte. Saisonal ergänzt — die volle Speisekarte
-                erhalten Sie am Tisch oder online.
-              </p>
-            </FadeIn>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {MENU_HIGHLIGHTS.map((g, i) => (
-                <FadeIn key={g.name} delay={i * 0.1}>
-                  <article
-                    className="rounded-2xl overflow-hidden h-full flex flex-col group cursor-pointer"
-                    style={{ background: 'var(--cl-card)', boxShadow: 'var(--cl-shadow-md)', border: '1px solid var(--cl-border)' }}
-                  >
-                    <div className="aspect-[4/3] overflow-hidden">
-                      <img src={g.img} alt={g.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                    </div>
-                    <div className="p-6 flex flex-col flex-1">
-                      <span className="cl-ui text-[10px] font-semibold tracking-[0.2em] uppercase mb-3 self-start px-2.5 py-1 rounded-full" style={{ background: 'var(--cl-accent)', color: 'var(--cl-fg)', opacity: 0.92 }}>
-                        {g.tag}
-                      </span>
-                      <h3 className="cl-display text-2xl leading-tight mb-2">{g.name}</h3>
-                      <p className="cl-body text-sm leading-[1.6] flex-1" style={{ color: 'var(--cl-muted-fg)' }}>{g.beschreibung}</p>
-                      <div className="flex items-baseline justify-between mt-5 pt-5" style={{ borderTop: '1px solid var(--cl-border)' }}>
-                        <span className="cl-display text-2xl" style={{ color: 'var(--cl-primary)' }}>{g.preis} €</span>
-                        <span className="cl-ui text-[11px] font-semibold tracking-[0.15em] uppercase flex items-center gap-1" style={{ color: 'var(--cl-muted-fg)' }}>
-                          Bestellen <ChevronRight size={11} />
-                        </span>
-                      </div>
-                    </div>
-                  </article>
+            {/* Right: 4 Big Numbers im 2x2-Grid */}
+            <div className="lg:col-span-7 grid grid-cols-2 gap-x-6 gap-y-12 self-center">
+              {[
+                { num: '24', label: 'Stunden Sugo-Reduktion' },
+                { num: '11', label: 'Jahre familiengeführt' },
+                { num: '68', label: 'Weine aus 14 Regionen' },
+                { num: '4,8', label: 'Sterne · 412 Reviews' },
+              ].map((s, i) => (
+                <FadeIn key={s.label} delay={0.1 + i * 0.05}>
+                  <div className="cl-big-num" style={{ color: 'var(--cl-saffron)' }}>{s.num}</div>
+                  <div className="text-[11px] tracking-[0.2em] uppercase mt-3 opacity-70">{s.label}</div>
                 </FadeIn>
               ))}
             </div>
+          </div>
+        </section>
 
-            <FadeIn delay={0.3} className="mt-12 flex justify-center">
+        {/* ─── BENTO-GALLERY (statt Marquee) ──────────────────────────── */}
+        <section className="px-6 lg:px-10 py-24 lg:py-32" style={{ background: 'var(--cl-bg)' }}>
+          <div className="max-w-7xl mx-auto">
+            <FadeIn className="flex items-end justify-between mb-12">
+              <div>
+                <span className="cl-tag" style={{ color: 'var(--cl-terra)', borderColor: 'var(--cl-terra)' }}>Atmosfera</span>
+                <h2 className="cl-display text-4xl lg:text-6xl mt-5 leading-[0.95] max-w-xl">
+                  Der Abend bei <span className="cl-display-italic" style={{ color: 'var(--cl-terra)' }}>uns.</span>
+                </h2>
+              </div>
+              <p className="hidden md:block text-sm max-w-xs leading-[1.6] mb-2" style={{ color: 'var(--cl-fg-mute)' }}>
+                Eichenholzstühle, weiße Tischwäsche, offene Küche. Plätze für 42 Gäste,
+                ein langer Tisch für Familien.
+              </p>
+            </FadeIn>
+
+            {/* Bento-Grid: 1 großer + 4 kleine, asymmetrisch */}
+            <div className="grid grid-cols-12 gap-3 lg:gap-4 auto-rows-[180px] lg:auto-rows-[220px]">
+              {/* Big - Restaurant Interior */}
+              <div className="col-span-12 lg:col-span-7 row-span-2 cl-bento-card overflow-hidden">
+                <img src={ATMOSPHERE_IMGS.big} alt="Casa Lupo Restaurant Interior" className="w-full h-full object-cover" />
+              </div>
+              {/* Top-Right: Wine */}
+              <div className="col-span-6 lg:col-span-5 cl-bento-card overflow-hidden">
+                <img src={ATMOSPHERE_IMGS.wine} alt="Wein" className="w-full h-full object-cover" />
+              </div>
+              {/* Middle-Right: Tiramisu */}
+              <div className="col-span-6 lg:col-span-5 cl-bento-card overflow-hidden">
+                <img src={ATMOSPHERE_IMGS.tiramisu} alt="Tiramisu" className="w-full h-full object-cover" />
+              </div>
+              {/* Bottom-Left: Bruschetta */}
+              <div className="col-span-6 lg:col-span-4 cl-bento-card overflow-hidden">
+                <img src={ATMOSPHERE_IMGS.bruschetta} alt="Bruschetta" className="w-full h-full object-cover" />
+              </div>
+              {/* Bottom-Mid: Pizza */}
+              <div className="col-span-6 lg:col-span-4 cl-bento-card overflow-hidden">
+                <img src={ATMOSPHERE_IMGS.pizza} alt="Pizza" className="w-full h-full object-cover" />
+              </div>
+              {/* Bottom-Right: Chef */}
+              <div className="col-span-12 lg:col-span-4 cl-bento-card overflow-hidden">
+                <img src={ATMOSPHERE_IMGS.chef} alt="Pasta-Zubereitung" className="w-full h-full object-cover" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── CARTA / Menu — Bento-Mix mit unterschiedlichen Größen ─── */}
+        <section id="carta" className="px-6 lg:px-10 py-24 lg:py-32" style={{ background: 'var(--cl-stone)' }}>
+          <div className="max-w-7xl mx-auto">
+            <FadeIn className="grid lg:grid-cols-12 gap-8 mb-14 items-end">
+              <div className="lg:col-span-7">
+                <span className="cl-tag" style={{ color: 'var(--cl-forest)', borderColor: 'var(--cl-forest)' }}>Carta</span>
+                <h2 className="cl-display text-5xl lg:text-7xl mt-5 leading-[0.95]">
+                  Die Karte ändert<br />
+                  sich <span className="cl-display-italic" style={{ color: 'var(--cl-terra)' }}>monatlich.</span>
+                </h2>
+              </div>
+              <p className="lg:col-span-5 text-base lg:text-lg leading-[1.65]" style={{ color: 'var(--cl-fg-soft)' }}>
+                Wir kochen mit dem was die Saison hergibt. Spargel im April,
+                Trüffel im Oktober, Wild im November. Hier ein Auszug aus dem aktuellen Stand.
+              </p>
+            </FadeIn>
+
+            {/* Bento Menu: 1 groß (links breit), 4 kleine */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5">
+              {/* Big Card */}
+              <article className="cl-bento-card lg:col-span-2 lg:row-span-2 group cursor-pointer relative overflow-hidden" style={{ background: 'var(--cl-paper)' }}>
+                <div className="aspect-[16/10] lg:aspect-auto lg:h-full overflow-hidden relative">
+                  <img src={MENU_BENTO[0].img} alt={MENU_BENTO[0].name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 40%, rgba(14,14,14,0.85) 100%)' }} />
+                  <div className="absolute bottom-0 left-0 right-0 p-7 lg:p-9 text-white">
+                    <span className="cl-tag mb-3" style={{ color: 'rgba(255,255,255,0.85)', borderColor: 'rgba(255,255,255,0.4)' }}>{MENU_BENTO[0].region}</span>
+                    <h3 className="cl-display text-3xl lg:text-5xl leading-[1.0] mb-2">{MENU_BENTO[0].name}</h3>
+                    <p className="cl-display-italic text-base lg:text-lg opacity-90 mb-5">{MENU_BENTO[0].sub}</p>
+                    <div className="flex items-baseline justify-between pt-5" style={{ borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+                      <span className="cl-display text-3xl">{MENU_BENTO[0].preis} €</span>
+                      <span className="text-[11px] font-semibold tracking-[0.18em] uppercase opacity-80 inline-flex items-center gap-1.5">
+                        Bestellen <ArrowUpRight size={13} />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              {/* 4 Small Cards */}
+              {MENU_BENTO.slice(1).map((g) => (
+                <article key={g.name} className="cl-bento-card group cursor-pointer overflow-hidden" style={{ background: 'var(--cl-paper)' }}>
+                  <div className="aspect-[4/3] overflow-hidden">
+                    <img src={g.img} alt={g.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  </div>
+                  <div className="p-5">
+                    <div className="text-[10px] tracking-[0.2em] uppercase font-semibold mb-2" style={{ color: 'var(--cl-fg-mute)' }}>{g.region}</div>
+                    <h3 className="cl-display text-xl leading-tight">{g.name}</h3>
+                    <div className="flex items-baseline justify-between mt-3 pt-3" style={{ borderTop: '1px solid var(--cl-stone-deep)' }}>
+                      <span className="cl-display text-lg" style={{ color: 'var(--cl-terra)' }}>{g.preis} €</span>
+                      <Plus size={14} className="opacity-60" />
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <FadeIn delay={0.2} className="mt-12 flex justify-center">
               <button className="cl-btn-ghost">
-                Vollständige Speisekarte ansehen <ArrowRight size={14} />
+                Vollständige Carta · 36 Gerichte
               </button>
             </FadeIn>
           </div>
         </section>
 
-        {/* ─── Reviews (Dark Section) ─────────────────────────────────── */}
-        <section id="bewertungen" className="relative px-6 py-28 lg:py-40 overflow-hidden" style={{ background: 'var(--cl-fg)', color: 'var(--cl-bg)' }}>
-          {/* Dot pattern */}
-          <div
-            className="absolute inset-0 opacity-[0.04] pointer-events-none"
-            style={{
-              backgroundImage: 'radial-gradient(circle at 1px 1px, var(--cl-accent) 1px, transparent 0)',
-              backgroundSize: '32px 32px',
-            }}
-          />
-          {/* Akzent-Schleife */}
-          <svg className="pointer-events-none absolute -left-32 top-20 w-[600px]" style={{ color: 'var(--cl-accent)', opacity: 0.06 }} viewBox="0 0 460 154" fill="none">
-            <path
-              d="M-87.463 458.432C-102.118 348.092 -77.3418 238.841 -15.0744 188.274C57.4129 129.408 180.708 150.071 351.748 341.128C278.246 -374.233 633.954 380.602 548.123 42.7707"
-              stroke="currentColor" strokeLinecap="round" strokeWidth="40"
-            />
-          </svg>
-
-          <div className="relative max-w-6xl mx-auto">
-            <FadeIn className="max-w-3xl">
-              <span className="cl-eyebrow" style={{ color: 'var(--cl-accent)' }}>
-                <span className="cl-section-num" style={{ color: 'var(--cl-accent)' }}>04</span>
-                Was Gäste sagen
-              </span>
-              <h2 className="cl-display text-5xl lg:text-7xl mt-5 leading-[1.05]">
-                <em style={{ color: 'var(--cl-accent)', fontStyle: 'italic' }}>4,8</em> von 5 Sternen.
+        {/* ─── VINI / Wine-Pairing-Section (NEU, gab es bei Quan-An nicht) ─ */}
+        <section id="vini" className="px-6 lg:px-10 py-24 lg:py-32" style={{ background: 'var(--cl-bg)' }}>
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.5fr] gap-12 lg:gap-20">
+            <FadeIn>
+              <div className="flex items-center gap-3 mb-6">
+                <Wine size={16} style={{ color: 'var(--cl-terra)' }} />
+                <span className="cl-tag" style={{ color: 'var(--cl-terra)', borderColor: 'var(--cl-terra)' }}>Vini</span>
+              </div>
+              <h2 className="cl-display text-5xl lg:text-7xl leading-[0.95]">
+                68 Weine aus<br />
+                <span className="cl-display-italic" style={{ color: 'var(--cl-terra)' }}>14 Regionen.</span>
               </h2>
-              <p className="cl-body text-base lg:text-lg opacity-75 mt-6 leading-[1.7] max-w-xl">
-                Über 412 Google-Bewertungen — und unsere Stammgäste, die jede Woche wiederkommen.
+              <p className="text-base lg:text-lg mt-7 leading-[1.65]" style={{ color: 'var(--cl-fg-soft)' }}>
+                Unsere Sommelière Lucia berät Sie persönlich. Wir führen Klassiker
+                aus Toskana und Piemont — aber auch unentdeckte Schätze aus Friaul,
+                Marken und Sardinien.
               </p>
+
+              <div className="mt-9 inline-flex items-center gap-3 text-sm">
+                <span style={{ color: 'var(--cl-fg-mute)' }}>Glas-Auswahl ab</span>
+                <span className="cl-display text-2xl" style={{ color: 'var(--cl-terra)' }}>6,50 €</span>
+              </div>
             </FadeIn>
 
-            {/* Featured Quote */}
-            <FadeIn delay={0.15} className="mt-16 lg:mt-20">
-              <div className="grid lg:grid-cols-12 gap-10 items-start">
-                <div className="lg:col-span-8">
-                  <div className="cl-display text-7xl leading-none mb-6" style={{ color: 'var(--cl-accent)', opacity: 0.5 }}>"</div>
-                  <p className="cl-display text-2xl lg:text-4xl leading-[1.25] italic">
-                    {REVIEWS[0].text}
-                  </p>
-                  <div className="flex items-center gap-3 mt-6">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={14} className="fill-current" style={{ color: 'var(--cl-accent)' }} />
-                      ))}
+            <FadeIn delay={0.15}>
+              <div className="border-b" style={{ borderColor: 'var(--cl-stone-deep)' }}>
+                {PAIRINGS.map((w) => (
+                  <div key={w.name} className="cl-pairing-card group cursor-pointer">
+                    <span className="cl-display-italic text-2xl" style={{ color: 'var(--cl-terra)' }}>{w.jahr}</span>
+                    <div>
+                      <div className="cl-display text-lg lg:text-xl leading-tight">{w.name}</div>
+                      <div className="text-xs tracking-wider uppercase mt-1.5" style={{ color: 'var(--cl-fg-mute)' }}>{w.region}</div>
                     </div>
-                    <span className="cl-ui text-xs tracking-wider uppercase opacity-75">
-                      {REVIEWS[0].autor} · {REVIEWS[0].quelle}
-                    </span>
+                    <span className="cl-display text-lg lg:text-xl" style={{ color: 'var(--cl-fg)' }}>{w.preis} €</span>
                   </div>
-                </div>
-                <div className="lg:col-span-4 grid gap-5">
-                  {REVIEWS.slice(1).map((r) => (
-                    <div key={r.autor} className="rounded-xl p-5" style={{ border: '1px solid rgba(201,155,74,0.2)', background: 'rgba(255,252,246,0.04)' }}>
-                      <div className="flex mb-2">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} size={11} className="fill-current" style={{ color: 'var(--cl-accent)' }} />
-                        ))}
-                      </div>
-                      <p className="cl-body text-sm leading-[1.55] opacity-90 mb-3">"{r.text}"</p>
-                      <p className="cl-ui text-[10px] tracking-wider uppercase opacity-60">
-                        {r.autor} · {r.datum}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+                ))}
               </div>
+              <button className="cl-btn-ghost mt-9">Komplette Weinkarte</button>
             </FadeIn>
           </div>
         </section>
 
-        {/* ─── Reservation CTA ────────────────────────────────────────── */}
-        <section id="reservieren" className="relative px-6 py-28 lg:py-36" style={{ background: 'var(--cl-bg)' }}>
-          <div className="max-w-4xl mx-auto text-center">
+        {/* ─── REVIEWS / Floating Quote-Cards (light, masonry-ähnlich) ── */}
+        <section className="px-6 lg:px-10 py-24 lg:py-32" style={{ background: 'var(--cl-stone)' }}>
+          <div className="max-w-6xl mx-auto">
+            <FadeIn className="flex items-end justify-between mb-12">
+              <div>
+                <span className="cl-tag" style={{ color: 'var(--cl-fg)', borderColor: 'var(--cl-fg)' }}>Ospiti</span>
+                <h2 className="cl-display text-5xl lg:text-7xl mt-5 leading-[0.95]">
+                  Was Gäste<br />
+                  <span className="cl-display-italic" style={{ color: 'var(--cl-terra)' }}>sagen.</span>
+                </h2>
+              </div>
+              <div className="hidden md:block text-right">
+                <div className="cl-display text-5xl">4,8 <span style={{ color: 'var(--cl-saffron)' }}>★</span></div>
+                <div className="text-[11px] tracking-[0.2em] uppercase mt-2" style={{ color: 'var(--cl-fg-mute)' }}>412 Google-Bewertungen</div>
+              </div>
+            </FadeIn>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+              {REVIEWS.map((r, i) => (
+                <FadeIn key={r.autor} delay={i * 0.07}>
+                  <div className="cl-quote-card h-full">
+                    <div className="flex mb-4 mt-4 lg:mt-6">
+                      {[...Array(5)].map((_, j) => (
+                        <Star key={j} size={11} className="fill-current" style={{ color: 'var(--cl-saffron)' }} />
+                      ))}
+                    </div>
+                    <p className="cl-display-italic text-base lg:text-lg leading-[1.4] mb-5" style={{ color: 'var(--cl-fg-soft)' }}>
+                      {r.text}
+                    </p>
+                    <div className="text-[10px] tracking-[0.2em] uppercase pt-4" style={{ color: 'var(--cl-fg-mute)', borderTop: '1px solid var(--cl-stone-deep)' }}>
+                      {r.autor} · {r.datum}
+                    </div>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── VISITARE / Reservation + Map-Mockup ───────────────────── */}
+        <section id="visitare" className="px-6 lg:px-10 py-24 lg:py-36" style={{ background: 'var(--cl-bg)' }}>
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-[1.2fr_1fr] gap-14 items-stretch">
             <FadeIn>
-              <span className="cl-eyebrow"><span className="cl-section-num">05</span> Buchen</span>
-              <h2 className="cl-display text-5xl lg:text-7xl mt-5 leading-[1.05]">
-                <em style={{ color: 'var(--cl-primary)', fontStyle: 'italic' }}>Andiamo</em><br />
-                a tavola.
+              <span className="cl-tag" style={{ color: 'var(--cl-forest)', borderColor: 'var(--cl-forest)' }}>Visitare</span>
+              <h2 className="cl-display text-5xl lg:text-7xl mt-5 leading-[0.95]">
+                Wir freuen uns<br />
+                auf Ihren <span className="cl-display-italic" style={{ color: 'var(--cl-terra)' }}>Besuch.</span>
               </h2>
-              <p className="cl-body text-base lg:text-lg mt-7 leading-[1.7] max-w-xl mx-auto" style={{ color: 'var(--cl-muted-fg)' }}>
-                Reservieren Sie online — Bestätigung in unter einer Minute per E-Mail.
-                Für größere Tische ab 6 Personen rufen Sie uns am liebsten direkt an.
+              <p className="text-base lg:text-lg mt-7 leading-[1.65] max-w-xl" style={{ color: 'var(--cl-fg-soft)' }}>
+                Reservierungen sind in unter einer Minute online möglich.
+                Tische ab 6 Personen bitte telefonisch — wir sprechen dann persönlich
+                über Ihre Wünsche.
               </p>
-              <div className="flex flex-wrap justify-center gap-3 mt-10">
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
+                <div className="pt-6" style={{ borderTop: '1px solid var(--cl-stone-deep)' }}>
+                  <div className="text-[10px] tracking-[0.2em] uppercase mb-3" style={{ color: 'var(--cl-fg-mute)' }}>Adresse</div>
+                  <div className="cl-display text-xl leading-tight">Königstraße 88</div>
+                  <div className="text-sm mt-1" style={{ color: 'var(--cl-fg-soft)' }}>70173 Stuttgart-Mitte</div>
+                </div>
+                <div className="pt-6" style={{ borderTop: '1px solid var(--cl-stone-deep)' }}>
+                  <div className="text-[10px] tracking-[0.2em] uppercase mb-3" style={{ color: 'var(--cl-fg-mute)' }}>Öffnungszeiten</div>
+                  <div className="cl-display text-xl leading-tight">12:00 – 23:00</div>
+                  <div className="text-sm mt-1" style={{ color: 'var(--cl-fg-soft)' }}>Mo – Sa · So ab 17:30</div>
+                </div>
+                <div className="pt-6" style={{ borderTop: '1px solid var(--cl-stone-deep)' }}>
+                  <div className="text-[10px] tracking-[0.2em] uppercase mb-3" style={{ color: 'var(--cl-fg-mute)' }}>Telefon</div>
+                  <div className="cl-display text-xl leading-tight">0711 234567</div>
+                </div>
+                <div className="pt-6" style={{ borderTop: '1px solid var(--cl-stone-deep)' }}>
+                  <div className="text-[10px] tracking-[0.2em] uppercase mb-3" style={{ color: 'var(--cl-fg-mute)' }}>E-Mail</div>
+                  <div className="cl-display text-xl leading-tight">ciao@casalupo.de</div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-3 mt-10">
                 <button className="cl-btn-primary">
-                  <Wine size={15} /> Tisch reservieren
+                  <Calendar size={14} /> Online reservieren
                 </button>
                 <a href="tel:+497112345678" className="cl-btn-ghost">
-                  <Phone size={14} /> 0711 234567
+                  <Phone size={14} /> Anrufen
+                </a>
+              </div>
+            </FadeIn>
+
+            {/* Map-Mockup (statt echter Karte) */}
+            <FadeIn delay={0.15} className="relative">
+              <div className="aspect-square lg:aspect-auto lg:h-full relative overflow-hidden" style={{ background: 'var(--cl-stone)' }}>
+                {/* Stylized Map mit Streets */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400" fill="none" preserveAspectRatio="xMidYMid slice">
+                  <rect width="400" height="400" fill="#E8E2D5" />
+                  {/* Streets */}
+                  <g stroke="#FFFFFF" strokeWidth="14" strokeLinecap="round">
+                    <line x1="-20" y1="120" x2="420" y2="180" />
+                    <line x1="-20" y1="280" x2="420" y2="240" />
+                    <line x1="100" y1="-20" x2="160" y2="420" />
+                    <line x1="280" y1="-20" x2="240" y2="420" />
+                  </g>
+                  <g stroke="#FFFFFF" strokeWidth="6" strokeLinecap="round" opacity="0.7">
+                    <line x1="0" y1="60" x2="400" y2="80" />
+                    <line x1="0" y1="340" x2="400" y2="360" />
+                    <line x1="40" y1="0" x2="60" y2="400" />
+                    <line x1="350" y1="0" x2="370" y2="400" />
+                  </g>
+                  {/* Building blocks */}
+                  <g fill="#D5CDB8" opacity="0.6">
+                    <rect x="170" y="50" width="65" height="55" />
+                    <rect x="245" y="50" width="40" height="55" />
+                    <rect x="170" y="190" width="40" height="40" />
+                    <rect x="290" y="190" width="50" height="50" />
+                    <rect x="60" y="250" width="55" height="55" />
+                    <rect x="190" y="250" width="45" height="55" />
+                    <rect x="250" y="290" width="60" height="55" />
+                  </g>
+                  {/* Casa Lupo Pin */}
+                  <g transform="translate(195, 195)">
+                    <circle r="22" fill="#D2693C" opacity="0.18" />
+                    <circle r="14" fill="#D2693C" opacity="0.30" />
+                    <circle r="7" fill="#D2693C" />
+                  </g>
+                </svg>
+                {/* Pin-Label */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[calc(50%+44px)] cl-tag" style={{ background: 'var(--cl-paper)', color: 'var(--cl-fg)', borderColor: 'var(--cl-fg)', boxShadow: '0 4px 12px rgba(0,0,0,0.12)' }}>
+                  Casa Lupo
+                </div>
+              </div>
+              {/* Footer-Info unter Map */}
+              <div className="mt-4 flex items-center justify-between text-xs" style={{ color: 'var(--cl-fg-mute)' }}>
+                <span className="inline-flex items-center gap-2">
+                  <MapPin size={12} /> 2 Min vom Hauptbahnhof
+                </span>
+                <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="hover:underline inline-flex items-center gap-1">
+                  In Maps öffnen <ArrowUpRight size={11} />
                 </a>
               </div>
             </FadeIn>
           </div>
         </section>
 
-        {/* ─── Footer ─────────────────────────────────────────────────── */}
-        <footer className="px-6 py-16 lg:py-20" style={{ background: 'var(--cl-fg)', color: 'var(--cl-bg)' }}>
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12 pb-12" style={{ borderBottom: '1px solid rgba(201,155,74,0.15)' }}>
-              {/* Logo + Tagline */}
-              <div className="md:col-span-2">
-                <div className="cl-display text-3xl mb-3">
-                  Casa <em style={{ color: 'var(--cl-accent)' }}>Lupo</em>
-                </div>
-                <p className="cl-body text-sm opacity-70 leading-[1.7] max-w-md">
-                  Familiengeführte Trattoria in Stuttgart-Mitte.
-                  Toskanische Küche, hausgemachte Pasta, italienisches Herz.
-                </p>
-              </div>
+        {/* ─── Footer (3-spaltig, schlicht) ──────────────────────────── */}
+        <footer className="px-6 lg:px-10 pt-20 pb-10" style={{ background: 'var(--cl-fg)', color: 'var(--cl-bg)' }}>
+          <div className="max-w-7xl mx-auto">
+            {/* Riesiger Schriftzug */}
+            <div className="mb-16 pb-12" style={{ borderBottom: '1px solid rgba(248,245,240,0.15)' }}>
+              <h3 className="cl-display text-[clamp(80px,16vw,260px)] leading-[0.85] tracking-[-0.05em]">
+                Casa<br />
+                <span className="cl-display-italic" style={{ color: 'var(--cl-terra)' }}>Lupo</span>
+              </h3>
+            </div>
 
-              {/* Kontakt */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
               <div>
-                <h4 className="cl-ui text-[11px] font-semibold tracking-[0.2em] uppercase opacity-60 mb-4">Kontakt</h4>
-                <ul className="space-y-2.5 cl-body text-sm">
-                  <li className="flex items-start gap-2.5">
-                    <MapPin size={13} className="flex-shrink-0 mt-0.5" style={{ color: 'var(--cl-accent)' }} />
-                    Königstraße 88<br />70173 Stuttgart
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <Phone size={13} style={{ color: 'var(--cl-accent)' }} />
-                    0711 234567
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <Mail size={13} style={{ color: 'var(--cl-accent)' }} />
-                    ciao@casalupo.de
-                  </li>
+                <div className="text-[10px] tracking-[0.2em] uppercase opacity-50 mb-4">Kontakt</div>
+                <ul className="space-y-2.5 text-sm">
+                  <li><MapPin size={11} className="inline mr-2" style={{ color: 'var(--cl-terra)' }} />Königstraße 88</li>
+                  <li><Phone size={11} className="inline mr-2" style={{ color: 'var(--cl-terra)' }} />0711 234567</li>
+                  <li><Mail size={11} className="inline mr-2" style={{ color: 'var(--cl-terra)' }} />ciao@casalupo.de</li>
                 </ul>
               </div>
 
-              {/* Öffnungszeiten */}
               <div>
-                <h4 className="cl-ui text-[11px] font-semibold tracking-[0.2em] uppercase opacity-60 mb-4">Öffnungszeiten</h4>
-                <ul className="space-y-2 cl-body text-sm">
-                  <li className="flex justify-between"><span>Mo – Do</span><span className="opacity-70">12:00 – 22:30</span></li>
-                  <li className="flex justify-between"><span>Fr – Sa</span><span className="opacity-70">12:00 – 23:00</span></li>
-                  <li className="flex justify-between"><span>Sonntag</span><span className="opacity-70">17:30 – 22:00</span></li>
+                <div className="text-[10px] tracking-[0.2em] uppercase opacity-50 mb-4">Stadt</div>
+                <div className="text-sm">70173 Stuttgart-Mitte</div>
+                <div className="text-sm opacity-70 mt-1">2 Min Hauptbahnhof</div>
+              </div>
+
+              <div>
+                <div className="text-[10px] tracking-[0.2em] uppercase opacity-50 mb-4">Öffnungszeiten</div>
+                <ul className="space-y-1.5 text-sm">
+                  <li className="flex justify-between"><span>Mo–Do</span><span className="opacity-70">12 – 22:30</span></li>
+                  <li className="flex justify-between"><span>Fr–Sa</span><span className="opacity-70">12 – 23:00</span></li>
+                  <li className="flex justify-between"><span>Sonntag</span><span className="opacity-70">17:30 – 22</span></li>
+                </ul>
+              </div>
+
+              <div>
+                <div className="text-[10px] tracking-[0.2em] uppercase opacity-50 mb-4">Folgen</div>
+                <ul className="space-y-2 text-sm">
+                  <li className="opacity-90 hover:opacity-100 cursor-pointer inline-flex items-center gap-1.5">
+                    Instagram <ArrowUpRight size={11} />
+                  </li>
+                  <li className="opacity-90 hover:opacity-100 cursor-pointer inline-flex items-center gap-1.5">
+                    Newsletter <ArrowUpRight size={11} />
+                  </li>
                 </ul>
               </div>
             </div>
 
-            {/* Bottom Row */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="cl-ui text-[10px] tracking-[0.2em] uppercase opacity-50">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-3 pt-6" style={{ borderTop: '1px solid rgba(248,245,240,0.1)' }}>
+              <div className="text-[10px] tracking-[0.2em] uppercase opacity-50 inline-flex items-center gap-2">
+                <Clock size={11} />
                 © 2026 Casa Lupo · Alle Rechte vorbehalten
-              </p>
-              <p className="cl-ui text-[10px] tracking-[0.2em] uppercase opacity-50 flex items-center gap-2">
-                <Leaf size={11} style={{ color: 'var(--cl-secondary)' }} />
-                Beispielwebseite gebaut von{' '}
-                <Link to="/" className="opacity-100 hover:opacity-80 transition-opacity" style={{ color: 'var(--cl-accent)' }}>
+              </div>
+              <div className="text-[10px] tracking-[0.2em] uppercase opacity-50">
+                Beispiel · gebaut von{' '}
+                <Link to="/" className="opacity-100 hover:opacity-80 transition-opacity" style={{ color: 'var(--cl-terra)' }}>
                   DRVN
                 </Link>
-              </p>
+              </div>
             </div>
           </div>
         </footer>
@@ -651,6 +817,3 @@ export default function BeispielCasaLupo() {
     </>
   );
 }
-
-// Suppress unused warnings — Flame import wird vielleicht noch genutzt
-void Flame;
