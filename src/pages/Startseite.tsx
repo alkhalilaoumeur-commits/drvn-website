@@ -491,7 +491,7 @@ const TESTIMONIALS = [
 
 const FAQ = [
   { q: 'Wie lange dauert die Einrichtung wirklich?', a: 'Das Onboarding von ServeFlow dauert typischerweise 30 Minuten — inklusive Konto-Setup, Menü-Import und Erstellung des QR-Codes für die Tische. Custom-Projekte dauern 1–4 Wochen je nach Umfang. Sie bekommen vorher immer einen verbindlichen Zeitplan.' },
-  { q: 'Was kostet das Ganze?', a: 'ServeFlow startet bei 99 €/Monat pro Standort, inklusive Updates, Hosting und Support. Webseiten ab 499 € einmalig, Landingpages ab 299 €. Custom-Projekte werden nach Aufwand zum Festpreis kalkuliert — transparent, ohne versteckte Kosten.' },
+  { q: 'Was kostet das Ganze?', a: 'ServeFlow startet bei 29 €/Monat pro Standort, inklusive Updates, Hosting und Support. Webseiten und Landingpages auf Anfrage — individuell nach Umfang und Anforderung. Custom-Projekte werden nach Aufwand zum Festpreis kalkuliert — transparent, ohne versteckte Kosten.' },
   { q: 'Wo liegen meine Daten?', a: 'Ausschließlich auf deutschen Servern bei Hetzner in Nürnberg (FSN1-Rechenzentrum). Alle Verbindungen TLS 1.3-verschlüsselt, Backups täglich mit AES-256, keine Weitergabe an Dritte. DSGVO-konform nach aktuellem Stand.' },
   { q: 'Kann ich das Produkt vorher testen?', a: 'Ja. Nach dem unverbindlichen Erstgespräch bekommen Sie einen Demo-Zugang zu ServeFlow mit Musterdaten. Die ersten 30 Tage sind kostenfrei — ohne Kündigungsfrist, ohne Hakenkreuz im Kleingedruckten.' },
   { q: 'Was passiert, wenn ich wechseln möchte?', a: 'Alle Ihre Daten gehören Ihnen. Wir exportieren sie auf Wunsch jederzeit als CSV, JSON oder direkt in das Zielsystem. Keine Vendor-Lock-in-Tricks, keine Extra-Gebühren für den Export.' },
@@ -499,8 +499,8 @@ const FAQ = [
 ];
 
 const PRODUKTE = [
-  { name: 'ServeFlow', desc: 'Digitales Betriebssystem für Restaurants — QR-Bestellung, Tischverwaltung, Reservierungen. Ab 99 €/Monat.', status: 'Live', branche: 'Gastronomie', href: '/produkte/serveflow' },
-  { name: 'Webseiten', desc: 'SEO-optimierte Unternehmens-Websites und Landingpages. Lieferung in 5 Werktagen, ab 499 € einmalig.', status: 'Live', branche: 'Alle Branchen', href: '/leistungen/webseiten' },
+  { name: 'ServeFlow', desc: 'Digitales Betriebssystem für Restaurants — QR-Bestellung, Tischverwaltung, Reservierungen. Ab 29 €/Monat.', status: 'Live', branche: 'Gastronomie', href: '/produkte/serveflow' },
+  { name: 'Webseiten', desc: 'SEO-optimierte Unternehmens-Websites und Landingpages. Lieferung in 5 Werktagen, Angebot nach Umfang.', status: 'Live', branche: 'Alle Branchen', href: '/leistungen/webseiten' },
   { name: 'HandBase', desc: 'Handwerker-SaaS — Auftragsmanagement, Zeiterfassung, digitale Rechnungen, mobile App für das Team.', status: 'Q3 2026', branche: 'Handwerk', href: '/branchen' },
   { name: 'BeautyBase', desc: 'Online-Terminbuchung, digitale Kundenkartei, Produkt- und Dienstleistungsverwaltung.', status: 'Q4 2026', branche: 'Beauty', href: '/branchen' },
   { name: 'CleanBase', desc: 'Einsatz- und Schichtplanung, Kundenverwaltung und Leistungserfassung für Reinigungsfirmen.', status: 'Q1 2027', branche: 'Reinigung', href: '/branchen' },

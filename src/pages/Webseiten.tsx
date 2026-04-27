@@ -89,8 +89,8 @@ const FEATURES = [
 const PAKETE = [
   {
     name: 'Starter',
-    preis: '499',
-    einheit: 'einmalig',
+    preis: 'Auf Anfrage',
+    einheit: 'individuell',
     beschreibung: 'Perfekt für Selbstständige und kleine Betriebe die online sichtbar sein wollen.',
     features: [
       'Bis zu 3 Seiten',
@@ -105,8 +105,8 @@ const PAKETE = [
   },
   {
     name: 'Business',
-    preis: '999',
-    einheit: 'einmalig',
+    preis: 'Auf Anfrage',
+    einheit: 'individuell',
     beschreibung: 'Für Unternehmen die einen vollständigen, professionellen Webauftritt benötigen.',
     features: [
       'Bis zu 8 Seiten',
@@ -170,7 +170,7 @@ export default function Webseiten() {
     <div className="pt-16">
       <SEO
         title="Webseiten & Landingpages — Professioneller Online-Auftritt"
-        description="DRVN erstellt moderne, schnelle und SEO-optimierte Webseiten für Unternehmen in Deutschland — responsiv, DSGVO-konform, ab 499 €."
+        description="DRVN erstellt moderne, schnelle und SEO-optimierte Webseiten für Unternehmen in Deutschland — responsiv, DSGVO-konform, individuelles Angebot nach Aufwand."
         path="/leistungen/webseiten"
         keywords="Webseite erstellen lassen, Webdesign Stuttgart, Landingpage erstellen, professionelle Webseite, SEO-optimiert, DSGVO-konform"
         schema={{
@@ -183,9 +183,12 @@ export default function Webseiten() {
               description: 'Professionelle Unternehmenswebseiten und Landingpages — responsiv, SEO-optimiert, DSGVO-konform.',
               areaServed: 'DE',
               offers: {
-                '@type': 'AggregateOffer',
-                lowPrice: '499',
+                '@type': 'Offer',
                 priceCurrency: 'EUR',
+                priceSpecification: {
+                  '@type': 'PriceSpecification',
+                  description: 'Individuelles Angebot nach Aufwand',
+                },
               },
             },
             {
@@ -224,11 +227,11 @@ export default function Webseiten() {
               </div>
 
               <p className="text-lg md:text-xl text-text-muted leading-relaxed mb-8">
-                Professioneller Online-Auftritt für Ihr Unternehmen — modern, schnell, SEO-optimiert. Ab 499 € einmalig, in 5–10 Werktagen fertig.
+                Professioneller Online-Auftritt für Ihr Unternehmen — modern, schnell, SEO-optimiert. Individuelles Angebot, in 5–10 Werktagen fertig.
               </p>
 
               <div className="flex flex-wrap gap-3 mb-8">
-                {['Responsive', 'SEO-ready', 'DSGVO-konform', 'Ab 499 €'].map((tag) => (
+                {['Responsive', 'SEO-ready', 'DSGVO-konform', 'Auf Anfrage'].map((tag) => (
                   <span key={tag} className="flex items-center gap-1.5 text-xs text-text-muted bg-surface border border-border rounded-full px-3 py-1.5">
                     <CheckCircle2 size={11} className="text-primary" />
                     {tag}
@@ -286,9 +289,10 @@ export default function Webseiten() {
         <div className="max-w-6xl mx-auto px-6 py-20">
           <div className="text-center mb-14">
             <p className="text-primary text-sm font-medium tracking-wider uppercase mb-3">Preise</p>
-            <h2 className="text-3xl md:text-4xl font-bold">Transparent. Einmalig. Fair.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Individuell. Einmalig. Fair.</h2>
             <p className="text-text-muted mt-3 max-w-xl mx-auto">
               Keine monatlichen Abo-Fallen. Sie zahlen einmal — die Seite gehört Ihnen.
+              Angebot nach Umfang und Anforderung.
             </p>
           </div>
 
@@ -349,7 +353,7 @@ export default function Webseiten() {
           </div>
 
           <p className="text-center text-text-muted/60 text-xs mt-6">
-            Alle Preise zzgl. MwSt. · Hosting & Domain nicht im Paketpreis enthalten · Zahlung nach Abnahme
+            Individuelles Angebot zzgl. MwSt. · Hosting & Domain optional · Zahlung nach Abnahme
           </p>
         </div>
       </section>
