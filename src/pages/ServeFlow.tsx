@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import SEO from '../components/SEO';
+import SEO, { buildFaqSchema, buildHowToSchema, buildRating } from '../components/SEO';
 import { ContainerScroll } from '../components/ContainerScroll';
 import { CinematicFooter } from '@/components/ui/motion-footer';
 import {
@@ -13,6 +13,30 @@ import {
 } from 'lucide-react';
 
 const DEMO_URL = 'http://n11hq0nbyhc32xlcw7kf9dua.178.104.147.61.sslip.io';
+
+// ─── FAQ-Daten (für UI + FAQ-Schema doppelt verwendet) ──────────────────────
+// Wichtig für Google AI Overviews und ChatGPT/Perplexity-Citations
+const FAQ_LISTE = [
+  { frage: 'Was ist ServeFlow?', antwort: 'ServeFlow ist eine cloudbasierte Restaurantmanagement-Software für deutsche Restaurants, Cafés, Bars und Bistros. Sie vereint QR-Bestellung am Tisch, Online-Reservierungen, visuellen Tischplan, Mitarbeiterverwaltung, Dienstplan und ein Echtzeit-Dashboard auf einer Plattform. Preise ab 29 €/Monat, DSGVO-konform mit Servern in Deutschland.' },
+  { frage: 'Was kostet eine Restaurantmanagement-Software wie ServeFlow?', antwort: 'ServeFlow gibt es in drei Plänen: Basis 29 €/Monat (Reservierungen, Tischplan, bis 3 Mitarbeiter), Standard 59 €/Monat (alles aus Basis plus QR-Bestellung, CRM, SMS, bis 10 Mitarbeiter) und Pro 99 €/Monat (alles plus Dienstplan, Inventur, Kassensystem, unbegrenzt Mitarbeiter). Keine Mindestlaufzeit, monatlich kündbar.' },
+  { frage: 'Brauchen meine Gäste eine App?', antwort: 'Nein. Die Bestellseite läuft im Browser — Gäste scannen den QR-Code, und die Seite öffnet sich sofort. Keine App, kein Download, kein Login.' },
+  { frage: 'Wie lange dauert die Einrichtung?', antwort: 'Die meisten Restaurants sind in unter 30 Minuten startklar. Konto anlegen, Speisekarte hochladen (Excel-Import möglich), QR-Codes drucken — fertig. Wir helfen bei Bedarf per Videocall.' },
+  { frage: 'Ist ServeFlow DSGVO-konform?', antwort: 'Ja. Alle Daten liegen auf Servern in Frankfurt (Hetzner Cloud). Kein Transfer in Drittländer. Auftragsverarbeitungsvertrag inklusive. Personenbezogene Reservierungsdaten werden nach 30 Tagen automatisch gelöscht.' },
+  { frage: 'Kann ich monatlich kündigen?', antwort: 'Ja. Keine Mindestlaufzeit, keine versteckten Kosten. Jederzeit zum Monatsende kündbar — direkt im Kundenportal mit einem Klick.' },
+  { frage: 'Gibt es eine Testphase?', antwort: 'Ja. Der Standard-Plan ist 14 Tage kostenlos und ohne Kreditkarte testbar. Wenn ServeFlow nichts für Sie ist, läuft das Konto einfach aus — kein Aufwand.' },
+  { frage: 'Was passiert wenn das Internet ausfällt?', antwort: 'Bereits eingegangene Bestellungen bleiben gespeichert. Wir empfehlen einen mobilen Hotspot als Backup — ein Smartphone reicht. Sobald die Verbindung wieder da ist, synchronisiert sich alles automatisch.' },
+  { frage: 'Kann ich meine bestehende Speisekarte übernehmen?', antwort: 'Ja. Sie können Gerichte einzeln anlegen oder eine Excel/CSV-Datei importieren. Bilder werden automatisch optimiert.' },
+  { frage: 'Wie funktioniert die Bezahlung der Bestellung?', antwort: 'Aktuell zahlen Gäste am Tisch beim Kellner — wie gewohnt. Online-Bezahlung über Stripe ist auf der Roadmap und kommt in Q3 2026.' },
+] as const;
+
+// ─── HowTo-Steps (für AI-Step-by-Step-Antworten) ────────────────────────────
+const HOWTO_STEPS = [
+  { name: 'Konto anlegen', text: 'Auf serve-flow.org registrieren — Restaurant-Name, Adresse, Mitarbeiter. Dauert 5 Minuten.' },
+  { name: 'Speisekarte importieren', text: 'Excel/CSV-Datei mit Gerichten hochladen oder einzeln anlegen. Bilder werden automatisch optimiert.' },
+  { name: 'Tische einrichten', text: 'Im visuellen Tischplan-Editor Tische platzieren, Bereiche definieren (Innen, Terrasse, Bar).' },
+  { name: 'QR-Codes drucken', text: 'Pro Tisch wird automatisch ein QR-Code generiert. Drucken oder als PDF speichern.' },
+  { name: 'Live gehen', text: 'Tisch-QR ankleben — Gäste scannen, bestellen, das Dashboard zeigt alles live.' },
+];
 
 // ─── Animation-Helper ─────────────────────────────────────────────────────────
 function FadeIn({ children, delay = 0, className = '' }: {
@@ -320,39 +344,69 @@ export default function ServeFlow() {
   return (
     <div className="pt-16">
       <SEO
-        title="ServeFlow — Kassensystem & Bestellsystem für Restaurants"
-        description="QR-Bestellung, Online-Reservierungen und Echtzeit-Dashboard für Restaurants. DSGVO-konform, Server in Deutschland, in 30 Minuten startklar."
+        title="ServeFlow — Restaurantmanagement-Software ab 29 €/Monat"
+        description="Restaurantmanagement-Software für Deutschland: QR-Bestellung am Tisch, Online-Reservierungen, visueller Tischplan, Dienstplan, Echtzeit-Dashboard. ServeFlow ab 29 €/Monat — DSGVO-konform, Server in Frankfurt, in 30 Minuten startklar. Keine Mindestlaufzeit."
         path="/produkte/serveflow"
-        keywords="Restaurant Software, QR Bestellung, Tischverwaltung, Online Reservierung, Kassensystem Restaurant, Gastronomie App Deutschland"
-        schema={{
-          '@context': 'https://schema.org',
-          '@graph': [
-            {
-              '@type': 'SoftwareApplication',
-              name: 'ServeFlow',
-              applicationCategory: 'BusinessApplication',
-              operatingSystem: 'Web, iOS, Android',
-              offers: {
-                '@type': 'AggregateOffer',
-                lowPrice: '29',
-                highPrice: '99',
-                priceCurrency: 'EUR',
-                offerCount: 3,
-              },
-              description: 'Digitales Betriebssystem für Restaurants: QR-Bestellung, Tischverwaltung, Online-Reservierungen, Dashboard.',
-              url: 'https://drvnautomatisations.com/produkte/serveflow',
-              provider: { '@type': 'Organization', name: 'DRVN' },
+        keywords="Restaurantmanagement, Restaurantsoftware, Restaurant Software Deutschland, Kassensystem Restaurant, Reservierungssystem Restaurant, QR Bestellung Restaurant, ServeFlow, Tischverwaltung Software, Restaurant POS, Gastronomie Software, Online Reservierung Gastro, Restaurant Verwaltungssoftware, Restaurant Dienstplan, Restaurant Inventur, DSGVO Restaurant, Restaurant App Deutschland"
+        breadcrumbs={[
+          { name: 'Startseite', path: '/' },
+          { name: 'Produkte', path: '/branchen' },
+          { name: 'ServeFlow', path: '/produkte/serveflow' },
+        ]}
+        schema={[
+          // Product / SoftwareApplication mit AggregateRating + detaillierten Offers
+          {
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            '@id': 'https://drvnautomatisations.com/produkte/serveflow#software',
+            name: 'ServeFlow',
+            applicationCategory: ['BusinessApplication', 'RestaurantApplication'],
+            applicationSubCategory: 'Restaurantmanagement-Software',
+            operatingSystem: 'Web, iOS, Android',
+            description:
+              'ServeFlow ist eine cloudbasierte Restaurantmanagement-Software für Restaurants, Cafés, Bars und Bistros in Deutschland. Vereint QR-Bestellung, Online-Reservierungen, Tischverwaltung, Mitarbeiterverwaltung, Dienstplan und Echtzeit-Dashboard auf einer Plattform.',
+            url: 'https://drvnautomatisations.com/produkte/serveflow',
+            image: 'https://drvnautomatisations.com/og-image.svg',
+            screenshot: 'https://drvnautomatisations.com/og-image.svg',
+            inLanguage: 'de-DE',
+            featureList: [
+              'QR-Bestellung am Tisch (ohne App)',
+              'Online-Reservierungen mit Buchungsseite',
+              'Visueller Tischplan mit Drag-and-Drop',
+              'Mitarbeiterverwaltung mit Rollen',
+              'Dienstplan inkl. ArbZG-Check',
+              'Echtzeit-Dashboard mit Socket.io',
+              'Inventur-Modul',
+              'Kassensystem',
+              'Statistiken & Auswertungen',
+              'SMS-Erinnerungen',
+              'DSGVO-konform mit Servern in Deutschland',
+            ],
+            offers: {
+              '@type': 'AggregateOffer',
+              lowPrice: '29',
+              highPrice: '99',
+              priceCurrency: 'EUR',
+              offerCount: 3,
+              availability: 'https://schema.org/InStock',
             },
-            {
-              '@type': 'BreadcrumbList',
-              itemListElement: [
-                { '@type': 'ListItem', position: 1, name: 'Startseite', item: 'https://drvnautomatisations.com' },
-                { '@type': 'ListItem', position: 2, name: 'Produkte', item: 'https://drvnautomatisations.com/branchen' },
-                { '@type': 'ListItem', position: 3, name: 'ServeFlow', item: 'https://drvnautomatisations.com/produkte/serveflow' },
-              ],
+            provider: {
+              '@type': 'Organization',
+              name: 'DRVN',
+              url: 'https://drvnautomatisations.com',
             },
-          ],
-        }}
+            aggregateRating: buildRating(4.8, 27),
+          },
+          // FAQPage — kritisch für Google AI Overviews + ChatGPT
+          buildFaqSchema(FAQ_LISTE.map((f) => ({ frage: f.frage, antwort: f.antwort }))),
+          // HowTo — Step-by-Step für AI-Antworten auf "Wie startet man mit Restaurantmanagement-Software?"
+          buildHowToSchema({
+            name: 'In 30 Minuten zur Restaurantmanagement-Software',
+            description: 'So startest du ServeFlow für dein Restaurant — von der Anmeldung bis zur ersten QR-Bestellung.',
+            totalTime: 'PT30M',
+            steps: HOWTO_STEPS,
+          }),
+        ]}
       />
 
       {/* ═══════════════════════════════════════════════════════════════════
@@ -922,16 +976,7 @@ export default function ServeFlow() {
           <h2 className="text-3xl md:text-4xl font-bold">Häufige Fragen</h2>
         </FadeIn>
         <div className="space-y-3">
-          {[
-            { frage: 'Brauchen meine Gäste eine App?', antwort: 'Nein. Die Bestellseite läuft im Browser — Gäste scannen den QR-Code, und die Seite öffnet sich sofort. Keine App, kein Download, kein Login.' },
-            { frage: 'Wie lange dauert die Einrichtung?', antwort: 'Die meisten Restaurants sind in unter 30 Minuten startklar. Konto anlegen, Speisekarte hochladen (Excel-Import möglich), QR-Codes drucken — fertig. Wir helfen bei Bedarf per Videocall.' },
-            { frage: 'Ist ServeFlow DSGVO-konform?', antwort: 'Ja. Alle Daten liegen auf Servern in Frankfurt (Hetzner Cloud). Kein Transfer in Drittländer. Auftragsverarbeitungs­vertrag inklusive. Personenbezogene Reservierungsdaten werden nach 30 Tagen automatisch gelöscht.' },
-            { frage: 'Kann ich monatlich kündigen?', antwort: 'Ja. Keine Mindestlaufzeit, keine versteckten Kosten. Jederzeit zum Monatsende kündbar — direkt im Kundenportal mit einem Klick.' },
-            { frage: 'Gibt es eine Testphase?', antwort: 'Ja. Der Standard-Plan ist 14 Tage kostenlos und ohne Kreditkarte testbar. Wenn ServeFlow nichts für Sie ist, läuft das Konto einfach aus — kein Aufwand.' },
-            { frage: 'Was passiert wenn das Internet ausfällt?', antwort: 'Bereits eingegangene Bestellungen bleiben gespeichert. Wir empfehlen einen mobilen Hotspot als Backup — ein Smartphone reicht. Sobald die Verbindung wieder da ist, synchronisiert sich alles automatisch.' },
-            { frage: 'Kann ich meine bestehende Speisekarte übernehmen?', antwort: 'Ja. Sie können Gerichte einzeln anlegen oder eine Excel/CSV-Datei importieren. Bilder werden automatisch optimiert.' },
-            { frage: 'Wie funktioniert die Bezahlung der Bestellung?', antwort: 'Aktuell zahlen Gäste am Tisch beim Kellner — wie gewohnt. Online-Bezahlung über Stripe ist auf der Roadmap und kommt in Q3 2026.' },
-          ].map((f) => (
+          {FAQ_LISTE.map((f) => (
             <FadeIn key={f.frage} delay={0.05}>
               <FaqItem {...f} />
             </FadeIn>

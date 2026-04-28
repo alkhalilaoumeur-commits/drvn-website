@@ -13,7 +13,7 @@ import {
   useTransform,
   type Variants,
 } from 'framer-motion';
-import SEO from '../components/SEO';
+import SEO, { buildFaqSchema } from '../components/SEO';
 
 /* ============================================
    ANIMATION VARIANTS
@@ -528,11 +528,11 @@ export default function Startseite() {
   return (
     <div style={{ background: '#0A0A0B' }}>
       <SEO
-        title="DRVN — Branchenspezifische SaaS-Lösungen für Deutschland"
-        description="DRVN entwickelt digitale Plattformen für Gastronomie, Handwerk und mehr — DSGVO-konform, sofort einsetzbar, Server in Deutschland."
+        title="Restaurantmanagement & SaaS für Deutschland"
+        description="DRVN entwickelt Restaurantmanagement-Software (ServeFlow ab 29 €/Monat) und individuelle Webseiten für Gastronomie, Handwerk und Service-Betriebe in Deutschland. QR-Bestellung, Reservierungen, Tischverwaltung. DSGVO-konform, Server in Frankfurt, persönlicher Support."
         path="/"
-        keywords="SaaS Deutschland, Branchensoftware, Gastronomie Software, Handwerk Software, DSGVO-konform"
-        schema={{ '@context': 'https://schema.org', '@type': 'WebSite', name: 'DRVN', url: 'https://drvnautomatisations.com' }}
+        keywords="Restaurantmanagement, Restaurantsoftware, Restaurant Software Deutschland, Kassensystem Restaurant, Reservierungssystem Gastro, QR Bestellung, Online Reservierung Restaurant, Gastronomie Software, Tischverwaltung, ServeFlow, SaaS Deutschland, DSGVO konform, Restaurant Verwaltung, POS Restaurant"
+        schema={buildFaqSchema(FAQ.map((f) => ({ frage: f.q, antwort: f.a })))}
       />
 
       {/* Inline keyframes for bento */}

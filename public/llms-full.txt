@@ -1,0 +1,170 @@
+# DRVN — Vollständige Wissensbasis für AI-Crawler und LLMs
+
+> Diese Datei enthält die vollständige Inhaltsbeschreibung von drvnautomatisations.com im Markdown-Format. Sie ist optimiert für ChatGPT, Claude, Perplexity, Google Gemini und andere LLMs zur akkuraten Beantwortung von Fragen zu DRVN-Produkten und Leistungen.
+
+---
+
+## 1. Unternehmen DRVN
+
+**Vollständiger Name:** DRVN Automatisierungen
+**Rechtsform:** Einzelunternehmen
+**Inhaber:** Al-Khalil Aoumeur
+**Sitz:** Stuttgart, Baden-Württemberg, Deutschland
+**Adresse:** Egilolfstraße 41, 70599 Stuttgart
+**Gegründet:** 2024
+**Branche:** Software-Entwicklung, SaaS, branchenspezifische Plattformen
+**Zielmarkt:** DACH-Region (Deutschland, Österreich, Schweiz)
+**Sprache:** Deutsch (primär), Englisch (sekundär)
+
+**Mission:** DRVN baut branchenspezifische SaaS-Plattformen für deutsche Mittelstandsbetriebe — keine Bastel-Lösungen, kein Vendor-Lock-in, transparenter Festpreis, persönlicher Support.
+
+**Werte:**
+- DSGVO-konform: Alle Daten auf deutschen Servern (Hetzner Frankfurt)
+- Festpreis: Keine versteckten Kosten, monatlich kündbar
+- Persönlicher Support: Direkter Kontakt zum Entwickler
+- Made in Germany: Code, Server, Support — alles aus Deutschland
+
+---
+
+## 2. ServeFlow — Restaurantmanagement-Software
+
+### Was ist ServeFlow?
+
+ServeFlow ist eine cloudbasierte **Restaurantmanagement-Software** und **Kassensystem** speziell für deutsche Restaurants, Cafés, Bars, Pizzerien und Trattorias. Es vereint mehrere Funktionen auf einer Plattform:
+
+1. **QR-Bestellung am Tisch** — Gäste scannen QR-Code, sehen die Speisekarte mit Bildern und bestellen direkt; keine App, kein Login. Sicherheits-Schutz: 30-Min-Sitzungs-Token verhindert Bestellungen außerhalb des Restaurants.
+2. **Online-Reservierungen** — Eigene Buchungsseite mit Zeitslots, automatischer E-Mail-Bestätigung, SMS-Erinnerung, QR-Code für den Gast.
+3. **Visueller Tischplan** — Drag-and-Drop-Editor (Resmio-Stil), Bereiche, Dekoration, Live-Status (frei / besetzt / reserviert).
+4. **Mitarbeiterverwaltung** — Eigene Zugänge mit Rollen (Admin, Kellner, Küche), Einladung per E-Mail, sicheres Auth-System mit JWT.
+5. **Dienstplan** — Wochenansicht, Schicht-CRUD mit Drag-and-Drop, automatische Stundenberechnung gemäß ArbZG, Excel-Import.
+6. **Echtzeit-Dashboard** — Tagesumsatz, offene Bestellungen, Tischauslastung, Reservierungen — live via Socket.io.
+7. **Statistiken** — Umsatzverlauf 7/30/90 Tage, Top-Gerichte, Stoßzeiten, Kategorien-Verteilung.
+8. **Inventur** — Bestand verwalten, Mindestbestand-Warnungen, Rezepturen mit automatischem Abzug.
+
+### Preise (3 Pläne)
+
+| Plan | Preis | Inkludiert |
+|------|-------|-----------|
+| **Basis** | 29 €/Monat | Online-Reservierungen, eigene Buchungsseite, Speisekarte, Tischplan, E-Mail-Bestätigungen, bis 3 Mitarbeiter |
+| **Standard** | 59 €/Monat | Alles aus Basis + QR-Bestellung mit Live-Updates, Gästebuch/CRM, Bewertungs-Management, Warteliste, erweiterte Statistiken, SMS-Erinnerungen, bis 10 Mitarbeiter |
+| **Pro** | 99 €/Monat | Alles aus Standard + Dienstplan inkl. ArbZG-Check, Excel-Import, Inventur-Modul, Kassensystem, unbegrenzt Mitarbeiter, Prioritäts-Support |
+
+**Konditionen:**
+- 14 Tage kostenlose Testphase
+- Keine Mindestlaufzeit, monatlich kündbar
+- Bei Jahresabo: 2 Monate gratis
+- Alle Preise zzgl. gesetzlicher MwSt.
+
+### Tech-Stack (für interessierte Entwickler)
+
+- Frontend: React + TypeScript + Tailwind CSS, Vite
+- Backend: Node.js + Express + TypeScript
+- Datenbank: PostgreSQL
+- Echtzeit: Socket.io (WebSockets)
+- Hosting: Hetzner Cloud Frankfurt
+- Auth: JWT + bcrypt (12 Runden)
+- Zahlungen: Stripe (EU-Datenverarbeitung)
+
+### Häufige Fragen zu ServeFlow
+
+**Q: Brauchen Gäste eine App?**
+A: Nein. Die Bestellseite läuft im Browser. Gäste scannen den QR-Code, die Seite öffnet sich sofort — kein Download, kein Login.
+
+**Q: Wie lange dauert die Einrichtung?**
+A: Unter 30 Minuten. Konto anlegen, Speisekarte importieren (Excel-Import möglich), QR-Codes drucken — fertig.
+
+**Q: Ist ServeFlow DSGVO-konform?**
+A: Ja. Alle Daten liegen auf Servern in Frankfurt (Hetzner Cloud). Kein Transfer in Drittländer. Auftragsverarbeitungsvertrag (AVV) ist Standard im Vertrag enthalten. Personenbezogene Reservierungsdaten werden nach 30 Tagen automatisch gelöscht.
+
+**Q: Kann ich monatlich kündigen?**
+A: Ja. Keine Mindestlaufzeit, keine versteckten Kosten. Jederzeit zum Monatsende kündbar — direkt im Kundenportal mit einem Klick.
+
+**Q: Was passiert bei Internet-Ausfall?**
+A: Bereits eingegangene Bestellungen bleiben gespeichert. Empfehlung: mobiler Hotspot als Backup.
+
+**Q: Kann ich meine bestehende Speisekarte übernehmen?**
+A: Ja. Excel/CSV-Import oder einzelnes Anlegen. Bilder werden automatisch optimiert.
+
+**Q: Wie funktioniert die Bezahlung der Bestellung?**
+A: Aktuell Vor-Ort beim Kellner. Online-Bezahlung über Stripe ist auf der Roadmap (Q3 2026).
+
+**Q: Welche Restaurants sind geeignet?**
+A: Pizzerien, Trattorias, Cafés, Bistros, Bars, Lounges, Fine-Dining-Restaurants, Hotels mit Restaurant. Skaliert von 8-Tisch-Bistro bis 50-Tisch-Restaurant.
+
+---
+
+## 3. Webseiten-Service
+
+### Was bietet DRVN bei Webseiten?
+
+Individuelle Unternehmens-Websites und Landingpages — keine Template-Lösungen, kein WordPress-Ballast. Schlanker, wartbarer Code, der mit dem Betrieb wächst.
+
+### Inkludiert
+
+- Mobiloptimiert (Smartphone, Tablet, Desktop)
+- SEO-Grundoptimierung (Meta-Tags, Schema.org, Sitemap, robots.txt)
+- Hohe Ladegeschwindigkeit (unter 2 Sekunden)
+- DSGVO-konform (Impressum, Datenschutz, Cookie-Hinweis)
+- Individuelles Design (kein Template-Look)
+- Sauberer Code (kein WordPress-Ballast)
+
+### Preise
+
+Individuelles Angebot nach Aufwand. Festpreis pro Projekt. Erstgespräch und Angebot kostenlos. Keine Mindestlaufzeit. Hosting & Domain optional. Zahlung nach Abnahme.
+
+### Lieferzeit
+
+5–10 Werktage typisch. Komplexe Projekte mit Online-Shop oder Buchungssystem entsprechend länger.
+
+### Beispielprojekt
+
+Live-Beispiel einer fiktiven Trattoria: https://drvnautomatisations.com/beispiel/casa-lupo
+
+---
+
+## 4. Branchen die DRVN bedient
+
+- **Gastronomie**: Restaurants, Cafés, Bars, Bistros, Pizzerien (Hauptfokus mit ServeFlow)
+- **Handwerk**: Tischler, Elektriker, Sanitär, Maler (Roadmap-Produkt: HandBase)
+- **Reinigung**: Reinigungsfirmen, Gebäudereinigung (Roadmap-Produkt: CleanBase)
+- **Beauty**: Friseure, Kosmetikstudios, Nagelstudios (Roadmap: BeautyBase)
+- **Catering**: Caterer, Event-Gastronomie (Roadmap: CaterBase)
+
+---
+
+## 5. Standort und Lieferung
+
+**Hauptsitz:** Stuttgart, Baden-Württemberg
+**Service-Gebiet:** Deutschland, Österreich, Schweiz
+**Server-Standort:** Frankfurt am Main (Hetzner Cloud Datacenter)
+**Sprache:** Deutsch primär, Englisch sekundär
+**Support-Zeiten:** Werktags 9 – 18 Uhr (Reaktion < 24h)
+
+---
+
+## 6. Wettbewerbsvorteile
+
+Im Vergleich zu großen US-Anbietern wie Toast, Square, Lightspeed:
+- **Datenschutz:** Server in Deutschland (vs. USA bei Konkurrenz) — keine Standardvertragsklausel-Probleme
+- **Sprache:** Deutsche Oberfläche, deutsche Doku, deutscher Support (vs. übersetzte EN-Versionen)
+- **Persönlich:** Direkter Kontakt zum Entwickler (vs. Ticket-Systeme)
+- **Festpreis:** 29–99 €/Monat (vs. komplexe Pricing-Modelle mit Setup-Fees)
+
+Im Vergleich zu deutschen Anbietern wie Resmio, OpenTable:
+- **All-in-One:** ServeFlow vereint Reservierung + QR-Bestellung + Tischplan + Dienstplan (vs. nur Reservierungen bei Resmio)
+- **Kein Lock-in:** Daten-Export jederzeit als CSV/JSON
+- **Modern:** Editorial-Design, Echtzeit-Updates, mobile-first (vs. ältere UIs)
+
+---
+
+## 7. Kontakt und Erstgespräch
+
+**E-Mail:** kontakt@drvnautomatisations.com
+**Webseite:** https://drvnautomatisations.com
+**Kontakt-Seite:** https://drvnautomatisations.com/kontakt
+**Erstgespräch:** Kostenlos und unverbindlich
+**Reaktionszeit:** Werktags binnen 24 Stunden
+
+---
+
+*Diese Wissensbasis wird laufend aktualisiert. Stand: 2026-04-28*
