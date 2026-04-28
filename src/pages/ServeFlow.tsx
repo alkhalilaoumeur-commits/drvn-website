@@ -37,71 +37,154 @@ function FadeIn({ children, delay = 0, className = '' }: {
 // MOCKUPS
 // ═══════════════════════════════════════════════════════════════════════════════
 
-/** Dashboard-Mockup (für Hero ContainerScroll) */
+/**
+ * Dashboard-Mockup — exakt nachgebaut vom echten ServeFlow-Dashboard:
+ *   - Helles Theme (weiße Cards auf Gray-50-Background, wie StatKarte.tsx)
+ *   - 5 Stat-Karten in einer Reihe mit Gradient-Akzent (3px) oben:
+ *     amber→orange (Offen) · orange→red (In Zubereitung) ·
+ *     emerald→teal (Umsatz) · blue→cyan (Reservierungen) · violet→fuchsia (Tische)
+ *   - Topbar mit Restaurant-Name + Datum
+ *   - 3-Spalten-Grid darunter: Umsatz-Chart (col-span-2) + Auslastungs-Donut
+ *   - Bestell-Liste mit T-Badge + Status-Pill
+ */
 function DashboardMockup() {
+  // Gradient-Akzente exakt aus restaurant-app/frontend/src/components/dashboard/StatKarte.tsx
+  const STATS = [
+    { label: 'Offen',          wert: '5',       grad: 'from-amber-400 to-orange-500',     ico: 'doc' },
+    { label: 'In Zubereitung', wert: '3',       grad: 'from-orange-400 to-red-500',       ico: 'chef' },
+    { label: 'Tagesumsatz',    wert: '€1.240',  grad: 'from-emerald-400 to-teal-500',     ico: 'euro' },
+    { label: 'Reservierungen', wert: '12',      grad: 'from-blue-400 to-cyan-500',        ico: 'cal' },
+    { label: 'Tische belegt',  wert: '8/10',    grad: 'from-violet-400 to-fuchsia-500',   ico: 'tisch' },
+  ];
+
+  // Bestellungen — exakt im Stil von Dashboard.tsx Z. 173 (T-Badge links, Status-Pill rechts)
+  const BESTELLUNGEN = [
+    { tisch: 5, item: '2× Pasta Carbonara', preis: '24,80', status: 'Offen', cls: 'bg-amber-100 text-amber-700' },
+    { tisch: 3, item: '1× Pizza Margherita, 2× Pellegrino', preis: '19,70', status: 'In Zubereitung', cls: 'bg-orange-100 text-orange-700' },
+    { tisch: 8, item: '3× Tiramisu, 1× Espresso', preis: '17,40', status: 'Serviert', cls: 'bg-emerald-100 text-emerald-700' },
+    { tisch: 1, item: '4× Pizza Diavola', preis: '46,00', status: 'Offen', cls: 'bg-amber-100 text-amber-700' },
+  ];
+
+  const RESERVIERUNGEN = [
+    { zeit: '19:00', name: 'Familie Müller', personen: 4 },
+    { zeit: '19:30', name: 'Schmidt', personen: 2 },
+    { zeit: '20:00', name: 'Hasenkrug', personen: 6 },
+  ];
+
+  // Mini-Icons (vereinfacht, eine Linie statt voller Lucide-Icons damit es klein bleibt)
+  const ICOS: Record<string, string> = {
+    doc: 'M16 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V8Z|M15 3v4a2 2 0 002 2h4',
+    chef: 'M12 2a4 4 0 014 4c0 1.95-1.4 3.58-3.25 3.93|M6 14v-2a6 6 0 0112 0v2',
+    euro: 'M4 10h12M4 14h9|M19 6a7.7 7.7 0 00-5.2-2A7.9 7.9 0 006 12a7.9 7.9 0 007.8 8 7.7 7.7 0 005.2-2',
+    cal:  'M16 2v4M8 2v4M3 10h18',
+    tisch:'M2 7h20v4H2zM4 11v6M20 11v6',
+  };
+
   return (
-    <div className="bg-[#0D1117] border border-border rounded-xl overflow-hidden shadow-2xl h-full flex flex-col">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-[#161B22] flex-shrink-0">
-        <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-        <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
-        <div className="w-3 h-3 rounded-full bg-[#28C840]" />
-        <div className="ml-3 flex-1 bg-[#0D1117] rounded-md px-3 py-1 text-[11px] text-text-muted font-mono">
-          app.serve-flow.org/dashboard
+    <div className="bg-[#F8F9FB] rounded-xl overflow-hidden h-full flex flex-col text-[#0F172A]" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+      {/* Topbar — wie Topbar.tsx in der echten App */}
+      <div className="flex items-center justify-between px-5 py-3 bg-white border-b border-gray-100 flex-shrink-0">
+        <div>
+          <p className="text-[13px] font-bold text-gray-900">Dashboard</p>
+          <p className="text-[10px] text-gray-400 mt-0.5">Trattoria Lupo · Heute, 27.04.2026</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-[10px] font-bold">GL</div>
         </div>
       </div>
-      <div className="p-5 space-y-4 flex-1 overflow-hidden">
-        <div className="grid grid-cols-3 gap-3">
-          {[
-            { label: 'Heute', value: '€1.240', up: '+12%' },
-            { label: 'Bestellungen', value: '34', up: '+8%' },
-            { label: 'Auslastung', value: '78%', up: '+5%' },
-          ].map((s) => (
-            <div key={s.label} className="bg-[#161B22] rounded-xl p-3 border border-border">
-              <p className="text-[10px] text-text-muted mb-1">{s.label}</p>
-              <p className="text-base font-bold text-text">{s.value}</p>
-              <p className="text-[10px] mt-0.5 text-success">↑ {s.up}</p>
+
+      {/* Inhalt */}
+      <div className="p-4 lg:p-5 space-y-4 flex-1 overflow-hidden">
+        {/* 5 Stat-Karten */}
+        <div className="grid grid-cols-5 gap-2.5">
+          {STATS.map((s) => (
+            <div key={s.label} className="relative overflow-hidden rounded-xl bg-white border border-gray-100 shadow-sm">
+              {/* Gradient-Akzent oben (3px) */}
+              <div className={`absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r ${s.grad}`} />
+              <div className="p-3">
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-[8px] font-medium text-gray-500 uppercase tracking-wider">{s.label}</p>
+                  <div className={`w-6 h-6 rounded-md bg-gradient-to-br ${s.grad} flex items-center justify-center flex-shrink-0`}>
+                    <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                      {ICOS[s.ico].split('|').map((p, i) => <path key={i} d={p} />)}
+                    </svg>
+                  </div>
+                </div>
+                <p className="text-[20px] font-bold text-gray-900 mt-2 leading-none tracking-tight">{s.wert}</p>
+              </div>
             </div>
           ))}
         </div>
-        <div className="bg-[#161B22] rounded-xl p-3 border border-border">
-          <p className="text-[10px] text-text-muted mb-3 font-medium uppercase tracking-wider">Tischstatus — Live</p>
-          <div className="grid grid-cols-5 gap-2">
-            {[
-              { nr: 1, status: 'besetzt' }, { nr: 2, status: 'frei' }, { nr: 3, status: 'besetzt' },
-              { nr: 4, status: 'reserviert' }, { nr: 5, status: 'frei' }, { nr: 6, status: 'besetzt' },
-              { nr: 7, status: 'frei' }, { nr: 8, status: 'besetzt' }, { nr: 9, status: 'reserviert' },
-              { nr: 10, status: 'frei' },
-            ].map((t) => (
-              <div
-                key={t.nr}
-                className={`rounded-lg p-2 text-center border ${
-                  t.status === 'besetzt' ? 'bg-primary/10 border-primary/30 text-primary'
-                  : t.status === 'reserviert' ? 'bg-yellow-400/10 border-yellow-400/30 text-yellow-400'
-                  : 'bg-success/10 border-success/30 text-success'
-                }`}
-              >
-                <p className="text-[10px] font-bold">{t.nr}</p>
+
+        {/* 2 Spalten: Bestellungen + Reservierungen — wie auf echter Dashboard.tsx Z. 161 */}
+        <div className="grid grid-cols-3 gap-3 flex-1">
+          {/* Aktive Bestellungen — col-span-2 */}
+          <div className="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="flex items-center justify-between px-4 pt-3 pb-2">
+              <div className="flex items-center gap-2">
+                <div className="w-1 h-4 rounded-full bg-orange-400" />
+                <p className="text-[11px] font-semibold text-gray-700">Aktive Bestellungen</p>
               </div>
-            ))}
+              <span className="text-[9px] text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded-full">{BESTELLUNGEN.length} aktiv</span>
+            </div>
+            <div className="px-3 pb-3 space-y-1">
+              {BESTELLUNGEN.map((b) => (
+                <div key={b.tisch + b.item} className="flex items-center gap-2.5 p-1.5 rounded-lg">
+                  {/* T-Badge mit Gradient */}
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-slate-100 to-slate-50 flex items-center justify-center text-[10px] font-bold text-slate-500 ring-1 ring-slate-200/50 flex-shrink-0">
+                    T{b.tisch}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[11px] text-gray-800 truncate font-medium">{b.item}</p>
+                    <p className="text-[9px] text-gray-400">€ {b.preis}</p>
+                  </div>
+                  <span className={`text-[9px] px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${b.cls}`}>{b.status}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Reservierungen heute */}
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="flex items-center justify-between px-4 pt-3 pb-2">
+              <div className="flex items-center gap-2">
+                <div className="w-1 h-4 rounded-full bg-blue-400" />
+                <p className="text-[11px] font-semibold text-gray-700">Reservierungen</p>
+              </div>
+            </div>
+            <div className="px-3 pb-3 space-y-1.5">
+              {RESERVIERUNGEN.map((r) => (
+                <div key={r.zeit} className="flex items-center gap-2 p-1.5">
+                  {/* Zeit-Badge */}
+                  <div className="w-9 h-7 rounded-lg bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center text-[9px] font-bold text-blue-600 ring-1 ring-blue-200/50 flex-shrink-0">
+                    {r.zeit}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[10px] text-gray-800 truncate font-medium">{r.name}</p>
+                    <p className="text-[9px] text-gray-400">{r.personen} Personen</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="space-y-2">
-          {[
-            { tisch: 'Tisch 3', item: 'Pasta Carbonara × 2', status: 'Neu', color: 'text-primary bg-primary/10 border-primary/20' },
-            { tisch: 'Tisch 1', item: 'Pizza Margherita × 1', status: 'In Zubereitung', color: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20' },
-            { tisch: 'Tisch 6', item: 'Tiramisu × 3', status: 'Fertig', color: 'text-success bg-success/10 border-success/20' },
-          ].map((o) => (
-            <div key={o.tisch} className="flex items-center justify-between bg-[#161B22] rounded-xl px-3 py-2.5 border border-border">
-              <div>
-                <p className="text-[11px] font-medium text-text">{o.tisch}</p>
-                <p className="text-[10px] text-text-muted">{o.item}</p>
-              </div>
-              <span className={`text-[10px] border rounded-full px-2 py-0.5 font-medium ${o.color}`}>
-                {o.status}
-              </span>
-            </div>
-          ))}
-        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Tablet-Frame — umrahmt das Dashboard wie ein iPad,
+ * statt eines Browser-Fensters mit Mac-Buttons.
+ */
+function TabletFrame({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative h-full bg-[#1A1A1F] rounded-[28px] p-3 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.5),0_0_0_2px_rgba(255,255,255,0.04)]">
+      {/* Front-Camera Punkt */}
+      <div className="absolute top-1/2 -translate-y-1/2 left-2 w-1.5 h-1.5 rounded-full bg-white/20" />
+      {/* Screen */}
+      <div className="rounded-[18px] overflow-hidden h-full bg-[#F8F9FB]">
+        {children}
       </div>
     </div>
   );
@@ -333,7 +416,9 @@ export default function ServeFlow() {
             </>
           }
         >
-          <DashboardMockup />
+          <TabletFrame>
+            <DashboardMockup />
+          </TabletFrame>
         </ContainerScroll>
       </section>
 
