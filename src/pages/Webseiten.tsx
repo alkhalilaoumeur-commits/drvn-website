@@ -3,7 +3,7 @@ import SEO from '../components/SEO';
 import {
   ArrowRight, CheckCircle2, ChevronDown, Monitor,
   Smartphone, Search, Zap, Shield, Palette,
-  Code2, Globe, Star, ChevronRight,
+  Code2, Globe, ChevronRight,
 } from 'lucide-react';
 
 /* ===== Website Mockup ===== */
@@ -84,59 +84,6 @@ const FEATURES = [
   { icon: <Shield size={20} />, titel: 'DSGVO & Impressum', text: 'Rechtlich korrekt von Anfang an — Impressum, Datenschutz, Cookie-Hinweis falls nötig.' },
   { icon: <Palette size={20} />, titel: 'Individuelles Design', text: 'Kein Template-Look. Jede Seite wird auf Ihre Marke, Farben und Zielgruppe abgestimmt.' },
   { icon: <Code2 size={20} />, titel: 'Sauberer Code', text: 'Kein WordPress-Ballast. Schlanker, wartbarer Code — leicht erweiterbar wenn Ihr Betrieb wächst.' },
-];
-
-const PAKETE = [
-  {
-    name: 'Starter',
-    preis: 'Auf Anfrage',
-    einheit: 'individuell',
-    beschreibung: 'Perfekt für Selbstständige und kleine Betriebe die online sichtbar sein wollen.',
-    features: [
-      'Bis zu 3 Seiten',
-      'Responsives Design',
-      'Kontaktformular',
-      'DSGVO & Impressum',
-      'SEO-Grundoptimierung',
-      '30 Tage Support nach Launch',
-    ],
-    highlight: false,
-    cta: 'Jetzt anfragen',
-  },
-  {
-    name: 'Business',
-    preis: 'Auf Anfrage',
-    einheit: 'individuell',
-    beschreibung: 'Für Unternehmen die einen vollständigen, professionellen Webauftritt benötigen.',
-    features: [
-      'Bis zu 8 Seiten',
-      'Individuelles Design',
-      'Blog / Neuigkeiten-Sektion',
-      'Google Analytics / Plausible',
-      'Erweiterte SEO-Optimierung',
-      'Performance-Optimierung',
-      '60 Tage Support nach Launch',
-    ],
-    highlight: true,
-    cta: 'Empfohlen — anfragen',
-  },
-  {
-    name: 'Premium',
-    preis: 'Auf Anfrage',
-    einheit: 'individuell',
-    beschreibung: 'Komplexe Projekte mit Online-Shop, Buchungssystem oder besonderen Anforderungen.',
-    features: [
-      'Unbegrenzte Seiten',
-      'Online-Shop möglich',
-      'Buchungs- oder Reservierungssystem',
-      'Mehrsprachigkeit',
-      'Custom-Funktionen',
-      'Laufende Wartung möglich',
-      '90 Tage Support nach Launch',
-    ],
-    highlight: false,
-    cta: 'Projekt besprechen',
-  },
 ];
 
 const PROZESS = [
@@ -387,77 +334,51 @@ export default function Webseiten() {
         </div>
       </section>
 
-      {/* ===== PREISE ===== */}
-      <section id="preise" className="border-t border-border bg-surface">
-        <div className="max-w-6xl mx-auto px-6 py-20">
-          <div className="text-center mb-14">
-            <p className="text-primary text-sm font-medium tracking-wider uppercase mb-3">Preise</p>
-            <h2 className="text-3xl md:text-4xl font-bold">Individuell. Einmalig. Fair.</h2>
-            <p className="text-text-muted mt-3 max-w-xl mx-auto">
-              Keine monatlichen Abo-Fallen. Sie zahlen einmal — die Seite gehört Ihnen.
-              Angebot nach Umfang und Anforderung.
-            </p>
+      {/* ===== PREISE — schlicht, ein zentraler "Auf Anfrage"-Block ===== */}
+      <section id="preise" className="border-t border-border bg-surface relative overflow-hidden">
+        {/* Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-primary/8 rounded-full blur-[140px] pointer-events-none" />
+
+        <div className="max-w-3xl mx-auto px-6 py-24 lg:py-28 text-center relative">
+          <p className="text-primary text-sm font-medium tracking-wider uppercase mb-4">Preise</p>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-5">
+            Auf <span className="text-gradient">Anfrage.</span>
+          </h2>
+          <p className="text-text-muted text-lg max-w-xl mx-auto leading-relaxed mb-10">
+            Jedes Projekt ist anders. Wir kalkulieren nach Umfang und Anforderung —
+            transparent, zum Festpreis, ohne versteckte Kosten. Erstgespräch und
+            Angebot kostenlos.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
+            <Link
+              to="/kontakt"
+              className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-4 rounded-xl transition-all glow-blue inline-flex items-center justify-center gap-2"
+            >
+              Angebot anfragen <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/beispiel/casa-lupo"
+              className="border border-border-light hover:border-primary/40 text-text font-medium px-8 py-4 rounded-xl transition-all inline-flex items-center justify-center gap-2"
+            >
+              Beispiel ansehen
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {PAKETE.map((p) => (
-              <div
-                key={p.name}
-                className={`rounded-2xl p-7 border flex flex-col relative ${
-                  p.highlight
-                    ? 'bg-bg border-primary/40 shadow-lg shadow-primary/10'
-                    : 'bg-bg border-border'
-                }`}
-              >
-                {p.highlight && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="bg-primary text-white text-[11px] font-semibold px-3 py-1 rounded-full flex items-center gap-1">
-                      <Star size={10} fill="white" /> Beliebteste Wahl
-                    </span>
-                  </div>
-                )}
-
-                <div className="mb-5">
-                  <h3 className="text-lg font-bold mb-1">{p.name}</h3>
-                  <div className="flex items-baseline gap-1 mb-3">
-                    {p.einheit === 'individuell' ? (
-                      <span className="text-2xl font-bold text-gradient">{p.preis}</span>
-                    ) : (
-                      <>
-                        <span className="text-3xl font-bold">€{p.preis}</span>
-                        <span className="text-text-muted text-sm">{p.einheit}</span>
-                      </>
-                    )}
-                  </div>
-                  <p className="text-text-muted text-sm leading-relaxed">{p.beschreibung}</p>
-                </div>
-
-                <ul className="space-y-2.5 flex-1 mb-7">
-                  {p.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm">
-                      <CheckCircle2 size={15} className="text-primary flex-shrink-0 mt-0.5" />
-                      <span className="text-text-muted">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  to="/kontakt"
-                  className={`w-full text-center font-semibold py-3 rounded-xl transition-all text-sm ${
-                    p.highlight
-                      ? 'bg-primary hover:bg-primary/90 text-white glow-blue'
-                      : 'border border-border-light hover:border-text-muted/40 text-text-muted hover:text-text'
-                  }`}
-                >
-                  {p.cta}
-                </Link>
+          {/* Trust-Badges unter dem CTA */}
+          <div className="flex flex-wrap justify-center gap-6 pt-8 border-t border-border">
+            {[
+              'Festpreis pro Projekt',
+              'Keine Mindestlaufzeit',
+              'Hosting & Domain optional',
+              'Zahlung nach Abnahme',
+            ].map((t) => (
+              <div key={t} className="flex items-center gap-2 text-xs text-text-muted">
+                <CheckCircle2 size={13} className="text-primary" />
+                {t}
               </div>
             ))}
           </div>
-
-          <p className="text-center text-text-muted/60 text-xs mt-6">
-            Individuelles Angebot zzgl. MwSt. · Hosting & Domain optional · Zahlung nach Abnahme
-          </p>
         </div>
       </section>
 
