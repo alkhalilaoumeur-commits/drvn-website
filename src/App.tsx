@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import FloatingButtons from './components/FloatingButtons';
 import Startseite from './pages/Startseite';
 import Leistungen from './pages/Leistungen';
 import Branchen from './pages/Branchen';
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/beispiel/casa-lupo" element={<BeispielCasaLupo />} />
         </Routes>
         <ConditionalFooter />
+        <FloatingButtons />
       </div>
     </BrowserRouter>
   );

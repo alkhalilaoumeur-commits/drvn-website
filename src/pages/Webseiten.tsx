@@ -116,25 +116,40 @@ export default function Webseiten() {
   return (
     <div className="pt-16">
       <SEO
-        title="Webseiten & Landingpages — Professioneller Online-Auftritt"
-        description="DRVN erstellt moderne, schnelle und SEO-optimierte Webseiten für Unternehmen in Deutschland — responsiv, DSGVO-konform, individuelles Angebot nach Aufwand."
+        title="Webdesigner Stuttgart — Webseiten & Landingpages | DRVN"
+        description="Webdesigner aus Stuttgart: professionelle Webseiten, Landingpages und Online-Auftritte für Unternehmen in Stuttgart und ganz Deutschland. Responsiv, SEO-optimiert, DSGVO-konform. Angebot in 24 Stunden."
         path="/leistungen/webseiten"
-        keywords="Webseite erstellen lassen, Webdesign Stuttgart, Landingpage erstellen, professionelle Webseite, SEO-optimiert, DSGVO-konform"
+        keywords="Webdesigner Stuttgart, Webdesign Stuttgart, Webseite erstellen lassen Stuttgart, Webdesign Agentur Stuttgart, Homepage erstellen Stuttgart, Webentwicklung Stuttgart, Landingpage Stuttgart, Webseite erstellen lassen, professionelle Webseite, SEO-optimiert, DSGVO-konform, Unternehmenswebseite, Webdesign Baden-Württemberg"
         schema={{
           '@context': 'https://schema.org',
           '@graph': [
             {
               '@type': 'Service',
-              name: 'Webseiten & Landingpages',
-              provider: { '@type': 'Organization', name: 'DRVN' },
-              description: 'Professionelle Unternehmenswebseiten und Landingpages — responsiv, SEO-optimiert, DSGVO-konform.',
-              areaServed: 'DE',
+              name: 'Webdesign Stuttgart — Webseiten & Landingpages',
+              provider: {
+                '@type': 'LocalBusiness',
+                name: 'DRVN',
+                address: {
+                  '@type': 'PostalAddress',
+                  addressLocality: 'Stuttgart',
+                  postalCode: '70599',
+                  addressCountry: 'DE',
+                  addressRegion: 'Baden-Württemberg',
+                },
+              },
+              description: 'Webdesigner aus Stuttgart: professionelle Unternehmenswebseiten und Landingpages — responsiv, SEO-optimiert, DSGVO-konform. Lieferung in 5–10 Werktagen.',
+              areaServed: [
+                { '@type': 'City', name: 'Stuttgart' },
+                { '@type': 'State', name: 'Baden-Württemberg' },
+                { '@type': 'Country', name: 'Deutschland' },
+              ],
+              serviceType: 'Webdesign',
               offers: {
                 '@type': 'Offer',
                 priceCurrency: 'EUR',
                 priceSpecification: {
                   '@type': 'PriceSpecification',
-                  description: 'Individuelles Angebot nach Aufwand',
+                  description: 'Individuelles Angebot nach Aufwand — kostenlose Erstberatung',
                 },
               },
             },
@@ -169,12 +184,12 @@ export default function Webseiten() {
                   <Monitor size={22} className="text-white" />
                 </div>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-                  Web<span className="text-gradient">seiten</span>
+                  Webdesigner <span className="text-gradient">Stuttgart</span>
                 </h1>
               </div>
 
               <p className="text-lg md:text-xl text-text-muted leading-relaxed mb-8">
-                Professioneller Online-Auftritt für Ihr Unternehmen — modern, schnell, SEO-optimiert. Individuelles Angebot, in 5–10 Werktagen fertig.
+                Professionelle Webseiten und Landingpages aus Stuttgart — für Unternehmen in ganz Deutschland. Modern, schnell, SEO-optimiert. Individuelles Angebot, in 5–10 Werktagen fertig.
               </p>
 
               <div className="flex flex-wrap gap-3 mb-8">

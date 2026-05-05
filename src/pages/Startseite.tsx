@@ -14,6 +14,7 @@ import {
   type Variants,
 } from 'framer-motion';
 import SEO, { buildFaqSchema } from '../components/SEO';
+import { HeroSection as GlassVideoHero, AnimatedBackground } from '../components/ui/glass-video-hero';
 
 /* ============================================
    ANIMATION VARIANTS
@@ -54,7 +55,7 @@ function Section({ children, style = {}, id }: { children: React.ReactNode; styl
 function DashboardMockup() {
   return (
     <div className="dash-window" style={{ width: '100%' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '11px 14px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '11px 14px', background: 'rgba(255,255,255,0.02)' }}>
         <div style={{ display: 'flex', gap: '6px' }}>
           <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
           <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
@@ -472,23 +473,6 @@ const STEPS = [
   { num: '03', icon: <Rocket size={18} strokeWidth={1.6} />, titel: 'Live gehen', text: 'Kurze Team-Einweisung, dann läuft der Betrieb. Wir bleiben im laufenden Support — fester Ansprechpartner, 24h Reaktion.' },
 ];
 
-const TESTIMONIALS = [
-  {
-    quote: 'Samstagnachmittag eingerichtet, Sonntagabend erste Online-Bestellung. Unser alter Lieferant hat für dieselbe Sache drei Wochen gebraucht — und dreimal so viel gekostet.',
-    name: 'Marco B.',
-    role: 'Inhaber · Ristorante Bella, Stuttgart',
-    initials: 'MB',
-    stat: '3 Monate im Einsatz',
-  },
-  {
-    quote: 'Endlich ein Tool, das auf Deutsch kommuniziert und versteht, wie ein Café funktioniert. Support antwortet wirklich innerhalb eines Tages — das war bei der letzten Agentur undenkbar.',
-    name: 'Sabine K.',
-    role: 'Geschäftsführerin · Café Linde, Tübingen',
-    initials: 'SK',
-    stat: '6 Monate im Einsatz',
-  },
-];
-
 const FAQ = [
   { q: 'Wie lange dauert die Einrichtung wirklich?', a: 'Das Onboarding von ServeFlow dauert typischerweise 30 Minuten — inklusive Konto-Setup, Menü-Import und Erstellung des QR-Codes für die Tische. Custom-Projekte dauern 1–4 Wochen je nach Umfang. Sie bekommen vorher immer einen verbindlichen Zeitplan.' },
   { q: 'Was kostet das Ganze?', a: 'ServeFlow startet bei 29 €/Monat pro Standort, inklusive Updates, Hosting und Support. Webseiten und Landingpages auf Anfrage — individuell nach Umfang und Anforderung. Custom-Projekte werden nach Aufwand zum Festpreis kalkuliert — transparent, ohne versteckte Kosten.' },
@@ -509,13 +493,13 @@ const PRODUKTE = [
 
 const MARQUEE = ['DSGVO-konform', 'Server in Nürnberg', '30 Min Go-Live', 'Made in Germany', 'Branchensoftware', 'Custom SaaS', '24h Antwortzeit', 'Ohne Vendor Lock-in'];
 
-const TRUST_LOGOS = [
-  { name: 'Ristorante Bella', style: 'serif' },
-  { name: 'Café Linde', style: 'sans' },
-  { name: 'Steakhouse 07', style: 'mono' },
-  { name: 'Zum Goldenen Hirsch', style: 'serif' },
-  { name: 'Sushi Nori', style: 'sans' },
-  { name: 'Brauhaus Stuttgart', style: 'mono' },
+const PILOT_RESTAURANTS = [
+  { name: 'Pilotpartner', city: 'Stuttgart', real: true },
+  { name: 'Ihr Restaurant', city: 'München', real: false },
+  { name: 'Ihr Restaurant', city: 'Frankfurt', real: false },
+  { name: 'Ihr Restaurant', city: 'Hamburg', real: false },
+  { name: 'Ihr Restaurant', city: 'Köln', real: false },
+  { name: 'Ihr Restaurant', city: 'Berlin', real: false },
 ];
 
 export default function Startseite() {
@@ -526,12 +510,14 @@ export default function Startseite() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
-    <div style={{ background: '#0A0A0B' }}>
+    <div style={{ position: 'relative', background: 'transparent' }}>
+      <AnimatedBackground fixed />
+      <div style={{ position: 'relative', zIndex: 1 }}>
       <SEO
-        title="Restaurantmanagement & SaaS für Deutschland"
-        description="DRVN entwickelt Restaurantmanagement-Software (ServeFlow ab 29 €/Monat) und individuelle Webseiten für Gastronomie, Handwerk und Service-Betriebe in Deutschland. QR-Bestellung, Reservierungen, Tischverwaltung. DSGVO-konform, Server in Frankfurt, persönlicher Support."
+        title="Restaurantmanagementsystem & Webdesigner Stuttgart | DRVN"
+        description="DRVN — Webdesigner aus Stuttgart und Anbieter des Restaurantmanagementsystems ServeFlow (ab 29 €/Monat). QR-Bestellung, Reservierungen, Tischverwaltung für Restaurants in Deutschland. DSGVO-konform, Server in Deutschland, persönlicher Support."
         path="/"
-        keywords="Restaurantmanagement, Restaurantsoftware, Restaurant Software Deutschland, Kassensystem Restaurant, Reservierungssystem Gastro, QR Bestellung, Online Reservierung Restaurant, Gastronomie Software, Tischverwaltung, ServeFlow, SaaS Deutschland, DSGVO konform, Restaurant Verwaltung, POS Restaurant"
+        keywords="Restaurantmanagementsystem, Webdesigner Stuttgart, Restaurantsoftware, Restaurant Software Deutschland, Kassensystem Restaurant, Gastronomiesoftware, QR Bestellung, Online Reservierung Restaurant, Gastronomie Software, Tischverwaltung, ServeFlow, SaaS Deutschland, DSGVO konform, Webdesign Stuttgart, Webseite erstellen Stuttgart"
         schema={buildFaqSchema(FAQ.map((f) => ({ frage: f.q, antwort: f.a })))}
       />
 
@@ -544,16 +530,22 @@ export default function Startseite() {
       `}</style>
 
       {/* ============================================
-          HERO
+          GLASS VIDEO HERO (neu)
+      ============================================ */}
+      <GlassVideoHero />
+
+      {/* ============================================
+          DASHBOARD MOCKUP SECTION
       ============================================ */}
       <section
         ref={heroRef}
-        style={{ position: 'relative', paddingTop: '140px', paddingBottom: '80px', overflow: 'hidden' }}
+        style={{ position: 'relative', paddingTop: '80px', paddingBottom: '80px', overflow: 'hidden' }}
       >
         <div className="hero-ambient" />
 
+        <div style={{ display: 'none' }}>
         <motion.div
-          style={{ opacity: heroOpacity, y: heroY, position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto', padding: '0 32px' }}
+          style={{ opacity: heroOpacity, y: heroY }}
         >
           <motion.div
             initial={{ opacity: 0, y: 8 }}
@@ -644,12 +636,13 @@ export default function Startseite() {
             ))}
           </motion.div>
         </motion.div>
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          style={{ marginTop: '96px', padding: '0 32px', position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '96px auto 0' }}
+          style={{ marginTop: '0', padding: '0 32px', position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto' }}
         >
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: '32px', alignItems: 'end' }}>
             <DashboardMockup />
@@ -661,38 +654,51 @@ export default function Startseite() {
       </section>
 
       {/* ============================================
-          TRUST LOGOS
+          PILOT PARTNERS
       ============================================ */}
-      <Section style={{ padding: '80px 32px 60px', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.01)' }}>
+      <Section style={{ padding: '80px 32px 60px' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-          <motion.p
-            variants={fadeUp}
-            style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 36px' }}
-          >
-            Im Einsatz bei Betrieben in ganz Deutschland
-          </motion.p>
-          <motion.div variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '24px', alignItems: 'center' }}>
-            {TRUST_LOGOS.map((logo) => (
+          <motion.div variants={fadeUp} style={{ textAlign: 'center', marginBottom: '36px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>
+              Pilotpartner — deutschlandweit
+            </p>
+            <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.38)', margin: 0 }}>
+              Werden Sie einer der ersten in Ihrer Stadt — nur 1 Pilotplatz pro Region.
+            </p>
+          </motion.div>
+          <motion.div variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px', alignItems: 'center' }}>
+            {PILOT_RESTAURANTS.map((r) => (
               <div
-                key={logo.name}
+                key={r.name + r.city}
                 style={{
                   textAlign: 'center',
-                  fontFamily: logo.style === 'sans' ? 'var(--font-sans)' : 'var(--font-mono)',
-                  fontStyle: logo.style === 'serif' ? 'italic' : 'normal',
-                  fontSize: logo.style === 'mono' ? '0.78rem' : '0.92rem',
-                  fontWeight: logo.style === 'sans' ? 700 : 500,
-                  color: 'rgba(255,255,255,0.35)',
-                  letterSpacing: logo.style === 'mono' ? '0.05em' : '-0.01em',
-                  transition: 'color 0.2s',
-                  cursor: 'default',
-                  userSelect: 'none',
+                  padding: '14px 10px',
+                  borderRadius: '10px',
+                  border: r.real ? '1px solid rgba(59,130,246,0.3)' : '1px dashed rgba(255,255,255,0.1)',
+                  background: r.real ? 'rgba(59,130,246,0.06)' : 'rgba(255,255,255,0.015)',
+                  transition: 'border-color 0.2s, background 0.2s',
+                  cursor: r.real ? 'default' : 'pointer',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.7)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}
+                onClick={() => { if (!r.real) window.location.href = '/kontakt'; }}
+                onMouseEnter={(e) => { if (!r.real) { e.currentTarget.style.borderColor = 'rgba(59,130,246,0.25)'; e.currentTarget.style.background = 'rgba(59,130,246,0.04)'; } }}
+                onMouseLeave={(e) => { if (!r.real) { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.background = 'rgba(255,255,255,0.015)'; } }}
               >
-                {logo.name}
+                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem', fontWeight: r.real ? 600 : 400, color: r.real ? '#FAFAFA' : 'rgba(255,255,255,0.25)', margin: '0 0 3px', letterSpacing: '-0.01em' }}>
+                  {r.name}
+                </p>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: r.real ? '#3B82F6' : 'rgba(255,255,255,0.2)', margin: 0, letterSpacing: '0.04em' }}>
+                  {r.real ? r.city : `${r.city} · Slot frei`}
+                </p>
               </div>
             ))}
+          </motion.div>
+          <motion.div variants={fadeUp} style={{ textAlign: 'center', marginTop: '24px' }}>
+            <a
+              href="/kontakt"
+              style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#3B82F6', textDecoration: 'none', letterSpacing: '0.03em', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+            >
+              Pilotplatz für meine Stadt anfragen <ArrowRight size={12} />
+            </a>
           </motion.div>
         </div>
       </Section>
@@ -700,7 +706,7 @@ export default function Startseite() {
       {/* ============================================
           MARQUEE
       ============================================ */}
-      <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '18px 0', overflow: 'hidden', background: 'rgba(255,255,255,0.015)' }}>
+      <div style={{ padding: '18px 0', overflow: 'hidden' }}>
         <div className="animate-marquee" style={{ display: 'flex', gap: '48px', whiteSpace: 'nowrap' }}>
           {[...MARQUEE, ...MARQUEE, ...MARQUEE, ...MARQUEE].map((item, i) => (
             <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.42)', letterSpacing: '0.02em' }}>
@@ -714,7 +720,7 @@ export default function Startseite() {
       {/* ============================================
           BENTO GRID FEATURES
       ============================================ */}
-      <Section style={{ padding: '140px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <Section style={{ padding: '140px 32px' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
           <motion.div variants={fadeUp} style={{ maxWidth: '680px', marginBottom: '64px' }}>
             <p className="eyebrow" style={{ marginBottom: '16px' }}>Warum DRVN</p>
@@ -764,7 +770,7 @@ export default function Startseite() {
       {/* ============================================
           HOW IT WORKS
       ============================================ */}
-      <Section style={{ padding: '120px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <Section style={{ padding: '120px 32px' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
           <motion.div variants={fadeUp} style={{ textAlign: 'center', marginBottom: '72px' }}>
             <p className="eyebrow" style={{ marginBottom: '16px' }}>So läuft es ab</p>
@@ -805,7 +811,7 @@ export default function Startseite() {
       {/* ============================================
           COMPARISON
       ============================================ */}
-      <Section style={{ padding: '120px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <Section style={{ padding: '120px 32px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <motion.div variants={fadeUp} style={{ marginBottom: '56px' }}>
             <p className="eyebrow" style={{ marginBottom: '16px' }}>Vergleich</p>
@@ -842,7 +848,7 @@ export default function Startseite() {
 
             {[
               { label: 'Startzeit', drvn: '30 Minuten', saas: '1–2 Tage', agency: '3–6 Monate' },
-              { label: 'Kosten', drvn: 'ab 99 €/Monat', saas: 'ab 50 €/Monat', agency: 'ab 15.000 € einmalig' },
+              { label: 'Kosten', drvn: 'ab 29 €/Monat', saas: 'ab 50 €/Monat', agency: 'ab 15.000 € einmalig' },
               { label: 'DSGVO-konform', drvn: true, saas: 'oft unklar', agency: true },
               { label: 'Server in DE', drvn: true, saas: false, agency: 'je nach Agentur' },
               { label: 'Branchenspezifisch', drvn: true, saas: false, agency: true },
@@ -887,47 +893,10 @@ export default function Startseite() {
         </div>
       </Section>
 
-      {/* ============================================
-          TESTIMONIALS
-      ============================================ */}
-      <Section style={{ padding: '120px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-          <motion.div variants={fadeUp} style={{ marginBottom: '56px' }}>
-            <p className="eyebrow" style={{ marginBottom: '16px' }}>Kundenstimmen</p>
-            <h2 className="display-2" style={{ margin: 0 }}>
-              Das sagen<br />
-              <span style={{ color: 'rgba(255,255,255,0.4)' }}>unsere Pilot-Kunden.</span>
-            </h2>
-          </motion.div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-            {TESTIMONIALS.map((t) => (
-              <motion.div key={t.name} variants={fadeUp} className="card" style={{ padding: '40px', position: 'relative' }}>
-                <div style={{ position: 'absolute', top: '32px', right: '32px', fontFamily: 'var(--font-mono)', fontSize: '0.62rem', padding: '3px 8px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E', borderRadius: '4px', letterSpacing: '0.05em' }}>
-                  {t.stat}
-                </div>
-                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '1.1rem', color: '#FAFAFA', lineHeight: 1.55, margin: '0 0 28px', fontWeight: 400, letterSpacing: '-0.015em' }}>
-                  „{t.quote}"
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, rgba(59,130,246,0.3), rgba(6,182,212,0.3))', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-sans)', fontSize: '0.85rem', fontWeight: 600, color: '#FAFAFA' }}>
-                    {t.initials}
-                  </div>
-                  <div>
-                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: '#FAFAFA', margin: 0, fontWeight: 500 }}>{t.name}</p>
-                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)', margin: 0, letterSpacing: '0.02em' }}>{t.role}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* ============================================
+{/* ============================================
           PRODUKTE
       ============================================ */}
-      <Section style={{ padding: '120px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <Section style={{ padding: '120px 32px' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
           <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '56px', flexWrap: 'wrap', gap: '24px' }}>
             <div style={{ maxWidth: '540px' }}>
@@ -978,7 +947,7 @@ export default function Startseite() {
       {/* ============================================
           FAQ
       ============================================ */}
-      <Section style={{ padding: '120px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <Section style={{ padding: '120px 32px' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto' }}>
           <motion.div variants={fadeUp} style={{ textAlign: 'center', marginBottom: '64px' }}>
             <p className="eyebrow" style={{ marginBottom: '16px' }}>FAQ</p>
@@ -1051,9 +1020,13 @@ export default function Startseite() {
             Bereit für Software,<br />
             <span className="text-gradient">die Ihre Branche versteht?</span>
           </motion.h2>
-          <motion.p variants={fadeUp} style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.58)', lineHeight: 1.65, margin: '0 auto 44px', maxWidth: '520px' }}>
+          <motion.p variants={fadeUp} style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.58)', lineHeight: 1.65, margin: '0 auto 12px', maxWidth: '520px' }}>
             30 Minuten Erstgespräch, 24 Stunden bis zum konkreten Angebot.
             Keine Verpflichtung, kein Kleingedrucktes.
+          </motion.p>
+          <motion.p variants={fadeUp} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#F59E0B', letterSpacing: '0.04em', margin: '0 auto 44px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#F59E0B', display: 'inline-block' }} />
+            Noch wenige Demo-Termine im Mai frei
           </motion.p>
           <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'center', gap: '10px', flexWrap: 'wrap' }}>
             <Link to="/kontakt" className="btn-primary" style={{ cursor: 'pointer' }}>
@@ -1073,6 +1046,35 @@ export default function Startseite() {
           </motion.div>
         </div>
       </Section>
+      </div>
+
+      {/* ============================================
+          FLOATING CTA BUTTON
+      ============================================ */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        style={{ position: 'fixed', bottom: '28px', right: '28px', zIndex: 100 }}
+      >
+        <Link
+          to="/kontakt"
+          style={{
+            display: 'flex', alignItems: 'center', gap: '10px',
+            padding: '13px 20px',
+            background: 'linear-gradient(135deg, #3B82F6, #2563EB)',
+            borderRadius: '14px',
+            textDecoration: 'none',
+            boxShadow: '0 8px 32px rgba(59,130,246,0.4), 0 2px 8px rgba(0,0,0,0.4)',
+            border: '1px solid rgba(255,255,255,0.15)',
+          }}
+        >
+          <MessageCircle size={18} style={{ color: '#fff' }} />
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.85rem', fontWeight: 600, color: '#fff', letterSpacing: '-0.01em' }}>
+            Demo anfragen
+          </span>
+        </Link>
+      </motion.div>
     </div>
   );
 }

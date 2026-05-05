@@ -22,10 +22,10 @@ export default function Leistungen() {
   return (
     <div className="pt-16">
       <SEO
-        title="Leistungen — SaaS-Entwicklung, Apps & Automatisierung"
-        description="DRVN entwickelt branchenspezifische SaaS-Produkte, Web- und Mobile-Apps sowie Prozessautomatisierungen für kleine und mittlere Unternehmen in Deutschland."
+        title="Webdesigner Stuttgart & Softwareentwicklung | DRVN"
+        description="DRVN — Webdesigner und Software-Entwickler aus Stuttgart: branchenspezifische SaaS-Lösungen, professionelle Webseiten und Prozessautomatisierung für KMU in Deutschland. Kostenlose Erstberatung."
         path="/leistungen"
-        keywords="SaaS Entwicklung, Webseite erstellen lassen, Webdesign Stuttgart, Landingpage, Web App Entwicklung, Prozessautomatisierung, Software für KMU"
+        keywords="Webdesigner Stuttgart, Softwareentwicklung Stuttgart, SaaS Entwicklung Stuttgart, App Entwicklung Stuttgart, Webdesign Stuttgart, Webseite erstellen lassen Stuttgart, Prozessautomatisierung Stuttgart, Software KMU, SaaS Deutschland, IT-Dienstleister Stuttgart"
       />
       {/* Header */}
       <section className="max-w-6xl mx-auto px-6 py-20 text-center">

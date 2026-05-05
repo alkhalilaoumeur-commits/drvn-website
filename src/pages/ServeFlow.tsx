@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import SEO, { buildFaqSchema, buildHowToSchema, buildRating } from '../components/SEO';
 import { ContainerScroll } from '../components/ContainerScroll';
 import { CinematicFooter } from '@/components/ui/motion-footer';
@@ -13,6 +13,25 @@ import {
 } from 'lucide-react';
 
 const DEMO_URL = 'http://n11hq0nbyhc32xlcw7kf9dua.178.104.147.61.sslip.io';
+
+// Zeigt echten Screenshot wenn vorhanden, sonst JSX-Fallback
+function AppScreenshot({ src, fallback, alt, style = {} }: {
+  src: string;
+  fallback: React.ReactNode;
+  alt: string;
+  style?: React.CSSProperties;
+}) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return <>{fallback}</>;
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setFailed(true)}
+      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', borderRadius: '8px', ...style }}
+    />
+  );
+}
 
 // ─── FAQ-Daten (für UI + FAQ-Schema doppelt verwendet) ──────────────────────
 // Wichtig für Google AI Overviews und ChatGPT/Perplexity-Citations
@@ -344,10 +363,10 @@ export default function ServeFlow() {
   return (
     <div className="pt-16">
       <SEO
-        title="ServeFlow — Restaurantmanagement-Software ab 29 €/Monat"
-        description="Restaurantmanagement-Software für Deutschland: QR-Bestellung am Tisch, Online-Reservierungen, visueller Tischplan, Dienstplan, Echtzeit-Dashboard. ServeFlow ab 29 €/Monat — DSGVO-konform, Server in Frankfurt, in 30 Minuten startklar. Keine Mindestlaufzeit."
+        title="Restaurantmanagementsystem ServeFlow — ab 29 €/Monat | DRVN"
+        description="Restaurantmanagementsystem für Deutschland: QR-Bestellung am Tisch, Online-Reservierungen, visueller Tischplan, Dienstplan, Echtzeit-Dashboard. ServeFlow ab 29 €/Monat — DSGVO-konform, Server in Deutschland, in 30 Minuten startklar. Keine Mindestlaufzeit."
         path="/produkte/serveflow"
-        keywords="Restaurantmanagement, Restaurantsoftware, Restaurant Software Deutschland, Kassensystem Restaurant, Reservierungssystem Restaurant, QR Bestellung Restaurant, ServeFlow, Tischverwaltung Software, Restaurant POS, Gastronomie Software, Online Reservierung Gastro, Restaurant Verwaltungssoftware, Restaurant Dienstplan, Restaurant Inventur, DSGVO Restaurant, Restaurant App Deutschland"
+        keywords="Restaurantmanagementsystem, Restaurantmanagement Software, Restaurantsoftware, Restaurant Software Deutschland, Kassensystem Restaurant, Gastronomiesoftware, Reservierungssystem Restaurant, QR Bestellung Restaurant, ServeFlow, Tischverwaltung Software, Restaurant POS, Gastronomie Software, Online Reservierung Gastro, Restaurant Verwaltungssoftware, Restaurant Dienstplan, Restaurant Inventur, DSGVO Restaurant, Restaurant App Deutschland, Restaurantmanagement Stuttgart"
         breadcrumbs={[
           { name: 'Startseite', path: '/' },
           { name: 'Produkte', path: '/branchen' },
@@ -471,7 +490,11 @@ export default function ServeFlow() {
           }
         >
           <TabletFrame>
-            <DashboardMockup />
+            <AppScreenshot
+              src="/screenshots/dashboard.png"
+              alt="ServeFlow Dashboard — Restaurantmanagementsystem"
+              fallback={<DashboardMockup />}
+            />
           </TabletFrame>
         </ContainerScroll>
       </section>
@@ -623,7 +646,7 @@ export default function ServeFlow() {
                 stat: '< 2 Min.',
                 label: 'bis zur Bestellung',
                 desc: 'Statt 10 – 15 Min. Wartezeit vom Tisch zum Tresen — die Tische rotieren schneller.',
-                source: 'Pilot-Daten ServeFlow',
+                source: 'Hochrechnung Branchen-Benchmark',
               },
             ].map((r) => (
               <FadeIn key={r.label} delay={0.1}>
@@ -674,8 +697,13 @@ export default function ServeFlow() {
                 Allergenen, bestellen direkt. Keine App, kein Download, kein Login.
                 30-Min-Sitzungs-Schutz verhindert Bestellungen von zuhause.
               </p>
-              <div className="flex-1 flex items-center justify-center">
-                <PhoneMockup />
+              <div className="flex-1 flex items-center justify-center overflow-hidden rounded-2xl" style={{ minHeight: '320px' }}>
+                <AppScreenshot
+                  src="/screenshots/mobile-order.png"
+                  alt="ServeFlow QR-Bestellung Gäste-Ansicht"
+                  fallback={<PhoneMockup />}
+                  style={{ maxWidth: '260px', height: '480px', objectFit: 'cover', objectPosition: 'top' }}
+                />
               </div>
             </div>
           </FadeIn>

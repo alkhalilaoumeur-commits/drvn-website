@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Zap, Monitor } from 'lucide-react';
+import { Menu, X, ChevronDown, Zap, Monitor, Calendar } from 'lucide-react';
+import { openCalendly } from './FloatingButtons';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { NAVIGATION } from '../lib/constants';
 
@@ -124,9 +125,30 @@ export default function Navbar() {
 
             <div style={{ width: '12px' }} />
 
-            <Link to="/kontakt" className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>
-              Kontakt
-            </Link>
+            <a
+              href={`tel:+4917620581564`}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '6px',
+                padding: '0.5rem 0.9rem', fontSize: '0.82rem', fontWeight: 500,
+                color: 'rgba(255,255,255,0.65)', textDecoration: 'none',
+                border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
+                transition: 'all 0.15s',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+              title="Direkt anrufen"
+            >
+              📞 Anrufen
+            </a>
+
+            <button
+              onClick={openCalendly}
+              className="btn-primary"
+              style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px', border: 'none', cursor: 'pointer' }}
+            >
+              <Calendar size={14} />
+              Demo buchen
+            </button>
           </div>
 
           <button onClick={() => setOffen(!offen)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#FAFAFA', display: 'none' }} className="md:!hidden !block">
@@ -155,7 +177,12 @@ export default function Navbar() {
                     <Link key={item.href} to={item.href} style={{ display: 'block', padding: '10px 0', textDecoration: 'none', fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)' }}>{item.label}</Link>
                   ))}
                 </div>
-                <Link to="/kontakt" className="btn-primary" style={{ marginTop: '12px', justifyContent: 'center' }}>Kontakt</Link>
+                <a href="tel:+4917620581564" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '8px', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500 }}>
+                  📞 Direkt anrufen — 0176 20581564
+                </a>
+                <button onClick={() => { openCalendly(); setOffen(false); }} className="btn-primary" style={{ marginTop: '8px', width: '100%', justifyContent: 'center', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Calendar size={14} /> Demo buchen
+                </button>
               </div>
             </motion.div>
           )}

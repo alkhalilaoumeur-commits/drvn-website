@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Mail, MapPin, Clock, Send } from 'lucide-react';
+import { Mail, MapPin, Clock, Send, MessageCircle } from 'lucide-react';
 import { BRAND } from '../lib/constants';
 import SEO from '../components/SEO';
+
+const WHATSAPP_NUMBER = '4917620581564';
 
 export default function Kontakt() {
   const [formular, setFormular] = useState({
@@ -71,11 +73,11 @@ export default function Kontakt() {
       <section className="max-w-6xl mx-auto px-6 py-20 text-center">
         <p className="text-primary text-sm font-medium tracking-wider uppercase mb-2">Kontakt</p>
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Sprechen Sie <span className="text-gradient">mit uns</span>
+          Demo anfragen — <span className="text-gradient">kostenlos & unverbindlich</span>
         </h1>
         <p className="text-text-muted text-lg max-w-2xl mx-auto">
-          Ob Frage, Projektidee oder Feedback — wir freuen uns auf Ihre Nachricht
-          und melden uns innerhalb von 24 Stunden.
+          30 Minuten reichen, um zu sehen ob ServeFlow zu Ihrem Betrieb passt.
+          Wir melden uns meistens innerhalb von 2 Stunden.
         </p>
       </section>
 
@@ -167,8 +169,9 @@ export default function Kontakt() {
                   className="w-full bg-primary hover:bg-primary/90 disabled:opacity-60 text-white font-semibold py-3.5 rounded-xl transition-all glow-blue flex items-center justify-center gap-2"
                 >
                   <Send size={18} />
-                  {laden ? 'Wird gesendet…' : 'Nachricht senden'}
+                  {laden ? 'Wird gesendet…' : 'Kostenlose Demo anfragen →'}
                 </button>
+                <p className="text-center text-text-muted/60 text-xs">Kein Spam. Keine Verpflichtung. Antwort meistens in 2 Stunden.</p>
               </form>
             )}
           </div>
@@ -206,21 +209,38 @@ export default function Kontakt() {
                 </div>
                 <div>
                   <p className="font-medium text-sm mb-1">Reaktionszeit</p>
-                  <p className="text-text-muted text-sm">Innerhalb von 24 Stunden</p>
+                  <p className="text-text-muted text-sm">Meistens innerhalb von 2 Stunden</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-surface rounded-2xl p-6 border border-border">
-              <p className="font-medium text-sm mb-2">FAQ</p>
-              <div className="space-y-3 text-sm">
-                <div>
-                  <p className="text-text-muted font-medium">Was kostet ein Projekt?</p>
-                  <p className="text-text-muted/70">Abhängig vom Umfang. Wir erstellen Ihnen ein individuelles Angebot.</p>
+            {WHATSAPP_NUMBER && (
+              <a
+                href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20ServeFlow.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-surface rounded-2xl p-6 border border-border flex items-start gap-4 no-underline hover:border-green-500/40 transition-colors"
+              >
+                <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center shrink-0" style={{ color: '#22C55E' }}>
+                  <MessageCircle size={18} />
                 </div>
                 <div>
-                  <p className="text-text-muted font-medium">Wie lange dauert die Entwicklung?</p>
-                  <p className="text-text-muted/70">Unsere SaaS-Lösungen sind sofort einsetzbar. Custom-Projekte besprechen wir individuell.</p>
+                  <p className="font-medium text-sm mb-1 text-white">WhatsApp</p>
+                  <p className="text-text-muted text-sm">Direkt schreiben — schnellste Option</p>
+                </div>
+              </a>
+            )}
+
+            <div className="bg-surface rounded-2xl p-6 border border-border">
+              <p className="font-medium text-sm mb-3">Typische Fragen</p>
+              <div className="space-y-3 text-sm">
+                <div>
+                  <p className="text-text-muted font-medium">ServeFlow — was kostet es?</p>
+                  <p className="text-text-muted/70">Ab 29 €/Monat pro Standort, inklusive Updates, Hosting und Support. Ersten 30 Tage kostenlos.</p>
+                </div>
+                <div>
+                  <p className="text-text-muted font-medium">Wie schnell bin ich live?</p>
+                  <p className="text-text-muted/70">Setup dauert ca. 30 Minuten — wir richten alles für Sie ein.</p>
                 </div>
               </div>
             </div>
