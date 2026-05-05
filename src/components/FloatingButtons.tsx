@@ -4,7 +4,7 @@ import { Phone, MessageCircle, X, Calendar } from 'lucide-react';
 const PHONE = '+4917620581564';
 const WHATSAPP_NUM = '4917620581564';
 const WHATSAPP_TEXT = encodeURIComponent('Hallo, ich interessiere mich für DRVN. Können wir kurz sprechen?');
-export const CALENDLY_URL = 'https://calendly.com/alkhalilaoumeur/demo';
+export const CALENDLY_URL = 'https://calendly.com/drvnautomatisations';
 
 declare global {
   interface Window {
