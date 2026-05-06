@@ -11,7 +11,7 @@ export default function Datenschutz() {
       />
       <section className="max-w-3xl mx-auto px-6 py-20">
         <h1 className="text-3xl font-bold mb-2">Datenschutzerklärung</h1>
-        <p className="text-text-muted text-sm mb-10">Stand: April 2026</p>
+        <p className="text-text-muted text-sm mb-10">Stand: Mai 2026</p>
 
         <div className="space-y-10 text-sm text-text-muted leading-relaxed">
 
@@ -133,13 +133,26 @@ export default function Datenschutz() {
             <p>
               Diese Website nutzt Plausible Analytics — eine datenschutzfreundliche
               Analysesoftware ohne Cookies. Plausible speichert keine personenbezogenen Daten,
-              keine IP-Adressen und setzt keine Cookies. Die Analyse-Instanz wird auf unserem
-              eigenen Server in Deutschland betrieben. Es findet kein Transfer von Daten an
-              Dritte statt.
+              keine vollständigen IP-Adressen und setzt keine Cookies. Die Server stehen
+              ausschließlich in der Europäischen Union (Frankfurt am Main, Deutschland).
+              Erfasst werden ausschließlich aggregierte, anonyme Nutzungsstatistiken
+              (Seitenaufrufe, Verweildauer, Geräte-Typ, Land der Anfrage, Referrer).
+              Eine Re-Identifikation einzelner Nutzer ist technisch ausgeschlossen.
+            </p>
+            <p className="mt-2">
+              Anbieter: Plausible Insights OÜ, Västriku tn 2, 50403 Tartu, Estland.
+              Mit dem Anbieter besteht ein Vertrag zur Auftragsverarbeitung gemäß
+              Art. 28 DSGVO. Weitere Informationen zur Datenverarbeitung durch Plausible
+              finden Sie unter{' '}
+              <a href="https://plausible.io/data-policy" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                plausible.io/data-policy
+              </a>.
             </p>
             <p className="mt-2">
               Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der
-              Verbesserung unserer Website). Ein Cookie-Banner ist nicht erforderlich.
+              Verbesserung unserer Website). Da Plausible keine Cookies setzt und keine
+              personenbezogenen Daten verarbeitet, ist ein Cookie-Banner nicht erforderlich
+              (§ 25 Abs. 2 Nr. 2 TTDSG).
             </p>
           </div>
 

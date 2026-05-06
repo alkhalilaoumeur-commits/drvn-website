@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import SEO, { buildFaqSchema, buildHowToSchema, buildRating } from '../components/SEO';
 import { ContainerScroll } from '../components/ContainerScroll';
+import { track } from '../lib/analytics';
 import { CinematicFooter } from '@/components/ui/motion-footer';
 import {
   ArrowRight, CheckCircle2, ChevronDown, ExternalLink,
@@ -977,6 +978,7 @@ export default function ServeFlow() {
                   </ul>
                   <Link
                     to="/kontakt"
+                    onClick={() => track('Pricing CTA Klick', { plan: p.name, preis: p.preis })}
                     className={`w-full py-3 rounded-xl font-semibold text-sm text-center transition-all ${
                       p.highlight
                         ? 'bg-primary hover:bg-primary/90 text-white glow-blue'

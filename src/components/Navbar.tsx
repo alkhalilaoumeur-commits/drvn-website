@@ -4,6 +4,7 @@ import { Menu, X, ChevronDown, Zap, Monitor, Calendar } from 'lucide-react';
 import { openCalendly } from './FloatingButtons';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { NAVIGATION } from '../lib/constants';
+import { track, Events } from '../lib/analytics';
 
 const PRODUKTE = [
   { name: 'ServeFlow', beschreibung: 'Digitales Betriebssystem für Restaurants', href: '/produkte/serveflow', icon: <Zap size={14} style={{ color: '#3B82F6' }} />, status: 'Live' },
@@ -127,6 +128,7 @@ export default function Navbar() {
 
             <a
               href={`tel:+4917620581564`}
+              onClick={() => track(Events.ANRUFEN_KLICK, { source: 'navbar-desktop' })}
               style={{
                 display: 'flex', alignItems: 'center', gap: '6px',
                 padding: '0.5rem 0.9rem', fontSize: '0.82rem', fontWeight: 500,
@@ -142,7 +144,7 @@ export default function Navbar() {
             </a>
 
             <button
-              onClick={openCalendly}
+              onClick={() => { track(Events.DEMO_MODAL_OPENED, { source: 'navbar-desktop' }); openCalendly(); }}
               className="btn-primary"
               style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px', border: 'none', cursor: 'pointer' }}
             >
@@ -177,10 +179,10 @@ export default function Navbar() {
                     <Link key={item.href} to={item.href} style={{ display: 'block', padding: '10px 0', textDecoration: 'none', fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)' }}>{item.label}</Link>
                   ))}
                 </div>
-                <a href="tel:+4917620581564" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '8px', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500 }}>
+                <a href="tel:+4917620581564" onClick={() => track(Events.ANRUFEN_KLICK, { source: 'navbar-mobile' })} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '8px', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500 }}>
                   📞 Direkt anrufen — 0176 20581564
                 </a>
-                <button onClick={() => { openCalendly(); setOffen(false); }} className="btn-primary" style={{ marginTop: '8px', width: '100%', justifyContent: 'center', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <button onClick={() => { track(Events.DEMO_MODAL_OPENED, { source: 'navbar-mobile' }); openCalendly(); setOffen(false); }} className="btn-primary" style={{ marginTop: '8px', width: '100%', justifyContent: 'center', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Calendar size={14} /> Demo buchen
                 </button>
               </div>

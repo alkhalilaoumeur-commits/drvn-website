@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Mail, MapPin, Clock, Send, MessageCircle } from 'lucide-react';
 import { BRAND } from '../lib/constants';
 import SEO from '../components/SEO';
+import { track, Events } from '../lib/analytics';
 
 const WHATSAPP_NUMBER = '4917620581564';
 
@@ -28,6 +29,7 @@ export default function Kontakt() {
         body: JSON.stringify(formular),
       });
       if (!res.ok) throw new Error();
+      track(Events.KONTAKT_FORM_SUBMITTED, { typ: formular.typ });
       setGesendet(true);
     } catch {
       setFehler('Fehler beim Senden. Bitte versuche es erneut oder schreibe uns direkt.');

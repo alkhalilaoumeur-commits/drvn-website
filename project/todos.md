@@ -1,5 +1,5 @@
 # DRVN Website — Todos & Ideen
-_Letzte Aktualisierung: 2026-04-23_
+_Letzte Aktualisierung: 2026-05-06_
 
 ---
 
@@ -341,3 +341,33 @@ _Letzte Aktualisierung: 2026-04-23_
 | 🔵 18 | Lead-Magnet DSGVO-PDF | 2h | Mittel |
 | 🔵 19 | Demo-Buchungs-Kalender | 1h | Mittel |
 | 🔵 20 | Exit-Intent Popup | 2h | Mittel |
+
+---
+
+## Plausible Analytics aktivieren (wenn relevant)
+
+**Status:** Code-seitig komplett fertig, aber **noch nicht aktiviert**. Datenschutzerklaerung wurde bereits angepasst (Sektion 6 verweist auf Plausible Cloud Estland, EU-Frankfurt).
+
+**Eingebaut im Code:**
+- Script-Tag in `index.html` (Plausible Cloud, EU-Frankfurt, cookielos)
+- Helper `src/lib/analytics.ts` mit `track(name, props)`-Funktion
+- Custom Events auf allen CTAs:
+  - `Demo Modal Geoeffnet` (Navbar Desktop/Mobile, Floating)
+  - `Demo Produkt Gewaehlt` (serveflow / webseite / andere)
+  - `Kontaktformular Gesendet` (mit Anfrage-Typ)
+  - `Anrufen Klick` + `WhatsApp Klick` (mit source)
+  - `Pricing CTA Klick` (mit plan + preis)
+
+**Was zur Aktivierung fehlt (15min):**
+- [ ] Plausible-Account anlegen auf https://plausible.io/register (kontakt@drvnautomatisations.com)
+- [ ] Site `drvnautomatisations.com` hinzufuegen, Region **EU** waehlen
+- [ ] AVV runterladen (Settings -> Sites -> Privacy & Compliance -> Data Processing Agreement) -> ablegen unter `~/vault/agency/intern/avv/plausible.pdf`
+- [ ] 5 Goals anlegen (genau diese Namen): `Demo Modal Geoeffnet`, `Demo Produkt Gewaehlt`, `Kontaktformular Gesendet`, `Pricing CTA Klick`, `WhatsApp Klick`
+- [ ] Funnel "Demo-Conversion" anlegen: `/produkte/serveflow` -> `Demo Modal Geoeffnet` -> `Demo Produkt Gewaehlt`
+- [ ] Code deployen (`git add -A && git commit -m "feat: Plausible Analytics + Custom Events" && git push`)
+- [ ] Test: drvnautomatisations.com aufrufen, "Demo buchen" klicken -> innerhalb 30s im Plausible-Dashboard sichtbar
+- [ ] Erst nach 30 Tage Trial: 9 USD/Monat Plan abschliessen oder migrieren auf Self-Hosted (Coolify)
+
+**Achtung:** Code ist aktuell uncommitted. Wenn vorher gepusht wird, sendet die Site Daten an Plausible (silent-drop ohne Account = kein Schaden). Datenschutzerklaerung ist bereits aktualisiert -> deshalb ist Push aktuell unkritisch.
+
+**Wann relevant:** Wenn erste Marketing-Kampagne laeuft / SEO-Traffic spuerbar wird / vor Cold-Outreach-Kampagne.

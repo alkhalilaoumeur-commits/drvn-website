@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Phone, MessageCircle, X, Calendar, ChevronRight } from 'lucide-react';
+import { track, Events } from '../lib/analytics';
 
 const PHONE = '+4917620581564';
 const WHATSAPP_NUM = '4917620581564';
@@ -20,6 +21,7 @@ function openCalendlyFor(product: Product) {
     webseite: 'Webseite / Web-Projekt Demo',
     andere: 'Demo – Anderes Projekt',
   };
+  track(Events.DEMO_PRODUKT_GEWAEHLT, { produkt: product });
   const url = CALENDLY_BASE;
   if (window.Calendly) {
     window.Calendly.initPopupWidget({
@@ -173,7 +175,7 @@ export default function FloatingButtons() {
       }}>
         {/* Demo buchen — primär */}
         <button
-          onClick={() => setModalOpen(true)}
+          onClick={() => { track(Events.DEMO_MODAL_OPENED, { source: 'floating' }); setModalOpen(true); }}
           style={{
             display: 'flex', alignItems: 'center', gap: '7px',
             background: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
@@ -195,6 +197,7 @@ export default function FloatingButtons() {
           target="_blank"
           rel="noopener noreferrer"
           title="WhatsApp"
+          onClick={() => track(Events.WHATSAPP_KLICK, { source: 'floating' })}
           style={{
             width: '38px', height: '38px', borderRadius: '50%',
             background: '#25D366', display: 'flex', alignItems: 'center',
@@ -211,6 +214,7 @@ export default function FloatingButtons() {
         <a
           href={`tel:${PHONE}`}
           title="Direkt anrufen"
+          onClick={() => track(Events.ANRUFEN_KLICK, { source: 'floating' })}
           style={{
             width: '38px', height: '38px', borderRadius: '50%',
             background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
