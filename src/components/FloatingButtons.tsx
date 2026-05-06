@@ -1,146 +1,228 @@
 import { useState, useEffect } from 'react';
-import { Phone, MessageCircle, X, Calendar } from 'lucide-react';
+import { Phone, MessageCircle, X, Calendar, ChevronRight } from 'lucide-react';
 
 const PHONE = '+4917620581564';
 const WHATSAPP_NUM = '4917620581564';
 const WHATSAPP_TEXT = encodeURIComponent('Hallo, ich interessiere mich für DRVN. Können wir kurz sprechen?');
-export const CALENDLY_URL = 'https://calendly.com/drvnautomatisations';
+export const CALENDLY_BASE = 'https://calendly.com/drvnautomatisations';
 
 declare global {
   interface Window {
-    Calendly?: {
-      initPopupWidget: (opts: { url: string }) => void;
-    };
+    Calendly?: { initPopupWidget: (opts: { url: string; prefill?: { customAnswers?: { a1?: string } } }) => void };
   }
 }
 
-export function openCalendly() {
+type Product = 'serveflow' | 'webseite' | 'andere';
+
+function openCalendlyFor(product: Product) {
+  const labels: Record<Product, string> = {
+    serveflow: 'ServeFlow Demo (Restaurant-Software)',
+    webseite: 'Webseite / Web-Projekt Demo',
+    andere: 'Demo – Anderes Projekt',
+  };
+  const url = CALENDLY_BASE;
   if (window.Calendly) {
-    window.Calendly.initPopupWidget({ url: CALENDLY_URL });
+    window.Calendly.initPopupWidget({
+      url,
+      prefill: { customAnswers: { a1: labels[product] } },
+    });
   } else {
-    window.open(CALENDLY_URL, '_blank');
+    window.open(url, '_blank');
   }
 }
 
+// Globaler Trigger für Hero-Button etc.
+let _openModal: (() => void) | null = null;
+export function openDemoModal() { _openModal?.(); }
+export function openCalendly() { _openModal?.(); }
+
+/* ── Produkt-Auswahl-Modal ── */
+function ProductModal({ onClose }: { onClose: () => void }) {
+  const PRODUCTS = [
+    {
+      id: 'serveflow' as Product,
+      icon: '🍽️',
+      title: 'ServeFlow',
+      sub: 'Restaurant-Software — digital bestellen, reservieren, verwalten',
+      badge: 'Live ab 49 €/Mo',
+      badgeColor: '#10b981',
+    },
+    {
+      id: 'webseite' as Product,
+      icon: '🌐',
+      title: 'Webseite / Web-Projekt',
+      sub: 'Professionelle Unternehmenswebseite, Landingpage oder Online-Auftritt',
+      badge: 'Individuell',
+      badgeColor: '#3b82f6',
+    },
+    {
+      id: 'andere' as Product,
+      icon: '📌',
+      title: 'Anderes Projekt',
+      sub: 'Andere Software-Lösung — du beschreibst kurz dein Anliegen im Calendly',
+      badge: 'Auf Anfrage',
+      badgeColor: '#f59e0b',
+    },
+  ];
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 99999,
+        background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '16px',
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: '#0c1827', border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: '18px', padding: '28px', width: '100%', maxWidth: '480px',
+          boxShadow: '0 32px 80px rgba(0,0,0,0.7)',
+        }}
+      >
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+          <div>
+            <div style={{ fontSize: '18px', fontWeight: 800, color: '#f1f5f9', marginBottom: '4px' }}>
+              📅 Demo buchen
+            </div>
+            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.5 }}>
+              Wähle für welches Produkt du eine Demo möchtest.<br />
+              30 Minuten, kostenlos, kein Kleingedrucktes.
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: '8px', width: '32px', height: '32px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginLeft: '12px' }}
+          >
+            <X size={16} color="rgba(255,255,255,0.6)" />
+          </button>
+        </div>
+
+        {/* Produkt-Cards */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
+          {PRODUCTS.map(p => (
+            <button
+              key={p.id}
+              onClick={() => { onClose(); setTimeout(() => openCalendlyFor(p.id), 100); }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '14px',
+                background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '12px', padding: '14px 16px', cursor: 'pointer',
+                transition: 'all 0.15s', textAlign: 'left', width: '100%',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(59,130,246,0.08)'; e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
+            >
+              <div style={{ fontSize: '26px', flexShrink: 0 }}>{p.icon}</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
+                  <span style={{ fontSize: '14px', fontWeight: 700, color: '#f1f5f9' }}>{p.title}</span>
+                  <span style={{ fontSize: '10px', fontWeight: 700, padding: '1px 7px', borderRadius: '10px', background: `${p.badgeColor}20`, color: p.badgeColor, border: `1px solid ${p.badgeColor}40` }}>{p.badge}</span>
+                </div>
+                <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.4 }}>{p.sub}</div>
+              </div>
+              <ChevronRight size={16} color="rgba(255,255,255,0.3)" style={{ flexShrink: 0 }} />
+            </button>
+          ))}
+        </div>
+
+        {/* Trennlinie + Hinweis */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '14px' }}>
+          <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', lineHeight: 1.6 }}>
+            💡 <strong style={{ color: 'rgba(255,255,255,0.5)' }}>Für individuelle Anfragen</strong> (maßgeschneiderte Projekte, Sonderlösungen oder spezifische Fragen) nutze stattdessen das{' '}
+            <a href="/kontakt" style={{ color: '#3b82f6', textDecoration: 'none' }} onClick={onClose}>Kontaktformular</a> — wir melden uns innerhalb von 24 Stunden.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Floating Bar (links, immer sichtbar) ── */
 export default function FloatingButtons() {
   const [visible, setVisible] = useState(false);
-  const [expanded, setExpanded] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 1500);
-    // Tooltip nach 3s kurz anzeigen
-    const t2 = setTimeout(() => { setShowTooltip(true); }, 3000);
-    const t3 = setTimeout(() => { setShowTooltip(false); }, 6000);
-    return () => { clearTimeout(timer); clearTimeout(t2); clearTimeout(t3); };
+    _openModal = () => setModalOpen(true);
+    const t = setTimeout(() => setVisible(true), 800);
+    return () => { clearTimeout(t); _openModal = null; };
   }, []);
 
   if (!visible) return null;
 
-  const btnBase: React.CSSProperties = {
-    width: '48px', height: '48px', borderRadius: '50%', border: 'none',
-    cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    boxShadow: '0 4px 16px rgba(0,0,0,0.4)', transition: 'all 0.2s', flexShrink: 0,
-  };
-
   return (
-    <div style={{
-      position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999,
-      display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px',
-    }}>
-      {/* Expanded sub-buttons */}
-      {expanded && (
-        <>
-          {/* Calendly */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{
-              background: 'rgba(10,10,11,0.92)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600,
-              padding: '5px 12px', borderRadius: '20px', whiteSpace: 'nowrap',
-              border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)',
-            }}>Demo buchen</span>
-            <button
-              onClick={() => { openCalendly(); setExpanded(false); }}
-              style={{ ...btnBase, background: 'linear-gradient(135deg, #3b82f6, #06b6d4)' }}
-              title="Demo buchen"
-            >
-              <Calendar size={20} color="white" />
-            </button>
-          </div>
+    <>
+      {/* Modal */}
+      {modalOpen && <ProductModal onClose={() => setModalOpen(false)} />}
 
-          {/* WhatsApp */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{
-              background: 'rgba(10,10,11,0.92)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600,
-              padding: '5px 12px', borderRadius: '20px', whiteSpace: 'nowrap',
-              border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)',
-            }}>WhatsApp schreiben</span>
-            <a
-              href={`https://wa.me/${WHATSAPP_NUM}?text=${WHATSAPP_TEXT}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setExpanded(false)}
-              style={{ ...btnBase, background: '#25D366', textDecoration: 'none' }}
-              title="WhatsApp"
-            >
-              <MessageCircle size={20} color="white" />
-            </a>
-          </div>
+      {/* Floating Bar — LINKS */}
+      <div style={{
+        position: 'fixed', bottom: '24px', left: '24px', zIndex: 9998,
+        display: 'flex', alignItems: 'center', gap: '8px',
+        background: 'rgba(12, 24, 39, 0.95)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        borderRadius: '50px',
+        padding: '8px 8px 8px 16px',
+        backdropFilter: 'blur(16px)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+      }}>
+        {/* Demo buchen — primär */}
+        <button
+          onClick={() => setModalOpen(true)}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '7px',
+            background: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
+            border: 'none', borderRadius: '40px',
+            padding: '9px 16px', cursor: 'pointer',
+            fontSize: '13px', fontWeight: 700, color: 'white',
+            whiteSpace: 'nowrap', transition: 'opacity 0.15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.opacity = '0.88'; }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
+        >
+          <Calendar size={15} />
+          Demo buchen
+        </button>
 
-          {/* Anruf */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{
-              background: 'rgba(10,10,11,0.92)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600,
-              padding: '5px 12px', borderRadius: '20px', whiteSpace: 'nowrap',
-              border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)',
-            }}>Direkt anrufen</span>
-            <a
-              href={`tel:${PHONE}`}
-              onClick={() => setExpanded(false)}
-              style={{ ...btnBase, background: '#10b981', textDecoration: 'none' }}
-              title="Anrufen"
-            >
-              <Phone size={20} color="white" />
-            </a>
-          </div>
-        </>
-      )}
+        {/* WhatsApp */}
+        <a
+          href={`https://wa.me/${WHATSAPP_NUM}?text=${WHATSAPP_TEXT}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="WhatsApp"
+          style={{
+            width: '38px', height: '38px', borderRadius: '50%',
+            background: '#25D366', display: 'flex', alignItems: 'center',
+            justifyContent: 'center', textDecoration: 'none', flexShrink: 0,
+            transition: 'opacity 0.15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
+        >
+          <MessageCircle size={17} color="white" />
+        </a>
 
-      {/* Tooltip */}
-      {showTooltip && !expanded && (
-        <div style={{
-          background: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
-          color: 'white', fontSize: '12px', fontWeight: 700,
-          padding: '6px 14px', borderRadius: '20px', whiteSpace: 'nowrap',
-          boxShadow: '0 4px 16px rgba(59,130,246,0.4)',
-          animation: 'fadeIn 0.3s ease',
-        }}>
-          Demo buchen — kostenlos 📅
-        </div>
-      )}
-
-      {/* Main toggle button */}
-      <button
-        onClick={() => setExpanded(!expanded)}
-        style={{
-          ...btnBase,
-          width: '56px', height: '56px',
-          background: expanded
-            ? 'rgba(30,30,35,0.95)'
-            : 'linear-gradient(135deg, #3b82f6, #06b6d4)',
-          border: expanded ? '1px solid rgba(255,255,255,0.12)' : 'none',
-          transform: expanded ? 'rotate(45deg)' : 'rotate(0deg)',
-          boxShadow: expanded
-            ? '0 4px 16px rgba(0,0,0,0.4)'
-            : '0 6px 24px rgba(59,130,246,0.45)',
-        }}
-        title={expanded ? 'Schließen' : 'Kontakt / Demo buchen'}
-        aria-label="Kontakt öffnen"
-      >
-        {expanded
-          ? <X size={22} color="white" />
-          : <MessageCircle size={22} color="white" />
-        }
-      </button>
-    </div>
+        {/* Anrufen */}
+        <a
+          href={`tel:${PHONE}`}
+          title="Direkt anrufen"
+          style={{
+            width: '38px', height: '38px', borderRadius: '50%',
+            background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            textDecoration: 'none', flexShrink: 0, transition: 'all 0.15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.14)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
+        >
+          <Phone size={16} color="rgba(255,255,255,0.8)" />
+        </a>
+      </div>
+    </>
   );
 }

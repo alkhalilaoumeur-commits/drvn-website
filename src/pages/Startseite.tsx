@@ -608,9 +608,9 @@ export default function Startseite() {
             <Link to="/produkte/serveflow" className="btn-primary" style={{ cursor: 'pointer' }}>
               Produkte entdecken <ArrowRight size={15} />
             </Link>
-            <Link to="/kontakt" className="btn-ghost" style={{ cursor: 'pointer' }}>
-              30-Min-Demo buchen
-            </Link>
+            <button onClick={() => import('../components/FloatingButtons').then(m => m.openDemoModal())} className="btn-ghost" style={{ cursor: 'pointer', border: 'none', fontFamily: 'var(--font-sans)' }}>
+              Demo buchen
+            </button>
           </motion.div>
 
           <motion.div
@@ -1029,11 +1029,15 @@ export default function Startseite() {
             Noch wenige Demo-Termine im Mai frei
           </motion.p>
           <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'center', gap: '10px', flexWrap: 'wrap' }}>
-            <Link to="/kontakt" className="btn-primary" style={{ cursor: 'pointer' }}>
-              Projekt anfragen <ArrowRight size={15} />
-            </Link>
-            <Link to="/produkte/serveflow" className="btn-ghost" style={{ cursor: 'pointer' }}>
-              ServeFlow ansehen
+            <button
+              onClick={() => import('../components/FloatingButtons').then(m => m.openDemoModal())}
+              className="btn-primary"
+              style={{ cursor: 'pointer', border: 'none', fontFamily: 'var(--font-sans)', display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              Demo buchen <ArrowRight size={15} />
+            </button>
+            <Link to="/kontakt" className="btn-ghost" style={{ cursor: 'pointer' }}>
+              Individuelle Anfrage
             </Link>
           </motion.div>
           <motion.div variants={fadeUp} style={{ marginTop: '64px', paddingTop: '40px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'center', gap: '32px', flexWrap: 'wrap' }}>
@@ -1048,33 +1052,6 @@ export default function Startseite() {
       </Section>
       </div>
 
-      {/* ============================================
-          FLOATING CTA BUTTON
-      ============================================ */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        style={{ position: 'fixed', bottom: '28px', right: '28px', zIndex: 100 }}
-      >
-        <Link
-          to="/kontakt"
-          style={{
-            display: 'flex', alignItems: 'center', gap: '10px',
-            padding: '13px 20px',
-            background: 'linear-gradient(135deg, #3B82F6, #2563EB)',
-            borderRadius: '14px',
-            textDecoration: 'none',
-            boxShadow: '0 8px 32px rgba(59,130,246,0.4), 0 2px 8px rgba(0,0,0,0.4)',
-            border: '1px solid rgba(255,255,255,0.15)',
-          }}
-        >
-          <MessageCircle size={18} style={{ color: '#fff' }} />
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.85rem', fontWeight: 600, color: '#fff', letterSpacing: '-0.01em' }}>
-            Demo anfragen
-          </span>
-        </Link>
-      </motion.div>
     </div>
   );
 }
