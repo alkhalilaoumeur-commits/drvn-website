@@ -4,7 +4,7 @@ import { track, Events } from '../lib/analytics';
 
 const PHONE = '+4917620581564';
 const WHATSAPP_NUM = '4917620581564';
-const WHATSAPP_TEXT = encodeURIComponent('Hallo, ich interessiere mich für DRVN. Können wir kurz sprechen?');
+const WHATSAPP_TEXT = encodeURIComponent('Hallo, ich interessiere mich für drvn. Können wir kurz sprechen?');
 export const CALENDLY_BASE = 'https://calendly.com/drvnautomatisations';
 
 declare global {
@@ -46,16 +46,16 @@ function ProductModal({ onClose }: { onClose: () => void }) {
       icon: '🍽️',
       title: 'ServeFlow',
       sub: 'Restaurant-Software — digital bestellen, reservieren, verwalten',
-      badge: 'Live ab 49 €/Mo',
-      badgeColor: '#10b981',
+      badge: 'Ab 29 €/Mo',
+      badgeColor: '#FF4D00',
     },
     {
       id: 'webseite' as Product,
       icon: '🌐',
       title: 'Webseite / Web-Projekt',
-      sub: 'Professionelle Unternehmenswebseite, Landingpage oder Online-Auftritt',
+      sub: 'Professionelle Unternehmenswebseite, Landingpage oder Web-App',
       badge: 'Individuell',
-      badgeColor: '#3b82f6',
+      badgeColor: '#FF7133',
     },
     {
       id: 'andere' as Product,
@@ -63,7 +63,7 @@ function ProductModal({ onClose }: { onClose: () => void }) {
       title: 'Anderes Projekt',
       sub: 'Andere Software-Lösung — du beschreibst kurz dein Anliegen im Calendly',
       badge: 'Auf Anfrage',
-      badgeColor: '#f59e0b',
+      badgeColor: '#FF2461',
     },
   ];
 
@@ -80,9 +80,9 @@ function ProductModal({ onClose }: { onClose: () => void }) {
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          background: '#0c1827', border: '1px solid rgba(255,255,255,0.1)',
+          background: 'var(--surface-high)', border: '1px solid var(--border-high)',
           borderRadius: '18px', padding: '28px', width: '100%', maxWidth: '480px',
-          boxShadow: '0 32px 80px rgba(0,0,0,0.7)',
+          boxShadow: '0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,77,0,0.05)',
         }}
       >
         {/* Header */}
@@ -116,7 +116,7 @@ function ProductModal({ onClose }: { onClose: () => void }) {
                 borderRadius: '12px', padding: '14px 16px', cursor: 'pointer',
                 transition: 'all 0.15s', textAlign: 'left', width: '100%',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(59,130,246,0.08)'; e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'; }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,77,0,0.08)'; e.currentTarget.style.borderColor = 'rgba(255,77,0,0.3)'; }}
               onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
             >
               <div style={{ fontSize: '26px', flexShrink: 0 }}>{p.icon}</div>
@@ -136,7 +136,7 @@ function ProductModal({ onClose }: { onClose: () => void }) {
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '14px' }}>
           <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', lineHeight: 1.6 }}>
             💡 <strong style={{ color: 'rgba(255,255,255,0.5)' }}>Für individuelle Anfragen</strong> (maßgeschneiderte Projekte, Sonderlösungen oder spezifische Fragen) nutze stattdessen das{' '}
-            <a href="/kontakt" style={{ color: '#3b82f6', textDecoration: 'none' }} onClick={onClose}>Kontaktformular</a> — wir melden uns innerhalb von 24 Stunden.
+            <a href="/kontakt" style={{ color: '#FF4D00', textDecoration: 'none' }} onClick={onClose}>Kontaktformular</a> — wir melden uns innerhalb von 48 Stunden.
           </div>
         </div>
       </div>
@@ -166,26 +166,27 @@ export default function FloatingButtons() {
       <div style={{
         position: 'fixed', bottom: '24px', left: '24px', zIndex: 9998,
         display: 'flex', alignItems: 'center', gap: '8px',
-        background: 'rgba(12, 24, 39, 0.95)',
-        border: '1px solid rgba(255,255,255,0.1)',
+        background: 'rgba(28, 26, 23, 0.92)',
+        border: '1px solid var(--border-high)',
         borderRadius: '50px',
         padding: '8px 8px 8px 16px',
         backdropFilter: 'blur(16px)',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 24px rgba(255,77,0,0.08)',
       }}>
         {/* Demo buchen — primär */}
         <button
           onClick={() => { track(Events.DEMO_MODAL_OPENED, { source: 'floating' }); setModalOpen(true); }}
           style={{
             display: 'flex', alignItems: 'center', gap: '7px',
-            background: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
+            background: 'linear-gradient(135deg, #FF4D00, #FF2461)',
             border: 'none', borderRadius: '40px',
             padding: '9px 16px', cursor: 'pointer',
-            fontSize: '13px', fontWeight: 700, color: 'white',
-            whiteSpace: 'nowrap', transition: 'opacity 0.15s',
+            fontSize: '13px', fontWeight: 600, color: 'white',
+            whiteSpace: 'nowrap', transition: 'opacity 0.15s, box-shadow 0.2s',
+            fontFamily: 'var(--font-sans)',
           }}
-          onMouseEnter={e => { e.currentTarget.style.opacity = '0.88'; }}
-          onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
+          onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 24px rgba(255,77,0,0.4)'; }}
+          onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; }}
         >
           <Calendar size={15} />
           Demo buchen

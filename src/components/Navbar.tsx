@@ -1,195 +1,174 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Zap, Monitor, Calendar } from 'lucide-react';
-import { openCalendly } from './FloatingButtons';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { NAVIGATION } from '../lib/constants';
-import { track, Events } from '../lib/analytics';
-
-const PRODUKTE = [
-  { name: 'ServeFlow', beschreibung: 'Digitales Betriebssystem für Restaurants', href: '/produkte/serveflow', icon: <Zap size={14} style={{ color: '#3B82F6' }} />, status: 'Live' },
-  { name: 'Webseiten', beschreibung: 'Professionelle Webseiten & Landingpages', href: '/leistungen/webseiten', icon: <Monitor size={14} style={{ color: '#06B6D4' }} />, status: 'Live' },
-];
 
 export default function Navbar() {
   const [offen, setOffen] = useState(false);
-  const [produkteOffen, setProdukteOffen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll();
-  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
-    const close = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) setProdukteOffen(false);
-    };
-    document.addEventListener('mousedown', close);
-    return () => document.removeEventListener('mousedown', close);
-  }, []);
+  useEffect(() => { setOffen(false); }, [pathname]);
 
-  useEffect(() => { setProdukteOffen(false); setOffen(false); }, [location.pathname]);
+  const isActive = (href: string) => {
+    if (href === '/serveflow') return pathname === '/serveflow' || pathname === '/produkte/serveflow';
+    if (href === '/web') return pathname === '/web' || pathname === '/leistungen/webseiten' || pathname === '/leistungen';
+    return pathname === href;
+  };
 
   return (
-    <>
-      <motion.div className="scroll-progress" style={{ scaleX }} />
-
-      <motion.nav
-        initial={{ y: -12, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    <motion.nav
+      initial={{ y: -16, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+        background: scrolled ? 'rgba(10, 9, 6, 0.78)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px) saturate(1.6)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(1.6)' : 'none',
+        borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
+        transition: 'background 0.3s, border-color 0.3s, backdrop-filter 0.3s, padding 0.3s',
+      }}
+    >
+      <div
+        className="container-x"
         style={{
-          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-          background: scrolled ? 'rgba(10,10,11,0.72)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(16px) saturate(1.5)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(16px) saturate(1.5)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
-          transition: 'background 0.3s, border-color 0.3s, backdrop-filter 0.3s',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          height: scrolled ? 60 : 72,
+          transition: 'height 0.3s ease',
         }}
       >
-        <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 32px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        {/* Logo */}
+        <Link
+          to="/"
+          aria-label="drvn Startseite"
+          style={{
+            display: 'inline-flex', alignItems: 'baseline', gap: 0, textDecoration: 'none',
+            fontFamily: 'var(--font-display)', fontSize: '1.45rem', fontWeight: 800,
+            letterSpacing: '-0.04em', lineHeight: 1,
+          }}
+        >
+          <span className="wordmark-gradient">drvn</span>
+          <span style={{ color: 'var(--accent)', fontSize: '0.55em', marginLeft: 2 }}>●</span>
+        </Link>
 
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '2px', textDecoration: 'none', fontFamily: 'var(--font-sans)', fontSize: '1.05rem', fontWeight: 700, letterSpacing: '0.02em', color: '#FAFAFA' }}>
-            DRVN<span style={{ color: '#3B82F6' }}>.</span>
-          </Link>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }} className="hidden md:flex">
-            <div ref={dropdownRef} style={{ position: 'relative' }}>
-              <button
-                onClick={() => setProdukteOffen(!produkteOffen)}
-                style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem', fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', color: location.pathname.startsWith('/produkte') ? '#FAFAFA' : 'rgba(255,255,255,0.58)', transition: 'color 0.15s', padding: '8px 14px', borderRadius: '6px' }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#FAFAFA'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = location.pathname.startsWith('/produkte') ? '#FAFAFA' : 'rgba(255,255,255,0.58)'; e.currentTarget.style.background = 'transparent'; }}
-              >
-                Produkte
-                <motion.span animate={{ rotate: produkteOffen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                  <ChevronDown size={13} />
-                </motion.span>
-              </button>
-
-              <AnimatePresence>
-                {produkteOffen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 6, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
-                    transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ position: 'absolute', top: 'calc(100% + 10px)', left: '50%', transform: 'translateX(-50%)', width: '320px', background: 'rgba(17,17,19,0.95)', backdropFilter: 'blur(24px)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', boxShadow: '0 24px 64px rgba(0,0,0,0.6)', overflow: 'hidden' }}
-                  >
-                    <div style={{ padding: '6px' }}>
-                      {PRODUKTE.map((p) => (
-                        <Link
-                          key={p.href}
-                          to={p.href}
-                          style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', borderRadius: '6px', textDecoration: 'none', transition: 'background 0.12s' }}
-                          onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
-                          onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-                        >
-                          <div style={{ width: '32px', height: '32px', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{p.icon}</div>
-                          <div style={{ flex: 1 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                              <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem', fontWeight: 500, color: '#FAFAFA', letterSpacing: '-0.011em' }}>{p.name}</span>
-                              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.56rem', fontWeight: 500, padding: '1px 5px', borderRadius: '3px', background: 'rgba(34,197,94,0.1)', color: '#22C55E', border: '1px solid rgba(34,197,94,0.25)', letterSpacing: '0.05em' }}>LIVE</span>
-                            </div>
-                            <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', margin: 0, marginTop: '2px' }}>{p.beschreibung}</p>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '10px 18px' }}>
-                      <Link to="/branchen" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)', textDecoration: 'none', letterSpacing: '0.02em' }}>
-                        Alle Branchen ansehen →
-                      </Link>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {NAVIGATION.filter((i) => i.href !== '/').map((item) => (
+        {/* Desktop nav */}
+        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 4 }}>
+          {NAVIGATION.map((item) => {
+            const active = isActive(item.href);
+            return (
               <Link
                 key={item.href}
                 to={item.href}
-                style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem', fontWeight: 500, textDecoration: 'none', color: location.pathname === item.href ? '#FAFAFA' : 'rgba(255,255,255,0.58)', transition: 'color 0.15s, background 0.15s', padding: '8px 14px', borderRadius: '6px' }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#FAFAFA'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = location.pathname === item.href ? '#FAFAFA' : 'rgba(255,255,255,0.58)'; e.currentTarget.style.background = 'transparent'; }}
+                style={{
+                  position: 'relative',
+                  fontFamily: 'var(--font-sans)', fontSize: '0.92rem', fontWeight: 500,
+                  textDecoration: 'none',
+                  color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  padding: '8px 14px', borderRadius: 8,
+                  transition: 'color 0.18s, background 0.18s',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-primary)'; }}
+                onMouseLeave={(e) => { if (!active) e.currentTarget.style.color = 'var(--text-secondary)'; }}
               >
                 {item.label}
+                {active && (
+                  <motion.span
+                    layoutId="nav-dot"
+                    style={{
+                      position: 'absolute',
+                      bottom: -2, left: '50%', transform: 'translateX(-50%)',
+                      width: 4, height: 4, borderRadius: 999,
+                      background: 'var(--accent)',
+                    }}
+                  />
+                )}
               </Link>
-            ))}
+            );
+          })}
 
-            <div style={{ width: '12px' }} />
+          <div style={{ width: 12 }} />
 
-            <a
-              href={`tel:+4917620581564`}
-              onClick={() => track(Events.ANRUFEN_KLICK, { source: 'navbar-desktop' })}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                padding: '0.5rem 0.9rem', fontSize: '0.82rem', fontWeight: 500,
-                color: 'rgba(255,255,255,0.65)', textDecoration: 'none',
-                border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
-                transition: 'all 0.15s',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
-              title="Direkt anrufen"
-            >
-              📞 Anrufen
-            </a>
-
-            <button
-              onClick={() => { track(Events.DEMO_MODAL_OPENED, { source: 'navbar-desktop' }); openCalendly(); }}
-              className="btn-primary"
-              style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px', border: 'none', cursor: 'pointer' }}
-            >
-              <Calendar size={14} />
-              Demo buchen
-            </button>
-          </div>
-
-          <button onClick={() => setOffen(!offen)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#FAFAFA', display: 'none' }} className="md:!hidden !block">
-            {offen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          <Link
+            to="/kontakt"
+            className="btn-primary"
+            style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}
+          >
+            Kontakt
+            <ArrowUpRight size={14} />
+          </Link>
         </div>
 
-        <AnimatePresence>
-          {offen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.22 }}
-              style={{ overflow: 'hidden', background: 'rgba(10,10,11,0.95)', backdropFilter: 'blur(16px)', borderTop: '1px solid rgba(255,255,255,0.05)' }}
-            >
-              <div style={{ padding: '12px 24px 20px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                {PRODUKTE.map((p) => (
-                  <Link key={p.href} to={p.href} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 0', textDecoration: 'none', color: 'rgba(255,255,255,0.75)', fontFamily: 'var(--font-sans)', fontSize: '0.9rem', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                    {p.name}
-                    <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.58rem', padding: '1px 6px', borderRadius: '3px', background: 'rgba(34,197,94,0.1)', color: '#22C55E', border: '1px solid rgba(34,197,94,0.25)' }}>LIVE</span>
-                  </Link>
-                ))}
-                <div style={{ marginTop: '8px' }}>
-                  {NAVIGATION.filter((i) => i.href !== '/').map((item) => (
-                    <Link key={item.href} to={item.href} style={{ display: 'block', padding: '10px 0', textDecoration: 'none', fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)' }}>{item.label}</Link>
-                  ))}
-                </div>
-                <a href="tel:+4917620581564" onClick={() => track(Events.ANRUFEN_KLICK, { source: 'navbar-mobile' })} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '8px', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500 }}>
-                  📞 Direkt anrufen — 0176 20581564
-                </a>
-                <button onClick={() => { track(Events.DEMO_MODAL_OPENED, { source: 'navbar-mobile' }); openCalendly(); setOffen(false); }} className="btn-primary" style={{ marginTop: '8px', width: '100%', justifyContent: 'center', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Calendar size={14} /> Demo buchen
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.nav>
-    </>
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setOffen((s) => !s)}
+          aria-label={offen ? 'Menü schließen' : 'Menü öffnen'}
+          className="md:!hidden"
+          style={{
+            display: 'inline-flex',
+            background: 'transparent', border: '1px solid var(--border-high)',
+            cursor: 'pointer', color: 'var(--text-primary)',
+            padding: 9, borderRadius: 8,
+          }}
+        >
+          {offen ? <X size={18} /> : <Menu size={18} />}
+        </button>
+      </div>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {offen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              overflow: 'hidden',
+              background: 'rgba(10, 9, 6, 0.96)',
+              backdropFilter: 'blur(20px)',
+              borderTop: '1px solid var(--border)',
+            }}
+          >
+            <div className="container-x" style={{ padding: '20px 1.25rem 28px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {NAVIGATION.map((item) => (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '14px 0',
+                    textDecoration: 'none',
+                    color: isActive(item.href) ? 'var(--accent)' : 'var(--text-primary)',
+                    fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700,
+                    letterSpacing: '-0.02em',
+                    borderBottom: '1px solid var(--border)',
+                  }}
+                >
+                  {item.label}
+                  <ArrowUpRight size={20} style={{ color: 'var(--text-muted)' }} />
+                </Link>
+              ))}
+              <Link
+                to="/kontakt"
+                className="btn-primary"
+                style={{ marginTop: 16, width: '100%', justifyContent: 'center' }}
+              >
+                Kontakt aufnehmen
+                <ArrowUpRight size={16} />
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 }
