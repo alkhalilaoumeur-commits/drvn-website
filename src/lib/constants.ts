@@ -17,24 +17,43 @@ export const NAV_LINKS = [
 export const WERKBANK = [
   {
     title:    'ServeFlow',
-    tag:      'SaaS Produkt',
+    tag:      'SaaS · Gastronomie',
     href:     '/serveflow',
-    text:     'QR-Bestellung, Reservierungen und Echtzeit-Dashboard für Restaurants im DACH-Raum.',
-    meta:     'Seit 2025 · 1.0 · Live',
+    text:     'QR-Bestellung, Online-Reservierungen und Echtzeit-Dashboard für Restaurants im DACH-Raum.',
+    meta:     'Live seit Mai 2025 · Ab 29 €/Mo',
+    badge:    'Live',
   },
   {
-    title:    'Web',
-    tag:      'Auftrag',
+    title:    'BookBase',
+    tag:      'SaaS · Beauty & Service',
     href:     '/web',
-    text:     'Websites und Webapplikationen für kleine und mittelständische Unternehmen. Konzept, Design und Code aus einer Hand.',
-    meta:     'Ab 4.500 € · 4–8 Wochen',
+    text:     'Buchungssystem für Salons, Studios und Dienstleister. Online-Termine, Kundenkartei, Abrechnung.',
+    meta:     'In Entwicklung · 2026',
+    badge:    'Beta',
+  },
+  {
+    title:    'Webseiten',
+    tag:      'Agentur · Auftrag',
+    href:     '/web',
+    text:     'Professionelle Unternehmenswebseiten und Landingpages — schnell, modern, DSGVO-konform.',
+    meta:     'Ab 2.990 € · 2–5 Wochen',
+    badge:    null,
+  },
+  {
+    title:    'Automatisierungen',
+    tag:      'Service · n8n',
+    href:     '/ventures',
+    text:     'WhatsApp-Bots, E-Mail-Sequenzen, CRM-Integrationen. Manuelle Prozesse werden zu Workflows.',
+    meta:     'Ab 790 € · Auf Anfrage',
+    badge:    null,
   },
   {
     title:    'Ventures',
-    tag:      'Selektiv',
+    tag:      'Selektiv · Auftrag',
     href:     '/ventures',
-    text:     'Individuelle Softwareprojekte und längerfristige Kooperationen. Wir nehmen drei neue Projekte pro Jahr an.',
-    meta:     '3 / Jahr · Anfrage erforderlich',
+    text:     'Individuelle Softwareprojekte und längerfristige Partnerschaften. Maximal drei pro Jahr.',
+    meta:     'Auf Anfrage · 3 / Jahr',
+    badge:    null,
   },
 ] as const
 
@@ -55,7 +74,7 @@ export const JOURNAL_ENTRIES = [
     datum:    '2026-03-08',
     tag:      'ServeFlow',
     title:    'Reservierungen über QR-Code: Pilotphase abgeschlossen',
-    lead:     'Nach zwei Monaten Pilotbetrieb in fünf Restaurants ziehen wir Bilanz. Was funktioniert hat, was nicht, und was als nächstes kommt.',
+    lead:     'Nach zwei Monaten Pilotbetrieb in fünf Restaurants ziehen wir Bilanz. Was funktioniert, was nicht, und was als nächstes kommt.',
   },
   {
     datum:    '2026-02-14',
@@ -101,5 +120,16 @@ export const SERVEFLOW_FAQ = [
   {
     frage: 'Was kostet eine individuelle Anpassung?',
     antwort: 'Kleinere Anpassungen (Farben, Logo) sind inklusive. Tiefgreifende Custom-Entwicklung wird separat nach Aufwand berechnet — fragt vorher an.',
+  },
+] as const
+
+export const WEB_REFERENZEN = [
+  {
+    name:     'Quan An',
+    typ:      'Restaurant-Webseite',
+    url:      'https://drvnautomatisations.com/beispiel/quan-an',
+    text:     'Moderne Restaurant-Website mit integrierten QR-Reservierungen über ServeFlow. Schnell, mobil-optimiert, DSGVO-konform.',
+    stack:    'React · ServeFlow API · Tailwind',
+    status:   'Live',
   },
 ] as const
