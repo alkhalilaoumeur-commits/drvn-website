@@ -5,18 +5,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Surfaces
-        paper:   '#FAFAF7',
-        ink:     '#0E0E0C',
+        // Dark theme
+        bg:         '#09090B',
+        surface:    '#111113',
+        elevated:   '#18181B',
+        border:     '#27272A',
+        borderHigh: '#3F3F46',
+
         // Text
-        primary:   '#0E0E0C',
-        secondary: '#5C5B57',
-        muted:     '#9B9A95',
-        hairline:  '#E5E3DD',
-        // Single accent — use max 5× per page
+        primary:   '#FAFAFA',
+        secondary: '#A1A1AA',
+        muted:     '#52525B',
+
+        // Accent — Vermillion, used sparingly
         signal:  '#E84A1C',
-        // Selective surface
-        surface: '#F2EFE8',
+        signalHover: '#FF6133',
+
+        // Semantic
+        success: '#22C55E',
       },
       fontFamily: {
         sans:  ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],

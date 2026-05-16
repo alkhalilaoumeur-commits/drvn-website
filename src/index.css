@@ -3,24 +3,21 @@
 @tailwind utilities;
 
 /* ============================================================
-   drvn — Editorial Minimal
-   Paper × Ink. Restraint. No shadows. No gradients.
+   drvn — Dark Professional
+   Tief, warm-dunkel, klar strukturiert. Kein Gimmick.
    ============================================================ */
 
 @layer base {
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
+  *, *::before, *::after { box-sizing: border-box; }
 
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
-    background-color: #FAFAF7;
+    background-color: #09090B;
   }
 
   body {
-    @apply bg-paper text-ink font-sans;
-    font-feature-settings: 'ss01', 'cv01', 'cv11';
+    @apply bg-bg text-primary font-sans;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.55;
@@ -28,14 +25,14 @@
   }
 
   ::selection {
-    background: rgba(232, 74, 28, 0.15);
-    color: #0E0E0C;
+    background: rgba(232, 74, 28, 0.3);
+    color: #FAFAFA;
   }
 
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #E5E3DD; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #9B9A95; }
+  ::-webkit-scrollbar-track { background: #09090B; }
+  ::-webkit-scrollbar-thumb { background: #27272A; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #3F3F46; }
 
   :focus-visible {
     outline: 2px solid #E84A1C;
@@ -45,24 +42,35 @@
 }
 
 @layer components {
-  /* Input — hairline style, no rounds, no shadow */
-  .input-editorial {
-    @apply w-full bg-transparent border-0 border-b border-hairline
-           py-3 text-base text-ink placeholder-muted
-           focus:outline-none focus:border-ink
+  /* ── Hero Glow — radial ambient in background ── */
+  .hero-ambient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232,74,28,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 60%, rgba(232,74,28,0.06) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  /* ── Subtle Grid Pattern ── */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 72px 72px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 80%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 80%);
+    pointer-events: none;
+  }
+
+  /* ── Input — dark style ── */
+  .input-dark {
+    @apply w-full bg-surface border border-border rounded-lg
+           py-3 px-4 text-base text-primary placeholder-muted
+           focus:outline-none focus:border-signal focus:ring-1 focus:ring-signal/30
            transition-colors;
     font-family: theme('fontFamily.sans');
-  }
-
-  .input-editorial::placeholder {
-    @apply text-muted;
-  }
-
-  select.input-editorial {
-    @apply appearance-none cursor-pointer;
-  }
-
-  textarea.input-editorial {
-    @apply resize-none;
   }
 }
