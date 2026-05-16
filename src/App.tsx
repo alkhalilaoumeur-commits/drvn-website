@@ -1,79 +1,69 @@
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import FloatingButtons from './components/FloatingButtons';
-import ScrollProgress from './components/ScrollProgress';
-import ScrollToTop from './components/ScrollToTop';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
+import Nav from './components/Nav'
+import Footer from './components/Footer'
+import ScrollToTop from './components/ScrollToTop'
+import { pageFade } from './lib/motion'
 
-import Startseite from './pages/Startseite';
-import ServeFlow  from './pages/ServeFlow';
-import Webseiten  from './pages/Webseiten';
-import Ventures   from './pages/Ventures';
-import News       from './pages/News';
-import Kontakt    from './pages/Kontakt';
-import Impressum  from './pages/Impressum';
-import Datenschutz from './pages/Datenschutz';
-
-import { pageTransition } from './lib/animations';
-
-// Page-Wrapper für sanfte Übergänge zwischen Routes
-function PageWrap({ children }: { children: React.ReactNode }) {
-  return (
-    <motion.main
-      variants={pageTransition}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      style={{ minHeight: '60vh' }}
-    >
-      {children}
-    </motion.main>
-  );
-}
+import Home       from './pages/Home'
+import Serveflow  from './pages/Serveflow'
+import Web        from './pages/Web'
+import Ventures   from './pages/Ventures'
+import Journal    from './pages/Journal'
+import Kontakt    from './pages/Kontakt'
+import Impressum  from './pages/Impressum'
+import Datenschutz from './pages/Datenschutz'
 
 function AnimatedRoutes() {
-  const location = useLocation();
+  const location = useLocation()
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        {/* ── Primäre Routes (Spec) ── */}
-        <Route path="/"          element={<PageWrap><Startseite /></PageWrap>} />
-        <Route path="/serveflow" element={<PageWrap><ServeFlow /></PageWrap>} />
-        <Route path="/web"       element={<PageWrap><Webseiten /></PageWrap>} />
-        <Route path="/ventures"  element={<PageWrap><Ventures /></PageWrap>} />
-        <Route path="/news"      element={<PageWrap><News /></PageWrap>} />
-        <Route path="/kontakt"   element={<PageWrap><Kontakt /></PageWrap>} />
+      <motion.div
+        key={location.pathname}
+        variants={pageFade}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+      >
+        <Routes location={location}>
+          {/* Primäre Routes */}
+          <Route path="/"            element={<Home />} />
+          <Route path="/serveflow"   element={<Serveflow />} />
+          <Route path="/web"         element={<Web />} />
+          <Route path="/ventures"    element={<Ventures />} />
+          <Route path="/journal"     element={<Journal />} />
+          <Route path="/kontakt"     element={<Kontakt />} />
 
-        {/* ── Legacy-Aliase (SEO-Erhalt, indexed URLs) ── */}
-        <Route path="/produkte/serveflow"   element={<PageWrap><ServeFlow /></PageWrap>} />
-        <Route path="/leistungen/webseiten" element={<PageWrap><Webseiten /></PageWrap>} />
-        <Route path="/leistungen"           element={<Navigate to="/web" replace />} />
-        <Route path="/branchen"             element={<Navigate to="/" replace />} />
-        <Route path="/ueber-uns"            element={<Navigate to="/" replace />} />
-        <Route path="/beispiel/casa-lupo"   element={<Navigate to="/web" replace />} />
+          {/* Legal */}
+          <Route path="/impressum"   element={<Impressum />} />
+          <Route path="/datenschutz" element={<Datenschutz />} />
 
-        {/* ── Legal ── */}
-        <Route path="/impressum"   element={<PageWrap><Impressum /></PageWrap>} />
-        <Route path="/datenschutz" element={<PageWrap><Datenschutz /></PageWrap>} />
+          {/* Legacy-Aliase (SEO) */}
+          <Route path="/produkte/serveflow"   element={<Serveflow />} />
+          <Route path="/leistungen/webseiten" element={<Web />} />
+          <Route path="/leistungen"           element={<Navigate to="/web" replace />} />
+          <Route path="/branchen"             element={<Navigate to="/" replace />} />
+          <Route path="/ueber-uns"            element={<Navigate to="/" replace />} />
+          <Route path="/news"                 element={<Navigate to="/journal" replace />} />
 
-        {/* ── Catch-all ── */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </motion.div>
     </AnimatePresence>
-  );
+  )
 }
 
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="grain-overlay" aria-hidden="true" />
       <ScrollToTop />
-      <ScrollProgress />
-      <Navbar />
-      <AnimatedRoutes />
-      <Footer />
-      <FloatingButtons />
+      <div className="min-h-screen bg-paper flex flex-col">
+        <Nav />
+        <div className="flex-1">
+          <AnimatedRoutes />
+        </div>
+        <Footer />
+      </div>
     </BrowserRouter>
-  );
+  )
 }

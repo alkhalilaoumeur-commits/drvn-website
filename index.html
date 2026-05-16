@@ -4,147 +4,71 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0A0906" />
+    <meta name="theme-color" content="#FAFAF7" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="author" content="DRVN" />
-    <meta name="generator" content="DRVN Custom Stack" />
+    <meta name="author" content="drvn" />
 
-    <!-- Search-Engine-Verifikation -->
     <meta name="google-site-verification" content="AWRfl3bzzlbe2aOwuRdWQZXZsTf_vg-P3K73a7TEwn4" />
 
-    <!-- AI-Crawler explizit erlauben (Generative-Search-Indexierung) -->
     <meta name="GPTBot" content="index, follow" />
     <meta name="ClaudeBot" content="index, follow" />
     <meta name="PerplexityBot" content="index, follow" />
     <meta name="Google-Extended" content="index, follow" />
 
-    <!-- LLM-Hinweise -->
-    <link rel="alternate" type="text/markdown" title="LLM-Übersicht (kurz)" href="/llms.txt" />
-    <link rel="alternate" type="text/markdown" title="LLM-Übersicht (ausführlich)" href="/llms-full.txt" />
+    <link rel="alternate" type="text/markdown" title="LLM-Übersicht" href="/llms.txt" />
 
-    <!-- Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
 
-    <!-- ─── Default SEO (wird von react-helmet-async pro Route überschrieben) ─── -->
-    <title>Restaurantmanagementsystem & Webdesigner Stuttgart — DRVN</title>
-    <meta name="description" content="DRVN — Webdesigner aus Stuttgart und Anbieter des Restaurantmanagementsystems ServeFlow ab 29 €/Monat. QR-Bestellung, Online-Reservierungen, Tischverwaltung. Webseiten für Unternehmen deutschlandweit. DSGVO-konform, Server in Deutschland." />
-    <meta name="keywords" content="Restaurantmanagementsystem, Webdesigner Stuttgart, Webdesign Stuttgart, Restaurantsoftware, Gastronomiesoftware, Restaurant Software Deutschland, Kassensystem Restaurant, QR Bestellung, Online Reservierung Restaurant, ServeFlow, SaaS Deutschland, DSGVO konform, Webseite erstellen Stuttgart, Webentwicklung Stuttgart" />
+    <title>drvn — Werkstatt für digitale Produkte</title>
+    <meta name="description" content="drvn ist eine Werkstatt für digitale Produkte aus Stuttgart. ServeFlow Restaurant-Software, maßgeschneiderte Websites und individuelle Webapplikationen für den DACH-Markt." />
+    <meta name="keywords" content="Webentwicklung Stuttgart, ServeFlow, Restaurantsoftware, Web-App, React, TypeScript, DSGVO" />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://drvnautomatisations.com/" />
-    <meta property="og:title" content="Restaurantmanagementsystem & Webdesigner Stuttgart — DRVN" />
-    <meta property="og:description" content="Restaurantmanagementsystem ServeFlow ab 29 €/Monat. Webdesign aus Stuttgart. QR-Bestellung, Reservierungen, Tischverwaltung. DSGVO-konform, Server in Deutschland." />
+    <meta property="og:title" content="drvn — Werkstatt für digitale Produkte" />
+    <meta property="og:description" content="ServeFlow Restaurant-Software, Websites und individuelle Software. Aus Stuttgart, für den DACH-Markt." />
     <meta property="og:image" content="https://drvnautomatisations.com/og-image.svg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="de_DE" />
-    <meta property="og:site_name" content="DRVN" />
+    <meta property="og:site_name" content="drvn" />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="DRVN — Restaurantmanagement & SaaS für Deutschland" />
-    <meta name="twitter:description" content="ServeFlow ab 29 €/Monat. QR-Bestellung, Reservierungen, Tischverwaltung. DSGVO-konform, Server in Deutschland." />
+    <meta name="twitter:title" content="drvn — Werkstatt für digitale Produkte" />
+    <meta name="twitter:description" content="ServeFlow Restaurant-Software, Websites und individuelle Software." />
     <meta name="twitter:image" content="https://drvnautomatisations.com/og-image.svg" />
 
     <link rel="canonical" href="https://drvnautomatisations.com/" />
 
-    <!-- Calendly Widget -->
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
     <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
-    <!-- Privacy-friendly analytics by Plausible (cookielos, EU-Hosting, DSGVO-konform) -->
     <script async src="https://plausible.io/js/pa-T-0z2ELx0HB240v0TDicb.js"></script>
     <script>
       window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
       plausible.init()
     </script>
 
-    <!--
-      JSON-LD: Organization + LocalBusiness + WebSite — wird zusätzlich
-      pro Route von SEO.tsx ausgegeben (mit FAQ, BreadcrumbList etc.).
-      Hier minimaler Fallback für Crawler die JS nicht ausführen.
-    -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": ["Organization", "LocalBusiness"],
-          "@id": "https://drvnautomatisations.com/#organization",
-          "name": "DRVN",
-          "alternateName": "DRVN Automatisierungen",
-          "url": "https://drvnautomatisations.com",
-          "logo": "https://drvnautomatisations.com/favicon.svg",
-          "image": "https://drvnautomatisations.com/og-image.svg",
-          "description": "DRVN entwickelt branchenspezifische SaaS-Lösungen für Gastronomie, Handwerk, Reinigung und Service-Betriebe in Deutschland. Hauptprodukt: ServeFlow Restaurantmanagement-Software.",
-          "email": "kontakt@drvnautomatisations.com",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Egilolfstrasse 41",
-            "addressLocality": "Stuttgart",
-            "postalCode": "70599",
-            "addressCountry": "DE"
-          },
-          "areaServed": ["DE", "AT", "CH"],
-          "knowsLanguage": ["de", "en"],
-          "priceRange": "€€"
-        },
-        {
-          "@type": "WebSite",
-          "url": "https://drvnautomatisations.com",
-          "name": "DRVN",
-          "inLanguage": "de-DE"
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "ServeFlow",
-          "applicationCategory": "BusinessApplication",
-          "operatingSystem": "Web, iOS, Android",
-          "description": "Restaurantmanagement-Software mit QR-Bestellung, Online-Reservierungen, Tischverwaltung und Echtzeit-Dashboard. DSGVO-konform, Server in Deutschland.",
-          "offers": {
-            "@type": "AggregateOffer",
-            "lowPrice": "29",
-            "highPrice": "99",
-            "priceCurrency": "EUR",
-            "offerCount": 3
-          }
-        }
-      ]
+      "@type": "Organization",
+      "@id": "https://drvnautomatisations.com/#organization",
+      "name": "drvn",
+      "url": "https://drvnautomatisations.com",
+      "description": "Werkstatt für digitale Produkte aus Stuttgart. ServeFlow Restaurant-Software, Websites und individuelle Software für den DACH-Markt.",
+      "email": "kontakt@drvnautomatisations.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Stuttgart",
+        "addressCountry": "DE"
+      },
+      "areaServed": ["DE", "AT", "CH"]
     }
     </script>
   </head>
   <body>
-    <div id="root">
-      <!--
-        ─── Fallback-Content für Crawler die kein JavaScript ausführen ───
-        (Bingbot, ältere AI-Crawler, einige Social-Media-Bots)
-        Wird vom React-Render überschrieben — sehen normale User nie.
-      -->
-      <noscript>
-        <header>
-          <h1>DRVN — Restaurantmanagement & SaaS-Lösungen für Deutschland</h1>
-          <p>
-            DRVN entwickelt branchenspezifische digitale Plattformen für Gastronomie, Handwerk und Service-Betriebe in Deutschland.
-            Hauptprodukt ServeFlow ist eine Restaurantmanagement-Software mit QR-Bestellung, Online-Reservierungen,
-            Tischverwaltung und Echtzeit-Dashboard — ab 29 €/Monat. DSGVO-konform, Server in Frankfurt.
-          </p>
-          <nav>
-            <a href="/produkte/serveflow">ServeFlow Restaurantmanagement</a> ·
-            <a href="/leistungen/webseiten">Webseiten</a> ·
-            <a href="/branchen">Branchen</a> ·
-            <a href="/ueber-uns">Über uns</a> ·
-            <a href="/kontakt">Kontakt</a>
-          </nav>
-        </header>
-        <main>
-          <p><strong>Hinweis:</strong> Diese Webseite benötigt JavaScript. Bitte aktiviere JavaScript oder nutze die Markdown-Übersicht für AI-Crawler:
-            <a href="/llms.txt">/llms.txt</a> · <a href="/llms-full.txt">/llms-full.txt</a></p>
-        </main>
-      </noscript>
-    </div>
+    <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

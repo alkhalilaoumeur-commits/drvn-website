@@ -1,541 +1,393 @@
-import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
-import {
-  ArrowRight, ArrowUpRight, Check, X, Plus, Minus,
-  QrCode, Calendar, BarChart3,
-} from 'lucide-react';
-import SEO, { buildFaqSchema } from '../components/SEO';
-import { CtaSection } from './Startseite';
-import { PRICING, SERVEFLOW_FAQ } from '../lib/constants';
-import { fadeUp, stagger, staggerFast, wordReveal, viewport, easeOut } from '../lib/animations';
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowUpRight, Plus, Minus } from 'lucide-react'
+import { Container } from '../components/Container'
+import { Eyebrow } from '../components/Eyebrow'
+import { SERVEFLOW_FAQ } from '../lib/constants'
+import { fadeUp, viewport, ease } from '../lib/motion'
 
-const HERO_LINE_1 = 'Deine Gäste bestellen.'.split(' ');
-const HERO_LINE_2 = 'Du entspannst.'.split(' ');
+const SPECS = [
+  { label: 'Version',   value: '1.0' },
+  { label: 'Live seit', value: 'Mai 2025' },
+  { label: 'Markt',     value: 'DACH' },
+  { label: 'Preis ab',  value: '29 €/Monat' },
+  { label: 'DSGVO',     value: 'Ja, Server DE' },
+  { label: 'Vertrag',   value: 'Monatlich kündbar' },
+]
 
-export default function ServeFlowPage() {
-  const faqSchema = buildFaqSchema(SERVEFLOW_FAQ as unknown as { frage: string; antwort: string }[]);
+const PRICING = [
+  {
+    name: 'Starter', price: 29, recommended: false,
+    features: [
+      { label: 'Bestellungen',   value: '100/Monat' },
+      { label: 'Tische',         value: '10' },
+      { label: 'Reservierungen', value: 'Web' },
+      { label: 'Dashboard',      value: 'Basis' },
+      { label: 'Support',        value: 'E-Mail' },
+    ],
+  },
+  {
+    name: 'Pro', price: 59, recommended: true,
+    features: [
+      { label: 'Bestellungen',   value: 'Unbegrenzt' },
+      { label: 'Tische',         value: 'Unbegrenzt' },
+      { label: 'Reservierungen', value: 'Web + WhatsApp' },
+      { label: 'Dashboard',      value: 'Vollständig' },
+      { label: 'Support',        value: 'E-Mail' },
+    ],
+  },
+  {
+    name: 'Studio', price: 99, recommended: false,
+    features: [
+      { label: 'Bestellungen',   value: 'Unbegrenzt' },
+      { label: 'Tische',         value: 'Unbegrenzt' },
+      { label: 'Reservierungen', value: 'Web + WhatsApp' },
+      { label: 'Dashboard',      value: 'Vollständig + API' },
+      { label: 'Support',        value: 'Priorität' },
+    ],
+  },
+]
 
+export default function ServeflowPage() {
   return (
-    <>
-      <SEO
-        title="ServeFlow — Restaurant-Bestellsystem mit QR-Code | drvn"
-        description="ServeFlow: QR-Bestellung, Reservierungen und Echtzeit-Dashboard für Restaurants im DACH-Raum. Ab 29 €/Monat. DSGVO-konform. Server in Deutschland."
-        path="/serveflow"
-        keywords="ServeFlow, Restaurantmanagement, QR Bestellung, Reservierungssystem, Restaurant Software, Gastronomie Software, DSGVO, Deutschland"
-        schema={faqSchema}
-        breadcrumbs={[
-          { name: 'Start', path: '/' },
-          { name: 'ServeFlow', path: '/serveflow' },
-        ]}
-      />
-
-      {/* ═══════════════════════════════════════════════════════════
-          HERO
-          ═══════════════════════════════════════════════════════════ */}
-      <section
-        style={{
-          position: 'relative', paddingTop: 160, paddingBottom: 96,
-          overflow: 'hidden',
-        }}
-      >
-        <div className="hero-grid" />
-        <div className="hero-glow" />
-
-        <div className="container-x" style={{ position: 'relative', zIndex: 1 }}>
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeOut }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 28 }}
-          >
-            <span className="badge badge-accent">SERVEFLOW · RESTAURANT SAAS</span>
-          </motion.div>
+    <main>
+      {/* ── HERO ───────────────────────────────────────────── */}
+      <section className="pt-40 md:pt-56 pb-20 md:pb-28">
+        <Container>
+          <Eyebrow>Produkt · ServeFlow 1.0</Eyebrow>
 
           <motion.h1
-            variants={staggerFast}
+            variants={fadeUp}
             initial="initial"
             animate="animate"
-            className="display-hero"
-            style={{ margin: 0, marginBottom: 24 }}
+            className="font-sans font-light text-[clamp(2.75rem,6.5vw,5.25rem)] leading-[1.02] tracking-[-0.02em] text-ink mb-12 max-w-[18ch]"
           >
-            <span style={{ display: 'block' }}>
-              {HERO_LINE_1.map((w, i) => (
-                <motion.span key={i} variants={wordReveal} style={{ display: 'inline-block', marginRight: '0.28em' }}>
-                  {w}
-                </motion.span>
-              ))}
-            </span>
-            <span style={{ display: 'block', color: 'var(--accent)' }}>
-              {HERO_LINE_2.map((w, i) => (
-                <motion.span key={i} variants={wordReveal} style={{ display: 'inline-block', marginRight: '0.28em' }}>
-                  {w}
-                </motion.span>
-              ))}
-            </span>
+            Restaurants führen sich nicht selbst.{' '}
+            Aber sie können sich besser{' '}
+            <span className="font-serif italic text-signal">organisieren.</span>
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeOut, delay: 0.5 }}
-            style={{
-              fontFamily: 'var(--font-sans)', fontSize: 'clamp(1.05rem, 1.4vw, 1.3rem)',
-              color: 'var(--text-secondary)', lineHeight: 1.55,
-              maxWidth: '54ch', margin: '0 0 40px',
-            }}
-          >
-            QR-Code Bestellsystem, Reservierungsmanagement und Echtzeit-Dashboard für Restaurants im DACH-Raum.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeOut, delay: 0.65 }}
-            style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 56 }}
-          >
-            <a href="https://app.serve-flow.org" target="_blank" rel="noopener noreferrer" className="btn-primary">
-              Kostenlos starten <ArrowRight size={16} />
-            </a>
-            <Link to="/kontakt" className="btn-outline">
-              Demo ansehen <ArrowUpRight size={16} />
-            </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center' }}
-          >
-            {['Keine Kreditkarte', 'Setup in 15 Min', 'DSGVO-konform', 'Monatlich kündbar'].map((item) => (
-              <div key={item} style={{
-                display: 'flex', alignItems: 'center', gap: 8,
-                fontFamily: 'var(--font-sans)', fontSize: '0.72rem',
-                fontWeight: 600, letterSpacing: '0.14em',
-                color: 'var(--text-muted)', textTransform: 'uppercase',
-              }}>
-                <span style={{ color: 'var(--accent)' }}>✦</span>
-                {item}
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════
-          PROBLEM / LÖSUNG
-          ═══════════════════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)' }} className="section-y">
-        <div className="container-x">
-          <motion.div
-            variants={fadeUp}
-            initial="initial"
-            whileInView="animate"
-            viewport={viewport}
-            style={{ maxWidth: '52rem', marginBottom: 64 }}
-          >
-            <span className="eyebrow" style={{ marginBottom: 18 }}>Problem & Lösung</span>
-            <h2 className="display-1" style={{ margin: '14px 0 0' }}>
-              Mehr Bestellungen.<br />
-              <span style={{ color: 'var(--accent)' }}>Weniger Stress.</span>
-            </h2>
-          </motion.div>
-
-          <div className="problem-grid" style={{ display: 'grid', gap: 24, alignItems: 'start' }}>
-            {/* Problem */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-6">
             <motion.div
               variants={fadeUp}
               initial="initial"
-              whileInView="animate"
-              viewport={viewport}
-              className="card"
-              style={{ padding: 32 }}
+              animate="animate"
+              transition={{ delay: 0.3 }}
+              className="md:col-span-6"
             >
-              <p className="eyebrow-muted" style={{ marginBottom: 18 }}>Das Problem</p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 16 }}>
-                {[
-                  'Kellner laufen ständig zwischen Tischen und Küche hin und her',
-                  'Bestellfehler beim Aufnehmen kosten Zeit und Geld',
-                  'Kein Überblick über offene Tische, Reservierungen und Umsatz',
-                ].map((p) => (
-                  <li key={p} style={{
-                    display: 'flex', alignItems: 'flex-start', gap: 12,
-                    fontFamily: 'var(--font-sans)', fontSize: '1rem',
-                    color: 'var(--text-secondary)', lineHeight: 1.55,
-                  }}>
-                    <div style={{
-                      flexShrink: 0, marginTop: 2,
-                      width: 22, height: 22, borderRadius: 999,
-                      background: 'var(--surface-high)',
-                      border: '1px solid var(--border-high)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    }}>
-                      <X size={12} style={{ color: 'var(--text-muted)' }} />
-                    </div>
-                    {p}
-                  </li>
-                ))}
-              </ul>
+              <p className="font-sans text-lg text-secondary leading-[1.55] mb-4 max-w-[50ch]">
+                ServeFlow ist ein digitales Bestell- und Reservierungssystem für Restaurants, Cafés und Bars im deutschsprachigen Raum.
+              </p>
+              <p className="font-sans text-lg text-secondary leading-[1.55] mb-8 max-w-[50ch]">
+                QR-Bestellung am Tisch, Reservierungen über Web und WhatsApp, ein Dashboard für alles.
+              </p>
+              <div className="flex flex-wrap items-center gap-4">
+                <a
+                  href="https://app.serve-flow.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-ink text-paper px-5 py-3 text-sm font-medium hover:bg-ink/85 transition-colors"
+                >
+                  Demo anfordern <ArrowUpRight className="w-4 h-4" />
+                </a>
+                <a
+                  href="#preise"
+                  className="group inline-flex items-center gap-1.5 text-primary text-sm font-medium border-b border-ink pb-0.5 hover:border-signal hover:text-signal transition-colors"
+                >
+                  Preise ansehen <span className="font-mono group-hover:translate-x-0.5 transition-transform inline-block">→</span>
+                </a>
+              </div>
             </motion.div>
 
-            {/* Lösung */}
             <motion.div
               variants={fadeUp}
               initial="initial"
-              whileInView="animate"
-              viewport={viewport}
-              transition={{ delay: 0.1 }}
-              className="card"
-              style={{
-                padding: 32,
-                borderColor: 'rgba(255, 77, 0, 0.3)',
-                background: 'linear-gradient(180deg, rgba(255,77,0,0.04), transparent 60%), var(--surface)',
-              }}
+              animate="animate"
+              transition={{ delay: 0.45 }}
+              className="md:col-span-5 md:col-start-8"
             >
-              <p className="eyebrow" style={{ marginBottom: 18 }}>Die Lösung</p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 16 }}>
-                {[
-                  'Gäste bestellen selbst per QR-Code — direkt aus der Küche aktiviert',
-                  'Bestellungen sind digital, eindeutig und nachvollziehbar',
-                  'Live-Dashboard zeigt Tische, Umsatz, Reservierungen in Echtzeit',
-                ].map((p) => (
-                  <li key={p} style={{
-                    display: 'flex', alignItems: 'flex-start', gap: 12,
-                    fontFamily: 'var(--font-sans)', fontSize: '1rem',
-                    color: 'var(--text-primary)', lineHeight: 1.55,
-                  }}>
-                    <div style={{
-                      flexShrink: 0, marginTop: 2,
-                      width: 22, height: 22, borderRadius: 999,
-                      background: 'var(--accent)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    }}>
-                      <Check size={12} strokeWidth={3} color="#fff" />
-                    </div>
-                    {p}
-                  </li>
+              <div className="divide-y divide-hairline border-y border-hairline">
+                {SPECS.map((s) => (
+                  <div key={s.label} className="flex justify-between py-3">
+                    <span className="font-mono text-xs text-muted uppercase tracking-[0.08em]">{s.label}</span>
+                    <span className="font-mono text-xs text-ink tabular-nums">{s.value}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </motion.div>
           </div>
-        </div>
-
-        <style>{`
-          @media (min-width: 800px) {
-            .problem-grid { grid-template-columns: 1fr 1fr !important; }
-          }
-        `}</style>
+        </Container>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          3 FEATURES (Apple Scroll)
-          ═══════════════════════════════════════════════════════════ */}
-      <FeatureBlock
-        eyebrow="Feature 01"
-        title="Kein Kellner für die Bestellung."
-        text="QR-Code → Browser-Menü → direkt in die Küche. Keine App, läuft auf jedem Handy der letzten 7 Jahre."
-        Icon={QrCode}
-        flip={false}
-      />
-      <FeatureBlock
-        eyebrow="Feature 02"
-        title="Volles Haus. Volle Kontrolle."
-        text="Online-Reservierungen mit automatischer Bestätigung via E-Mail und WhatsApp. Tischplan in Echtzeit, No-Show-Handling inklusive."
-        Icon={Calendar}
-        flip={true}
-      />
-      <FeatureBlock
-        eyebrow="Feature 03"
-        title="Alles auf einen Blick."
-        text="Live-Bestellungen, Tages-Umsatz, Menüverwaltung, Schichtplanung — von überall erreichbar. Im Büro, daheim, am Strand."
-        Icon={BarChart3}
-        flip={false}
-      />
+      {/* ── KAPAZITÄTEN ────────────────────────────────────── */}
+      <section className="border-t border-hairline py-24 md:py-28">
+        <Container>
+          <Eyebrow>Kapazitäten</Eyebrow>
+          <motion.h2
+            variants={fadeUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={viewport}
+            className="font-sans font-light text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.15] tracking-[-0.015em] text-ink mb-16"
+          >
+            Drei Werkzeuge, die zusammenarbeiten.
+          </motion.h2>
 
-      {/* ═══════════════════════════════════════════════════════════
-          PRICING
-          ═══════════════════════════════════════════════════════════ */}
-      <section
-        id="pricing"
-        style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)' }}
-        className="section-y"
-      >
-        <div className="container-x">
+          <div className="space-y-0 divide-y divide-hairline border-t border-hairline">
+            {/* Block 01: Bestellung */}
+            <motion.div
+              variants={fadeUp}
+              initial="initial"
+              whileInView="animate"
+              viewport={viewport}
+              className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 py-12 md:py-16"
+            >
+              <div>
+                <span className="font-mono text-xs text-muted mb-4 block">01</span>
+                <h3 className="font-sans font-medium text-xl tracking-tight text-ink mb-4">Bestellung am Tisch</h3>
+                <p className="font-sans text-base text-secondary leading-[1.6] mb-6 max-w-[44ch]">
+                  Gäste scannen den QR-Code am Tisch, sehen die Karte im Browser, bestellen direkt in die Küche. Keine App, keine Anmeldung, kein Plastikkartenmenü.
+                </p>
+                <ul className="space-y-2">
+                  {['Browser-basiert, alle Geräte', 'Mehrsprachig (DE / EN / TR)', 'Live-Synchronisation mit Küche'].map((d) => (
+                    <li key={d} className="font-mono text-xs text-secondary flex items-center gap-2">
+                      <span className="w-1 h-1 bg-muted rounded-full flex-shrink-0" />
+                      {d}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="border border-hairline bg-surface p-6 font-mono text-xs">
+                <div className="text-muted mb-4 uppercase tracking-[0.1em] text-[10px]">Eingang — Tisch 07</div>
+                <div className="space-y-2">
+                  {[
+                    { pos: '1×', item: 'Pizza Margherita', note: 'ohne Basilikum' },
+                    { pos: '2×', item: 'Pasta Carbonara', note: '' },
+                    { pos: '1×', item: 'Tiramisu', note: '' },
+                    { pos: '3×', item: 'Wasser still 0,5l', note: '' },
+                  ].map((row) => (
+                    <div key={row.item} className="flex gap-3 py-1.5 border-b border-hairline last:border-0">
+                      <span className="text-muted w-4 flex-shrink-0">{row.pos}</span>
+                      <span className="text-ink flex-1">{row.item}</span>
+                      {row.note && <span className="text-muted italic">{row.note}</span>}
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 flex justify-between text-muted text-[10px]">
+                  <span>14:37:22</span>
+                  <span className="text-signal">Neu</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Block 02: Reservierungen */}
+            <motion.div
+              variants={fadeUp}
+              initial="initial"
+              whileInView="animate"
+              viewport={viewport}
+              className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 py-12 md:py-16"
+            >
+              <div className="md:order-2">
+                <span className="font-mono text-xs text-muted mb-4 block">02</span>
+                <h3 className="font-sans font-medium text-xl tracking-tight text-ink mb-4">Reservierungen über Web und WhatsApp</h3>
+                <p className="font-sans text-base text-secondary leading-[1.6] mb-6 max-w-[44ch]">
+                  Gäste reservieren über die eigene Website oder per WhatsApp. Automatische Bestätigung, Erinnerung 2 Stunden vorher, No-Show-Verwaltung im Dashboard.
+                </p>
+                <ul className="space-y-2">
+                  {['Keine App für Gäste', 'WhatsApp Business API', 'Kalender-Export möglich'].map((d) => (
+                    <li key={d} className="font-mono text-xs text-secondary flex items-center gap-2">
+                      <span className="w-1 h-1 bg-muted rounded-full flex-shrink-0" />
+                      {d}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="md:order-1 border border-hairline bg-surface p-6 font-mono text-xs space-y-3">
+                <div className="text-muted mb-4 uppercase tracking-[0.1em] text-[10px]">WhatsApp · Reservierung</div>
+                <div className="flex justify-end">
+                  <div className="bg-ink text-paper px-3 py-2 max-w-[85%] text-xs leading-relaxed">
+                    Hallo, ich würde gerne morgen Abend für 4 Personen um 19:30 Uhr reservieren.
+                  </div>
+                </div>
+                <div className="flex justify-start">
+                  <div className="bg-hairline text-ink px-3 py-2 max-w-[85%] text-xs leading-relaxed">
+                    Gerne. Ich habe am 16. Mai, 19:30 Uhr, einen Tisch für 4 Personen vorgemerkt. Bestätigung per E-Mail folgt.
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Block 03: Dashboard */}
+            <motion.div
+              variants={fadeUp}
+              initial="initial"
+              whileInView="animate"
+              viewport={viewport}
+              className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 py-12 md:py-16"
+            >
+              <div>
+                <span className="font-mono text-xs text-muted mb-4 block">03</span>
+                <h3 className="font-sans font-medium text-xl tracking-tight text-ink mb-4">Echtzeit-Dashboard</h3>
+                <p className="font-sans text-base text-secondary leading-[1.6] mb-6 max-w-[44ch]">
+                  Alle laufenden Bestellungen, Tischauslastung, Umsatz des Tages — in einer Ansicht, von überall erreichbar.
+                </p>
+                <ul className="space-y-2">
+                  {['Läuft auf Tablet und Desktop', 'Personalverwaltung inklusive', 'Tagesberichte als PDF'].map((d) => (
+                    <li key={d} className="font-mono text-xs text-secondary flex items-center gap-2">
+                      <span className="w-1 h-1 bg-muted rounded-full flex-shrink-0" />
+                      {d}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="border border-hairline bg-surface font-mono text-xs overflow-hidden">
+                <div className="border-b border-hairline px-4 py-2 flex items-center justify-between">
+                  <span className="text-muted uppercase tracking-[0.08em] text-[10px]">Dashboard · Heute</span>
+                  <span className="text-[10px] text-muted tabular-nums">16.05.2026 · 14:41</span>
+                </div>
+                <div className="grid grid-cols-3 divide-x divide-hairline border-b border-hairline">
+                  {[{ l: 'Umsatz', v: '€ 847' }, { l: 'Gäste', v: '63' }, { l: 'Tische', v: '12 / 18' }].map((s) => (
+                    <div key={s.l} className="px-4 py-3">
+                      <div className="text-muted text-[10px] uppercase tracking-[0.06em] mb-1">{s.l}</div>
+                      <div className="text-ink tabular-nums">{s.v}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-4 space-y-1.5">
+                  {[
+                    { t: 'T03', s: 'In Zubereitung', z: '14:29' },
+                    { t: 'T07', s: 'Neu',             z: '14:37', active: true },
+                    { t: 'T11', s: 'Serviert',         z: '14:12' },
+                  ].map((row) => (
+                    <div key={row.t} className={`flex justify-between py-1 border-b border-hairline last:border-0 ${row.active ? 'text-signal' : 'text-ink'}`}>
+                      <span>{row.t}</span>
+                      <span>{row.s}</span>
+                      <span className="text-muted">{row.z}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── PREISE ─────────────────────────────────────────── */}
+      <section id="preise" className="border-t border-hairline py-24 md:py-28">
+        <Container>
+          <Eyebrow>Preise</Eyebrow>
           <motion.div
             variants={fadeUp}
             initial="initial"
             whileInView="animate"
             viewport={viewport}
-            style={{ textAlign: 'center', maxWidth: '40rem', margin: '0 auto 64px' }}
+            className="mb-12"
           >
-            <span className="eyebrow" style={{ marginBottom: 18 }}>Preise</span>
-            <h2 className="display-1" style={{ margin: '14px 0 18px' }}>
-              Ehrliche Preise. Keine Überraschungen.
+            <h2 className="font-sans font-light text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.15] tracking-[-0.015em] text-ink mb-4">
+              Eine Stufe pro Jahr.
             </h2>
-            <p style={{
-              fontFamily: 'var(--font-sans)', fontSize: '1.05rem',
-              color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0,
-            }}>
-              Monatlich kündbar. Alle Preise zzgl. MwSt.
+            <p className="font-sans text-base text-secondary leading-[1.6] max-w-[52ch]">
+              Keine Tarif-Verwirrung. Drei klare Stufen, monatlich kündbar.
             </p>
           </motion.div>
 
           <motion.div
-            variants={stagger}
-            initial="initial"
-            whileInView="animate"
-            viewport={viewport}
-            style={{
-              display: 'grid', gap: 16,
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              maxWidth: 1100, marginInline: 'auto',
-            }}
-          >
-            {PRICING.map((p) => (
-              <motion.article
-                key={p.name}
-                variants={fadeUp}
-                whileHover={{ y: -4 }}
-                style={{
-                  background: p.highlighted ? 'var(--surface-high)' : 'var(--surface)',
-                  border: p.highlighted ? '1px solid var(--accent)' : '1px solid var(--border)',
-                  borderRadius: 20,
-                  padding: '36px 28px 32px',
-                  position: 'relative',
-                  display: 'flex', flexDirection: 'column',
-                  transition: 'transform 0.3s ease, border-color 0.3s',
-                  boxShadow: p.highlighted ? '0 0 60px rgba(255, 77, 0, 0.15)' : 'none',
-                }}
-              >
-                {p.highlighted && (
-                  <span style={{
-                    position: 'absolute', top: -12, left: 28,
-                    background: 'var(--accent)', color: '#fff',
-                    fontFamily: 'var(--font-sans)', fontSize: '0.7rem',
-                    fontWeight: 700, letterSpacing: '0.14em',
-                    padding: '5px 12px', borderRadius: 999,
-                    textTransform: 'uppercase',
-                  }}>
-                    Beliebt
-                  </span>
-                )}
-                <div style={{ marginBottom: 24 }}>
-                  <h3 className="display-3" style={{ margin: 0, marginBottom: 6 }}>{p.name}</h3>
-                  <p style={{
-                    fontFamily: 'var(--font-sans)', fontSize: '0.88rem',
-                    color: 'var(--text-secondary)', margin: 0,
-                  }}>{p.tagline}</p>
-                </div>
-
-                <div style={{ marginBottom: 28, display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                  <span className="display-1" style={{
-                    fontSize: 'clamp(2.4rem, 4vw, 3rem)',
-                    color: p.highlighted ? 'var(--accent)' : 'var(--text-primary)',
-                    margin: 0, lineHeight: 1,
-                  }}>
-                    €{p.price}
-                  </span>
-                  <span style={{
-                    fontFamily: 'var(--font-sans)', fontSize: '0.95rem',
-                    color: 'var(--text-muted)',
-                  }}>
-                    /Monat
-                  </span>
-                </div>
-
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 12, marginBottom: 32 }}>
-                  {p.features.map((f) => (
-                    <li key={f} style={{
-                      display: 'flex', alignItems: 'flex-start', gap: 10,
-                      fontFamily: 'var(--font-sans)', fontSize: '0.95rem',
-                      color: 'var(--text-secondary)', lineHeight: 1.5,
-                    }}>
-                      <Check size={16} strokeWidth={2.5} style={{
-                        color: p.highlighted ? 'var(--accent)' : 'var(--text-secondary)',
-                        flexShrink: 0, marginTop: 2,
-                      }} />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-
-                <div style={{ marginTop: 'auto' }}>
-                  <Link
-                    to="/kontakt"
-                    className={p.highlighted ? 'btn-primary' : 'btn-outline'}
-                    style={{ width: '100%', justifyContent: 'center' }}
-                  >
-                    {p.cta} <ArrowRight size={14} />
-                  </Link>
-                </div>
-              </motion.article>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════
-          FAQ
-          ═══════════════════════════════════════════════════════════ */}
-      <section style={{ borderTop: '1px solid var(--border)' }} className="section-y">
-        <div className="container-x" style={{ maxWidth: 880 }}>
-          <motion.div
             variants={fadeUp}
             initial="initial"
             whileInView="animate"
             viewport={viewport}
-            style={{ textAlign: 'center', marginBottom: 56 }}
+            className="overflow-x-auto"
           >
-            <span className="eyebrow" style={{ marginBottom: 18 }}>FAQ</span>
-            <h2 className="display-1" style={{ margin: '14px 0 0' }}>
-              Häufige Fragen
-            </h2>
-          </motion.div>
+            <div className="grid grid-cols-4 border-b border-hairline pb-4 gap-4 min-w-[560px]">
+              <div className="col-span-1" />
+              {PRICING.map((p) => (
+                <div key={p.name} className="col-span-1 text-center">
+                  <p className="font-sans font-medium text-base text-ink">{p.name}</p>
+                  {p.recommended && (
+                    <p className="font-mono text-[10px] text-muted mt-0.5">Empfohlen</p>
+                  )}
+                  <p className="font-mono text-xl text-ink tabular-nums mt-2">
+                    {p.price}<span className="text-xs text-muted"> €/Mo</span>
+                  </p>
+                </div>
+              ))}
+            </div>
 
-          <motion.div
-            variants={stagger}
+            {PRICING[0].features.map((feature) => (
+              <div key={feature.label} className="grid grid-cols-4 border-b border-hairline py-3 gap-4 min-w-[560px]">
+                <div className="col-span-1">
+                  <span className="font-mono text-xs text-muted uppercase tracking-[0.06em]">{feature.label}</span>
+                </div>
+                {PRICING.map((p) => {
+                  const val = p.features.find((f) => f.label === feature.label)?.value
+                  return (
+                    <div key={p.name} className="col-span-1 text-center">
+                      <span className="font-mono text-xs text-ink">{val}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            ))}
+
+            <div className="grid grid-cols-4 pt-6 gap-4 min-w-[560px]">
+              <div className="col-span-1" />
+              {PRICING.map((p) => (
+                <div key={p.name} className="col-span-1 text-center">
+                  <Link
+                    to="/kontakt"
+                    className={`group inline-flex items-center gap-1 text-sm font-medium border-b pb-0.5 transition-colors ${
+                      p.recommended
+                        ? 'text-signal border-signal hover:opacity-80'
+                        : 'text-primary border-ink hover:border-signal hover:text-signal'
+                    }`}
+                  >
+                    Wählen <span className="font-mono">→</span>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </Container>
+      </section>
+
+      {/* ── FAQ ────────────────────────────────────────────── */}
+      <section className="border-t border-hairline py-24 md:py-28">
+        <Container>
+          <Eyebrow>FAQ</Eyebrow>
+          <motion.h2
+            variants={fadeUp}
             initial="initial"
             whileInView="animate"
             viewport={viewport}
-            style={{ display: 'grid', gap: 8 }}
+            className="font-sans font-light text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.15] tracking-[-0.015em] text-ink mb-12"
           >
+            Häufige Fragen.
+          </motion.h2>
+
+          <div className="border-t border-hairline max-w-[68ch]">
             {SERVEFLOW_FAQ.map((f, i) => (
-              <FaqItem key={i} {...f} index={i} />
+              <FaqItem key={i} frage={f.frage} antwort={f.antwort} />
             ))}
-          </motion.div>
-        </div>
+          </div>
+        </Container>
       </section>
-
-      {/* ═══════════════════════════════════════════════════════════
-          CTA
-          ═══════════════════════════════════════════════════════════ */}
-      <CtaSection />
-    </>
-  );
+    </main>
+  )
 }
 
-/* ── Reusable Feature Block ────────────────────────────────────── */
-function FeatureBlock({
-  eyebrow, title, text, Icon, flip,
-}: {
-  eyebrow: string;
-  title: string;
-  text: string;
-  Icon: typeof QrCode;
-  flip: boolean;
-}) {
+function FaqItem({ frage, antwort }: { frage: string; antwort: string }) {
+  const [open, setOpen] = useState(false)
   return (
-    <section style={{
-      borderTop: '1px solid var(--border)',
-      background: flip ? 'var(--bg)' : 'transparent',
-    }} className="section-y">
-      <div className="container-x">
-        <div
-          style={{
-            display: 'grid', gap: 56, alignItems: 'center',
-          }}
-          className="feature-grid"
-          data-flip={flip ? 'true' : 'false'}
-        >
-          <motion.div
-            initial={{ opacity: 0, x: flip ? 32 : -32 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={viewport}
-            transition={{ duration: 0.6, ease: easeOut }}
-            style={{ order: flip ? 2 : 1 }}
-          >
-            <span className="eyebrow" style={{ marginBottom: 18 }}>{eyebrow}</span>
-            <h2 className="display-1" style={{ margin: '14px 0 22px', maxWidth: '14ch' }}>
-              {title}
-            </h2>
-            <p style={{
-              fontFamily: 'var(--font-sans)', fontSize: '1.1rem',
-              color: 'var(--text-secondary)', lineHeight: 1.65,
-              maxWidth: '48ch', margin: 0,
-            }}>{text}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: flip ? -32 : 32 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={viewport}
-            transition={{ duration: 0.6, ease: easeOut }}
-            style={{ order: flip ? 1 : 2 }}
-          >
-            <div
-              className="mockup-window"
-              style={{
-                aspectRatio: '4 / 3',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                position: 'relative', overflow: 'hidden',
-              }}
-            >
-              <div style={{
-                position: 'absolute', inset: 0,
-                background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,77,0,0.18), transparent 70%)',
-              }} />
-              <div style={{
-                position: 'relative', zIndex: 1,
-                width: 84, height: 84, borderRadius: 18,
-                background: 'rgba(255, 77, 0, 0.12)',
-                border: '1px solid rgba(255, 77, 0, 0.3)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 0 36px rgba(255, 77, 0, 0.25)',
-              }}>
-                <Icon size={36} style={{ color: 'var(--accent)' }} />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      <style>{`
-        @media (min-width: 900px) {
-          .feature-grid {
-            grid-template-columns: 1fr 1fr !important;
-          }
-        }
-      `}</style>
-    </section>
-  );
-}
-
-/* ── FAQ Item ──────────────────────────────────────────────────── */
-function FaqItem({ frage, antwort, index }: { frage: string; antwort: string; index: number }) {
-  const [open, setOpen] = useState(index === 0);
-  return (
-    <motion.div
-      variants={fadeUp}
-      style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
-        borderRadius: 12,
-        overflow: 'hidden',
-      }}
-    >
+    <div className="border-b border-hairline">
       <button
         onClick={() => setOpen((s) => !s)}
         aria-expanded={open}
-        style={{
-          width: '100%', background: 'transparent', border: 'none', cursor: 'pointer',
-          padding: '22px 24px', display: 'flex', alignItems: 'center', gap: 16,
-          textAlign: 'left',
-          fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 600,
-          color: 'var(--text-primary)',
-        }}
+        className="w-full flex items-center justify-between py-5 text-left gap-4"
       >
-        <span style={{ flex: 1 }}>{frage}</span>
-        <span style={{
-          width: 28, height: 28, flexShrink: 0,
-          background: open ? 'var(--accent)' : 'var(--surface-high)',
-          border: '1px solid ' + (open ? 'var(--accent)' : 'var(--border-high)'),
-          borderRadius: 8,
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          transition: 'background 0.2s, border-color 0.2s',
-        }}>
-          {open ? <Minus size={14} color="#fff" /> : <Plus size={14} color="var(--text-secondary)" />}
-        </span>
+        <span className="font-sans text-base font-medium text-ink">{frage}</span>
+        <span className="flex-shrink-0 text-muted">{open ? <Minus size={14} /> : <Plus size={14} />}</span>
       </button>
       <AnimatePresence initial={false}>
         {open && (
@@ -543,19 +395,13 @@ function FaqItem({ frage, antwort, index }: { frage: string; antwort: string; in
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: easeOut }}
+            transition={{ duration: 0.25, ease }}
             style={{ overflow: 'hidden' }}
           >
-            <div style={{
-              padding: '0 24px 22px',
-              fontFamily: 'var(--font-sans)', fontSize: '0.98rem',
-              color: 'var(--text-secondary)', lineHeight: 1.65,
-            }}>
-              {antwort}
-            </div>
+            <p className="font-sans text-base text-secondary leading-[1.6] pb-5">{antwort}</p>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
-  );
+    </div>
+  )
 }
