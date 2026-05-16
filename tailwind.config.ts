@@ -5,24 +5,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Dark theme
-        bg:         '#09090B',
-        surface:    '#111113',
-        elevated:   '#18181B',
-        border:     '#27272A',
-        borderHigh: '#3F3F46',
+        // Light warm beige theme
+        bg:         '#FAFAF7',
+        surface:    '#F2EFE9',
+        elevated:   '#EAE6DF',
+        border:     '#D8D4CB',
+        borderHigh: '#C5C0B6',
 
         // Text
-        primary:   '#FAFAFA',
-        secondary: '#A1A1AA',
-        muted:     '#52525B',
+        primary:   '#18161A',
+        secondary: '#5C5850',
+        muted:     '#9A9590',
 
-        // Accent — Vermillion, used sparingly
-        signal:  '#E84A1C',
-        signalHover: '#FF6133',
+        // Accent — Vermillion
+        signal:      '#E84A1C',
+        signalHover: '#D43B0F',
 
         // Semantic
-        success: '#22C55E',
+        success: '#16A34A',
       },
       fontFamily: {
         sans:  ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],

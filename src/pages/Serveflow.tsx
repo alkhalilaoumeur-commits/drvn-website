@@ -33,7 +33,7 @@ export default function ServeflowPage() {
       <section className="relative pt-24 pb-0 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px]
-            bg-[radial-gradient(ellipse_at_center,rgba(232,74,28,0.14)_0%,transparent_65%)]" />
+            bg-[radial-gradient(ellipse_at_center,rgba(232,74,28,0.09)_0%,transparent_65%)]" />
         </div>
 
         <Container className="relative z-10">
@@ -130,7 +130,7 @@ export default function ServeflowPage() {
             className="relative"
           >
             <div className="rounded-t-xl overflow-hidden border border-border border-b-0"
-              style={{ boxShadow: '0 -20px 60px rgba(0,0,0,0.4)' }}
+              style={{ boxShadow: '0 -20px 60px rgba(0,0,0,0.12)' }}
             >
               <div className="flex items-center gap-2 px-4 py-3 bg-elevated border-b border-border">
                 <div className="flex gap-1.5">
@@ -205,7 +205,7 @@ export default function ServeflowPage() {
                 </ul>
               </div>
               <div className="rounded-xl overflow-hidden border border-border"
-                style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.4)' }}>
+                style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.12)' }}>
                 <img src="/screenshots/speisekarte.png" alt="ServeFlow Speisekarte" className="w-full" />
               </div>
             </motion.div>
@@ -242,7 +242,7 @@ export default function ServeflowPage() {
               </div>
               <div className="lg:order-1 flex justify-center">
                 <div className="w-[320px] rounded-2xl overflow-hidden border border-border"
-                  style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.4)' }}>
+                  style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.12)' }}>
                   <img src="/screenshots/buchen.png" alt="ServeFlow Reservierung" className="w-full" />
                 </div>
               </div>
@@ -279,7 +279,7 @@ export default function ServeflowPage() {
                 </ul>
               </div>
               <div className="rounded-xl overflow-hidden border border-border"
-                style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.4)' }}>
+                style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.12)' }}>
                 <img src="/screenshots/dashboard.png" alt="ServeFlow Dashboard" className="w-full" />
               </div>
             </motion.div>

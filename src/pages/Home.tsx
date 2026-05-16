@@ -22,10 +22,10 @@ export default function Home() {
         {/* Background effects */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px]
-            bg-[radial-gradient(ellipse_at_center,rgba(232,74,28,0.15)_0%,transparent_65%)]" />
+            bg-[radial-gradient(ellipse_at_center,rgba(232,74,28,0.09)_0%,transparent_65%)]" />
           <div className="absolute inset-0"
             style={{
-              backgroundImage: 'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
+              backgroundImage: 'linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)',
               backgroundSize: '72px 72px',
               maskImage: 'radial-gradient(ellipse 75% 55% at 50% 0%, #000 10%, transparent 75%)',
               WebkitMaskImage: 'radial-gradient(ellipse 75% 55% at 50% 0%, #000 10%, transparent 75%)',
@@ -142,7 +142,7 @@ export default function Home() {
 
               {/* Browser frame */}
               <div className="relative rounded-xl overflow-hidden border border-border shadow-2xl"
-                style={{ boxShadow: '0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05) inset' }}
+                style={{ boxShadow: '0 25px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.06)' }}
               >
                 {/* Browser chrome */}
                 <div className="flex items-center gap-2 px-4 py-3 bg-elevated border-b border-border">
@@ -225,7 +225,7 @@ export default function Home() {
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100
                       transition-opacity duration-500 pointer-events-none"
                       style={{
-                        background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,74,28,0.06) 0%, transparent 70%)'
+                        background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,74,28,0.08) 0%, transparent 70%)'
                       }}
                     />
                     <div className="relative">
@@ -386,7 +386,7 @@ export default function Home() {
           ════════════════════════════════════════════ */}
       <section className="border-t border-border py-20 md:py-28 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 50% 60% at 50% 100%, rgba(232,74,28,0.12) 0%, transparent 65%)' }}
+          style={{ background: 'radial-gradient(ellipse 50% 60% at 50% 100%, rgba(232,74,28,0.08) 0%, transparent 65%)' }}
         />
         <Container className="relative text-center">
           <motion.div

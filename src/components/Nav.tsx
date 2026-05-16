@@ -35,9 +35,9 @@ export default function Nav() {
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className="fixed top-0 w-full z-50 transition-all duration-300"
         style={{
-          background: scrolled ? 'rgba(9,9,11,0.85)' : 'transparent',
+          background: scrolled ? 'rgba(250,250,247,0.88)' : 'transparent',
           backdropFilter: scrolled ? 'blur(20px) saturate(1.5)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(39,39,42,0.8)' : '1px solid transparent',
+          borderBottom: scrolled ? '1px solid rgba(216,212,203,0.9)' : '1px solid transparent',
         }}
       >
         <div className="max-w-site mx-auto px-6 md:px-10 lg:px-16 h-16 flex items-center justify-between">
