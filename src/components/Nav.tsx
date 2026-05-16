@@ -26,7 +26,7 @@ export default function Nav() {
         <div className="max-w-site mx-auto px-6 md:px-10 lg:px-16 h-full flex items-center justify-between">
           <Link
             to="/"
-            className="font-sans font-medium text-base tracking-tight text-ink hover:text-ink transition-colors"
+            className="font-sans font-bold text-base tracking-tight text-ink hover:text-ink transition-colors"
           >
             drvn
           </Link>

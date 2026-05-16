@@ -19,7 +19,7 @@ const config: Config = {
         surface: '#F2EFE8',
       },
       fontFamily: {
-        sans:  ['Geist', 'system-ui', 'sans-serif'],
+        sans:  ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
         mono:  ['"Geist Mono"', 'ui-monospace', 'monospace'],
         serif: ['"Instrument Serif"', 'Georgia', 'serif'],
       },
