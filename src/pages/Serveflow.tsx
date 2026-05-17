@@ -124,7 +124,7 @@ export default function ServeflowPage() {
                 {[
                   { label: 'Version',     value: '1.0' },
                   { label: 'Live seit',   value: 'Mai 2025' },
-                  { label: 'Restaurants', value: '14 aktiv' },
+                  { label: 'Status',       value: 'Jetzt verfügbar' },
                   { label: 'Preis ab',    value: '29 €/Monat' },
                   { label: 'DSGVO',       value: 'Ja, Server DE' },
                   { label: 'Vertrag',     value: 'Monatlich kündbar' },

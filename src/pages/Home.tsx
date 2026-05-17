@@ -185,7 +185,7 @@ export default function Home() {
                   rounded-xl px-4 py-2.5 flex items-center gap-2.5 shadow-xl"
               >
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="font-mono text-xs text-secondary">14 Restaurants live</span>
+                <span className="font-mono text-xs text-secondary">Jetzt verfügbar</span>
               </motion.div>
             </motion.div>
           </div>
