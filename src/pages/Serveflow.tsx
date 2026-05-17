@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowUpRight, ArrowRight, Check, Plus, Minus, QrCode, CalendarDays, BarChart3 } from 'lucide-react'
+import {
+  ArrowUpRight, ArrowRight, Check, Plus, Minus,
+  QrCode, CalendarDays, BarChart3,
+  Users, Bell, Star, MessageSquare, Package, ChevronRight, MapPin,
+} from 'lucide-react'
+import { ContainerScroll } from '../components/ui/ContainerScroll'
+import { AppScreenshotCarousel } from '../components/ui/AppScreenshotCarousel'
 import { Container } from '../components/Container'
 import { SERVEFLOW_FAQ } from '../lib/constants'
 import { fadeUp, viewport, ease } from '../lib/motion'
@@ -122,170 +128,34 @@ export default function ServeflowPage() {
             </motion.div>
           </div>
 
-          {/* Main screenshot — full width, browser frame */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="relative"
-          >
-            <div className="rounded-t-xl overflow-hidden border border-border border-b-0"
-              style={{ boxShadow: '0 -20px 60px rgba(0,0,0,0.12)' }}
-            >
-              <div className="flex items-center gap-2 px-4 py-3 bg-elevated border-b border-border">
-                <div className="flex gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-                  <span className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
-                  <span className="w-3 h-3 rounded-full bg-[#28C840]" />
-                </div>
-                <div className="flex-1 flex justify-center">
-                  <span className="font-mono text-xs text-muted bg-surface border border-border px-4 py-1 rounded-md">
-                    app.serve-flow.org/bestellungen
-                  </span>
-                </div>
-              </div>
-              <img
-                src="/screenshots/bestellungen.png"
-                alt="ServeFlow Bestellungen — Live Übersicht"
-                className="w-full block"
-              />
-            </div>
-          </motion.div>
         </Container>
+      </section>
+
+      {/* ── 3D Scroll Animation Section ── */}
+      <section className="overflow-hidden bg-surface">
+        <ContainerScroll
+          titleComponent={
+            <div className="space-y-3">
+              <h2 className="font-sans font-bold tracking-[-0.03em] text-primary"
+                style={{ fontSize: 'clamp(1.8rem,3.5vw,2.8rem)' }}>
+                Das vollständige{' '}
+                <span className="font-serif font-normal italic text-signal">Restaurant-Dashboard.</span>
+              </h2>
+              <p className="text-secondary text-base max-w-[46ch] mx-auto leading-[1.65]">
+                Echtzeit-Bestellungen, Tischplan, Speisekarte, Reservierungen, Statistiken —
+                alles in einer Ansicht, von überall erreichbar.
+              </p>
+            </div>
+          }
+        >
+          <AppScreenshotCarousel />
+        </ContainerScroll>
       </section>
 
       {/* ════════════════════════════════════════════
-          3 FEATURES mit echten Screenshots
+          ALLE FEATURES — Tab-Navigation
           ════════════════════════════════════════════ */}
-      <section className="border-t border-border py-20 md:py-28 bg-surface">
-        <Container>
-          <motion.div
-            variants={fadeUp}
-            initial="initial"
-            whileInView="animate"
-            viewport={viewport}
-            className="text-center mb-16"
-          >
-            <p className="font-mono text-xs text-muted uppercase tracking-[0.14em] mb-3">Funktionen</p>
-            <h2 className="font-sans font-bold tracking-[-0.03em] text-primary"
-              style={{ fontSize: 'clamp(1.75rem,3vw,2.5rem)' }}>
-              Drei Werkzeuge. Ein System.
-            </h2>
-          </motion.div>
-
-          <div className="space-y-20">
-            {/* Feature 1 — Bestellungen */}
-            <motion.div
-              variants={fadeUp}
-              initial="initial"
-              whileInView="animate"
-              viewport={viewport}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-            >
-              <div>
-                <div className="inline-flex items-center gap-2.5 bg-signal/10 border border-signal/25
-                  text-signal rounded-lg px-3.5 py-2 mb-6">
-                  <QrCode className="w-4 h-4" />
-                  <span className="font-mono text-xs uppercase tracking-[0.1em]">QR-Bestellung</span>
-                </div>
-                <h3 className="font-sans font-bold text-2xl text-primary mb-4 tracking-tight">
-                  Gäste bestellen direkt vom Tisch. Kein Kellner nötig.
-                </h3>
-                <p className="text-secondary leading-[1.7] mb-6">
-                  QR-Code am Tisch scannen, Karte im Browser öffnen, bestellen — direkt in die Küche.
-                  Keine App, keine Anmeldung, funktioniert auf jedem Smartphone.
-                </p>
-                <ul className="space-y-2.5">
-                  {['Browser-basiert — keine App', 'Mehrsprachig: DE / EN / TR', 'Live-Sync mit der Küche'].map(f => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm text-secondary">
-                      <Check className="w-4 h-4 text-signal flex-shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="rounded-xl overflow-hidden border border-border"
-                style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.12)' }}>
-                <img src="/screenshots/speisekarte.png" alt="ServeFlow Speisekarte" className="w-full" />
-              </div>
-            </motion.div>
-
-            {/* Feature 2 — Reservierungen */}
-            <motion.div
-              variants={fadeUp}
-              initial="initial"
-              whileInView="animate"
-              viewport={viewport}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-            >
-              <div className="lg:order-2">
-                <div className="inline-flex items-center gap-2.5 bg-signal/10 border border-signal/25
-                  text-signal rounded-lg px-3.5 py-2 mb-6">
-                  <CalendarDays className="w-4 h-4" />
-                  <span className="font-mono text-xs uppercase tracking-[0.1em]">Reservierungen</span>
-                </div>
-                <h3 className="font-sans font-bold text-2xl text-primary mb-4 tracking-tight">
-                  Online buchen — über die Website oder WhatsApp.
-                </h3>
-                <p className="text-secondary leading-[1.7] mb-6">
-                  Gäste reservieren wann sie wollen. Automatische Bestätigung, 2h-Erinnerung,
-                  No-Show-Handling. Kein Telefonat nötig.
-                </p>
-                <ul className="space-y-2.5">
-                  {['Web-Widget + WhatsApp Business', 'Automatische E-Mail-Bestätigung', 'Kalender-Export'].map(f => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm text-secondary">
-                      <Check className="w-4 h-4 text-signal flex-shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="lg:order-1 flex justify-center">
-                <div className="w-[320px] rounded-2xl overflow-hidden border border-border"
-                  style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.12)' }}>
-                  <img src="/screenshots/buchen.png" alt="ServeFlow Reservierung" className="w-full" />
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Feature 3 — Dashboard */}
-            <motion.div
-              variants={fadeUp}
-              initial="initial"
-              whileInView="animate"
-              viewport={viewport}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-            >
-              <div>
-                <div className="inline-flex items-center gap-2.5 bg-signal/10 border border-signal/25
-                  text-signal rounded-lg px-3.5 py-2 mb-6">
-                  <BarChart3 className="w-4 h-4" />
-                  <span className="font-mono text-xs uppercase tracking-[0.1em]">Dashboard</span>
-                </div>
-                <h3 className="font-sans font-bold text-2xl text-primary mb-4 tracking-tight">
-                  Alles auf einen Blick — von überall erreichbar.
-                </h3>
-                <p className="text-secondary leading-[1.7] mb-6">
-                  Laufende Bestellungen, Tagesauslastung, Umsatz, Speisekarte, Mitarbeiter —
-                  komplett in einem Dashboard. Läuft auf Tablet, Desktop und Smartphone.
-                </p>
-                <ul className="space-y-2.5">
-                  {['Live-Bestellungen in Echtzeit', 'Umsatz & Statistiken', 'Speisekarte selbst bearbeiten'].map(f => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm text-secondary">
-                      <Check className="w-4 h-4 text-signal flex-shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="rounded-xl overflow-hidden border border-border"
-                style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.12)' }}>
-                <img src="/screenshots/dashboard.png" alt="ServeFlow Dashboard" className="w-full" />
-              </div>
-            </motion.div>
-          </div>
-        </Container>
-      </section>
+      <FeatureTabs />
 
       {/* ════════════════════════════════════════════
           PREISE
@@ -383,6 +253,283 @@ export default function ServeflowPage() {
         </Container>
       </section>
     </main>
+  )
+}
+
+const FEATURE_TABS = [
+  {
+    id: 'bestellungen',
+    label: 'QR-Bestellung',
+    icon: QrCode,
+    headline: 'Gäste bestellen direkt vom Tisch.',
+    text: 'QR-Code scannen, Karte im Browser öffnen, bestellen — ohne App, ohne Anmeldung. Die Bestellung landet direkt in der Küche. Kein Kellner als Zwischenschritt.',
+    screenshot: '/screenshots/speisekarte.png',
+    screenshotAlt: 'ServeFlow Speisekarte — Mobile Ansicht',
+    mobile: true,
+    punkte: [
+      'Browser-basiert — kein App-Download nötig',
+      'Mehrsprachig: Deutsch, Englisch, Türkisch',
+      'Live-Sync mit der Küche in Echtzeit',
+      'Extras, Varianten und Allergene',
+      'Tisch-Erkennung via QR-Code automatisch',
+    ],
+  },
+  {
+    id: 'reservierungen',
+    label: 'Reservierungen',
+    icon: CalendarDays,
+    headline: 'Online buchen — Web oder WhatsApp.',
+    text: 'Gäste reservieren wann sie wollen. Automatische Bestätigung, Erinnerung 2 Stunden vorher, No-Show-Handling. Kein Telefonat, kein manueller Eintrag.',
+    screenshot: '/screenshots/reservierungen.png',
+    screenshotAlt: 'ServeFlow Reservierungen — Übersicht',
+    mobile: false,
+    punkte: [
+      'Web-Widget auf jede Seite einbettbar',
+      'WhatsApp Business Integration',
+      'Automatische E-Mail-Bestätigung',
+      '2h-Erinnerung vor dem Termin',
+      'No-Show-Handling mit Abfrage',
+    ],
+  },
+  {
+    id: 'dashboard',
+    label: 'Dashboard',
+    icon: BarChart3,
+    headline: 'Alles auf einen Blick.',
+    text: 'Laufende Bestellungen, Tischauslastung, Umsatz — komplett in einem Dashboard. Läuft auf Tablet, Desktop und Smartphone. Von überall erreichbar.',
+    screenshot: '/screenshots/dashboard.png',
+    screenshotAlt: 'ServeFlow Dashboard — Hauptansicht',
+    mobile: false,
+    punkte: [
+      'Live-Bestellungen in Echtzeit',
+      'Tagesauslastung und offene Tische',
+      'Umsatz nach Stunde / Tag / Monat',
+      'Speisekarte direkt bearbeiten',
+      'Mehrere Standorte verwaltbar',
+    ],
+  },
+  {
+    id: 'tischplan',
+    label: 'Tischplan',
+    icon: MapPin,
+    headline: 'Euer Restaurant digital abgebildet.',
+    text: 'Der Tischplan zeigt in Echtzeit, welcher Tisch besetzt ist, wie lange, und welche Bestellungen noch offen sind. Damit bleibt nichts liegen.',
+    screenshot: '/screenshots/tischplan.png',
+    screenshotAlt: 'ServeFlow Tischplan',
+    mobile: false,
+    punkte: [
+      'Drag-and-drop Tischplan-Editor',
+      'Echtzeit-Belegungsstatus',
+      'Offene Bestellungen pro Tisch sichtbar',
+      'Reservierungen direkt im Plan',
+      'Mehrstöckige Layouts möglich',
+    ],
+  },
+  {
+    id: 'statistiken',
+    label: 'Statistiken',
+    icon: BarChart3,
+    headline: 'Zahlen die weiterhelfen.',
+    text: 'Welche Gerichte laufen am besten? Wann ist der Betrieb am vollsten? Welche Tische werden wie oft umgeschlagen? ServeFlow liefert die Antworten.',
+    screenshot: '/screenshots/statistiken.png',
+    screenshotAlt: 'ServeFlow Statistiken',
+    mobile: false,
+    punkte: [
+      'Top-Gerichte nach Umsatz und Häufigkeit',
+      'Stoßzeiten-Analyse nach Stunde',
+      'Tischumschlag-Rate',
+      'Vergleich Vorwoche / Vormonat',
+      'CSV-Export für die Buchhaltung',
+    ],
+  },
+  {
+    id: 'mitarbeiter',
+    label: 'Mitarbeiter',
+    icon: Users,
+    headline: 'Team verwalten, Schichten planen.',
+    text: 'Mitarbeiter anlegen, Rollen vergeben, Schichtplan erstellen. Jeder Mitarbeiter sieht seinen eigenen Kalender und bekommt Benachrichtigungen direkt aufs Handy.',
+    screenshot: '/screenshots/mitarbeiter.png',
+    screenshotAlt: 'ServeFlow Mitarbeiter',
+    mobile: false,
+    punkte: [
+      'Rollen: Manager, Küche, Service',
+      'Schichtplan mit Wochenansicht',
+      'Push-Benachrichtigungen bei neuen Bestellungen',
+      'Individuelle Login-Zugänge pro Mitarbeiter',
+      'Aktivitätsprotokoll',
+    ],
+  },
+  {
+    id: 'push',
+    label: 'Push & Alerts',
+    icon: Bell,
+    headline: 'Keine Bestellung verpasst.',
+    text: 'ServeFlow sendet Push-Benachrichtigungen bei neuen Bestellungen, Reservierungsänderungen und Schichtplan-Updates — auch ohne App.',
+    screenshot: '/screenshots/bestellungen.png',
+    screenshotAlt: 'ServeFlow Push-Benachrichtigungen',
+    mobile: false,
+    punkte: [
+      'Web-Push ohne App-Installation',
+      'Neue Bestellung → sofort auf dem Gerät',
+      'Reservierungsbestätigung für Gäste',
+      '1h-Erinnerung vor Schichtbeginn',
+      'iOS und Android',
+    ],
+  },
+  {
+    id: 'bewertungen',
+    label: 'Bewertungen',
+    icon: Star,
+    headline: 'Mehr Google-Bewertungen. Automatisch.',
+    text: 'Nach jedem Besuch sendet ServeFlow automatisch eine Bewertungsanfrage. Bei 4 oder 5 Sternen wird direkt zu Google weitergeleitet. Interne Kritik bleibt intern.',
+    screenshot: '/screenshots/reservierungen.png',
+    screenshotAlt: 'ServeFlow Bewertungs-Flow',
+    mobile: false,
+    punkte: [
+      'Automatische E-Mail nach dem Besuch',
+      '4–5 Sterne → direkt zu Google',
+      '1–3 Sterne → internes Feedback-Formular',
+      'Kein manueller Aufwand',
+      'DSGVO-konform',
+    ],
+  },
+  {
+    id: 'whatsapp',
+    label: 'WhatsApp',
+    icon: MessageSquare,
+    headline: 'Reservierungen über WhatsApp.',
+    text: 'Gäste schreiben eine WhatsApp, der Bot antwortet, fragt Datum und Personenzahl ab, und trägt die Reservierung automatisch ein. Der Gastronom sieht alles im Dashboard.',
+    screenshot: '/screenshots/buchen-desktop.png',
+    screenshotAlt: 'ServeFlow WhatsApp-Reservierung',
+    mobile: false,
+    punkte: [
+      'WhatsApp Business API (offiziell)',
+      'Automatische Antworten und Rückfragen',
+      'Direkte Eintragung ins Reservierungssystem',
+      'Bestätigung und Erinnerung per WA',
+      'DSGVO-konform',
+    ],
+  },
+  {
+    id: 'inventur',
+    label: 'Inventur',
+    icon: Package,
+    headline: 'Lagerbestand im Blick.',
+    text: 'Zutaten und Waren erfassen, Mindestbestände setzen, automatisch Alarm wenn etwas aufgebraucht wird. Weniger Lebensmittelverschwendung, weniger unerwartete Engpässe.',
+    screenshot: '/screenshots/dashboard.png',
+    screenshotAlt: 'ServeFlow Inventur',
+    mobile: false,
+    punkte: [
+      'Zutaten mit Mindestbestand hinterlegen',
+      'Alarm bei Unterschreitung',
+      'Verbrauch automatisch tracken',
+      'Manuelle Inventur-Eingabe',
+      'Export für Bestelllisten',
+    ],
+  },
+]
+
+function FeatureTabs() {
+  const [active, setActive] = useState('bestellungen')
+  const current = FEATURE_TABS.find(t => t.id === active) ?? FEATURE_TABS[0]
+  const Icon = current.icon
+
+  return (
+    <section className="border-t border-border py-20 md:py-28 bg-surface">
+      <Container>
+        <motion.div
+          variants={fadeUp}
+          initial="initial"
+          whileInView="animate"
+          viewport={viewport}
+          className="mb-10"
+        >
+          <p className="font-mono text-xs text-muted uppercase tracking-[0.14em] mb-3">Alle Funktionen</p>
+          <h2 className="font-sans font-bold tracking-[-0.03em] text-primary"
+            style={{ fontSize: 'clamp(1.75rem,3vw,2.5rem)' }}>
+            Ein System. Alles drin.
+          </h2>
+        </motion.div>
+
+        {/* Tab-Leiste — scrollbar auf Mobile */}
+        <div className="flex gap-1 overflow-x-auto pb-2 mb-10 scrollbar-none">
+          {FEATURE_TABS.map(tab => {
+            const TabIcon = tab.icon
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActive(tab.id)}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap
+                  transition-colors flex-shrink-0 ${
+                  active === tab.id
+                    ? 'bg-signal text-white'
+                    : 'bg-elevated text-secondary hover:text-primary border border-border'
+                }`}
+              >
+                <TabIcon className="w-3.5 h-3.5" />
+                {tab.label}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Tab-Inhalt */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+          >
+            <div>
+              <div className="inline-flex items-center gap-2.5 bg-signal/10 border border-signal/25
+                text-signal rounded-lg px-3.5 py-2 mb-6">
+                <Icon className="w-4 h-4" />
+                <span className="font-mono text-xs uppercase tracking-[0.1em]">{current.label}</span>
+              </div>
+              <h3 className="font-sans font-bold text-2xl text-primary mb-4 tracking-tight">
+                {current.headline}
+              </h3>
+              <p className="text-secondary leading-[1.7] mb-6">{current.text}</p>
+              <ul className="space-y-2.5 mb-8">
+                {current.punkte.map(p => (
+                  <li key={p} className="flex items-center gap-2.5 text-sm text-secondary">
+                    <Check className="w-4 h-4 text-signal flex-shrink-0" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="https://app.serve-flow.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary
+                  border-b border-primary pb-0.5 hover:text-signal hover:border-signal transition-colors group"
+              >
+                Kostenlos testen
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+            </div>
+
+            <div className={`flex ${current.mobile ? 'justify-center' : ''}`}>
+              {current.mobile ? (
+                <div className="w-[300px] rounded-2xl overflow-hidden border border-border"
+                  style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.12)' }}>
+                  <img src={current.screenshot} alt={current.screenshotAlt} className="w-full" />
+                </div>
+              ) : (
+                <div className="rounded-xl overflow-hidden border border-border w-full"
+                  style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.12)' }}>
+                  <img src={current.screenshot} alt={current.screenshotAlt} className="w-full" />
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </Container>
+    </section>
   )
 }
 

@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowUpRight, ArrowRight, CheckCircle2 } from 'lucide-react'
 import { Container } from '../components/Container'
+import { ContainerScroll } from '../components/ui/ContainerScroll'
+import { AppScreenshotCarousel } from '../components/ui/AppScreenshotCarousel'
 import { WERKBANK, JOURNAL_ENTRIES } from '../lib/constants'
 import { fadeUp, viewport } from '../lib/motion'
 
@@ -180,6 +182,33 @@ export default function Home() {
             </motion.div>
           </div>
         </Container>
+      </section>
+
+      {/* ════════════════════════════════════════════
+          SERVEFLOW 3D SCROLL — ContainerScroll
+          ════════════════════════════════════════════ */}
+      <section className="overflow-hidden bg-surface">
+        <ContainerScroll
+          titleComponent={
+            <div className="space-y-4">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full
+                border border-border bg-bg text-xs font-mono text-secondary uppercase tracking-[0.1em]">
+                <span className="w-1.5 h-1.5 rounded-full bg-signal animate-pulse flex-shrink-0" />
+                ServeFlow · Restaurant-Management
+              </span>
+              <h2 className="font-sans font-bold tracking-[-0.03em] text-primary"
+                style={{ fontSize: 'clamp(2rem,4vw,3.25rem)' }}>
+                Ein Dashboard für{' '}
+                <span className="font-serif font-normal italic text-signal">alles.</span>
+              </h2>
+              <p className="font-sans text-secondary text-base md:text-lg max-w-[48ch] mx-auto leading-[1.65]">
+                Bestellungen, Reservierungen, Speisekarte, Tischplan, Statistiken — live, von überall.
+              </p>
+            </div>
+          }
+        >
+          <AppScreenshotCarousel />
+        </ContainerScroll>
       </section>
 
       {/* ════════════════════════════════════════════
