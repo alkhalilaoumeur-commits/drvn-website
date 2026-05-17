@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Container } from '../components/Container'
 import { Eyebrow } from '../components/Eyebrow'
+import SEO from '../components/SEO'
 import { fadeUp, viewport } from '../lib/motion'
 import { BRAND } from '../lib/constants'
 import { track, Events } from '../lib/analytics'
@@ -53,7 +54,14 @@ const VERFAHREN = [
 
 export default function WebPage() {
   return (
-    <main>
+    <>
+      <SEO
+        title="Webseiten & Webentwicklung Stuttgart | drvn"
+        description="Professionelle Unternehmenswebseiten, Landingpages und Webapplikationen aus Stuttgart. React, TypeScript, DSGVO-konform, schnell. Ab 2.990 €, Lieferung in 2–5 Wochen."
+        path="/web"
+        keywords="Webdesign Stuttgart, Webseite erstellen lassen, Landingpage erstellen, Corporate Website, Webentwicklung DACH, React Webseite, responsive Webdesign Deutschland"
+      />
+      <main>
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="pt-40 md:pt-56 pb-20 md:pb-28">
         <Container>
@@ -204,7 +212,8 @@ export default function WebPage() {
           </div>
         </Container>
       </section>
-    </main>
+      </main>
+    </>
   )
 }
 

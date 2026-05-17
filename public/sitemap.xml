@@ -4,80 +4,84 @@
 
   <url>
     <loc>https://drvnautomatisations.com/</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://drvnautomatisations.com/og-image.svg</image:loc>
-      <image:title>DRVN — Branchenspezifische SaaS-Lösungen Deutschland</image:title>
+      <image:title>drvn — Software Studio aus Stuttgart</image:title>
     </image:image>
   </url>
 
   <url>
-    <loc>https://drvnautomatisations.com/produkte/serveflow</loc>
-    <lastmod>2026-05-04</lastmod>
+    <loc>https://drvnautomatisations.com/serveflow</loc>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
     <image:image>
-      <image:loc>https://drvnautomatisations.com/og-image.svg</image:loc>
-      <image:title>ServeFlow — Restaurantmanagement-Software für Deutschland</image:title>
+      <image:loc>https://drvnautomatisations.com/screenshots/dashboard.png</image:loc>
+      <image:title>ServeFlow Dashboard — Restaurant-Management-Software</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://drvnautomatisations.com/screenshots/bestellungen.png</image:loc>
+      <image:title>ServeFlow Bestellungen — Live-Ansicht</image:title>
     </image:image>
   </url>
 
   <url>
-    <loc>https://drvnautomatisations.com/leistungen/webseiten</loc>
-    <lastmod>2026-05-04</lastmod>
+    <loc>https://drvnautomatisations.com/bookbase</loc>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://drvnautomatisations.com/beispiel/casa-lupo</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://drvnautomatisations.com/leistungen</loc>
-    <lastmod>2026-05-04</lastmod>
+    <loc>https://drvnautomatisations.com/web</loc>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://drvnautomatisations.com/branchen</loc>
-    <lastmod>2026-05-04</lastmod>
+    <loc>https://drvnautomatisations.com/automatisierungen</loc>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://drvnautomatisations.com/ueber-uns</loc>
-    <lastmod>2026-05-04</lastmod>
+    <loc>https://drvnautomatisations.com/individuelle-projekte</loc>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://drvnautomatisations.com/journal</loc>
+    <lastmod>2026-05-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
   </url>
 
   <url>
     <loc>https://drvnautomatisations.com/kontakt</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://drvnautomatisations.com/impressum</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.2</priority>
   </url>
 
   <url>
     <loc>https://drvnautomatisations.com/datenschutz</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.2</priority>
   </url>
 
 </urlset>

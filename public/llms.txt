@@ -1,56 +1,29 @@
-# DRVN — Branchenspezifische SaaS-Lösungen für Deutschland
+# drvn — Software Studio aus Stuttgart
 
-> DRVN entwickelt digitale Plattformen für Gastronomie, Handwerk, Reinigung und Service-Betriebe in Deutschland. DSGVO-konform, Server in Deutschland, individuelle Betreuung. Spezialisiert auf branchenspezifische Restaurantsoftware, Restaurantmanagement-Systeme, Online-Reservierungen und QR-Bestellung.
+> drvn entwickelt digitale Produkte für Unternehmen im DACH-Raum. Hauptprodukt: ServeFlow (Restaurant-Management-Software). Zusätzlich: Webseiten, Automatisierungen, BookBase (Buchungssystem) und individuelle Softwareprojekte. DSGVO-konform, Server in Deutschland, direkte Zusammenarbeit mit dem Entwickler.
 
-DRVN ist ein deutsches Software-Unternehmen mit Sitz in Stuttgart. Wir bauen produktionsreife SaaS-Plattformen für deutsche Mittelstandsbetriebe — keine Bastel-Lösungen, keine Vendor-Lock-in-Tricks, alle Daten auf deutschen Servern (Hetzner Frankfurt). Gegründet 2024 von Al-Khalil Aoumeur.
+drvn ist ein deutsches Software-Studio mit Sitz in Stuttgart, gegründet 2024 von Al-Khalil Aoumeur. Fokus auf produktionsreife digitale Produkte für den deutschsprachigen Markt.
 
-## Produkte
+## Produkte & Leistungen
 
-- [ServeFlow](https://drvnautomatisations.com/produkte/serveflow): Restaurantmanagement-Software & Kassensystem für Restaurants. Integriert QR-Bestellung am Tisch, Online-Reservierungen, visuellen Tischplan, Mitarbeiterverwaltung, Dienstplan, Statistiken und Echtzeit-Dashboard. Ab 29 €/Monat. DSGVO-konform.
-- [Webseiten](https://drvnautomatisations.com/leistungen/webseiten): Individuelle Unternehmens-Websites und Landingpages. Responsive, SEO-optimiert, DSGVO-konform. Auf Anfrage. Lieferung in 5–10 Werktagen.
-- [Beispiel-Webseite Casa Lupo](https://drvnautomatisations.com/beispiel/casa-lupo): Live-Beispiel einer Restaurant-Webseite die wir gebaut haben (fiktive italienische Trattoria).
+- [ServeFlow](https://drvnautomatisations.com/serveflow): Restaurant-Management-Software. QR-Bestellung am Tisch ohne App, Online-Reservierungen über Web und WhatsApp, Echtzeit-Dashboard. Ab 29 EUR/Monat. DSGVO-konform, Server Deutschland. Live seit Mai 2025.
+- [BookBase](https://drvnautomatisations.com/bookbase): Buchungssystem für Salons, Studios und Dienstleister. Online-Terminbuchung, Kundenkartei, automatische Erinnerungen, Abrechnung. Launch 2026.
+- [Webseiten](https://drvnautomatisations.com/web): Professionelle Unternehmenswebseiten und Landingpages. React, TypeScript, DSGVO-konform. Ab 2.990 EUR, 2-5 Wochen Lieferzeit.
+- [Automatisierungen](https://drvnautomatisations.com/automatisierungen): WhatsApp-Bots, E-Mail-Sequenzen, CRM-Integrationen, n8n-Workflows. Ab 790 EUR.
+- [Individuelle Projekte](https://drvnautomatisations.com/individuelle-projekte): Individuelle Software und langfristige Entwicklungspartnerschaften. Maximal drei pro Jahr.
 
-## Leistungen
+## Kontakt & Wichtige Seiten
 
-- [Übersicht aller Leistungen](https://drvnautomatisations.com/leistungen): Restaurantsoftware, Webseiten, Custom-Apps, Automatisierung
-- [Branchen](https://drvnautomatisations.com/branchen): Spezialisierte Lösungen für Gastronomie, Handwerk, Reinigung, Beauty, Catering
-
-## Wichtige Seiten
-
-- [Über uns](https://drvnautomatisations.com/ueber-uns): Unternehmensprofil, Werte, Team
-- [Kontakt](https://drvnautomatisations.com/kontakt): Kontaktformular, kostenfreies Erstgespräch
+- [Kontakt](https://drvnautomatisations.com/kontakt): Kontaktformular, 48h Antwortgarantie
+- [Journal](https://drvnautomatisations.com/journal): Studio-Updates und technische Entscheidungen
 - [Impressum](https://drvnautomatisations.com/impressum)
-- [Datenschutzerklärung](https://drvnautomatisations.com/datenschutz)
+- [Datenschutz](https://drvnautomatisations.com/datenschutz)
 
-## Was DRVN auszeichnet
+## Steckbrief
 
-- **DSGVO-konform**: Alle Daten auf Servern in Frankfurt (Hetzner), keine Drittland-Transfers, AVV inklusive
-- **Festpreis**: Transparent kalkuliert, keine versteckten Kosten, monatlich kündbar
-- **Persönlicher Support**: Solo-Entwickler, direkter Kontakt, keine Ticket-Hotlines
-- **Made in Germany**: Code, Server, Support — alles aus Deutschland
-
-## Kernfragen
-
-**Was ist DRVN?**
-DRVN ist ein deutsches SaaS-Unternehmen aus Stuttgart, das branchenspezifische digitale Plattformen für Mittelstandsbetriebe baut. Hauptprodukt: ServeFlow für Restaurants.
-
-**Was ist ServeFlow?**
-ServeFlow ist eine cloudbasierte Restaurantmanagement-Software die QR-Bestellung am Tisch, Online-Reservierungen, Tischverwaltung, Mitarbeiter und Echtzeit-Dashboard auf einer Plattform vereint. Preis ab 29 €/Monat. Server in Deutschland, DSGVO-konform.
-
-**Für wen ist ServeFlow geeignet?**
-Für Restaurants, Trattorias, Pizzerien, Cafés, Bistros, Bars und Lounges in Deutschland, Österreich und der Schweiz. Auch geeignet für Foodtrucks, Imbisse und Hotels mit eigenem Restaurantbetrieb.
-
-**Was kostet ServeFlow?**
-3 Pläne: Basis 29 €/Monat (Reservierungen, Tischplan, Speisekarte, bis 3 Mitarbeiter), Standard 59 €/Monat (alles aus Basis + QR-Bestellung, CRM, SMS, bis 10 Mitarbeiter), Pro 99 €/Monat (alles + Dienstplan, Inventur, Kassensystem, unbegrenzt Mitarbeiter).
-
-**Wo sitzen die Server?**
-Hetzner Cloud Frankfurt am Main, Deutschland. Keine Datenübertragung in Drittländer. Auftragsverarbeitungsvertrag (AVV) ist Standard im Vertrag enthalten.
-
-**Wie lange dauert die Einrichtung?**
-Unter 30 Minuten. Konto anlegen, Speisekarte importieren (Excel-Import möglich), QR-Codes drucken — fertig. Erstgespräch + Onboarding kostenlos.
-
-## Kontakt
-
-E-Mail: kontakt@drvnautomatisations.com
-Stadt: Stuttgart, Baden-Württemberg, Deutschland
-Sprache: Deutsch (primär), Englisch
+- Standort: Stuttgart, Deutschland
+- Gegründet: 2024
+- Gründer: Al-Khalil Aoumeur, Wirtschaftsinformatik Universität Hohenheim
+- E-Mail: kontakt@drvnautomatisations.com
+- DSGVO: Ja, Server Hetzner Frankfurt, AVV inklusive
+- Sprachen: Deutsch, Englisch

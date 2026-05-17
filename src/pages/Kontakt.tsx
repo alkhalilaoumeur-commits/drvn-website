@@ -3,12 +3,20 @@ import { motion } from 'framer-motion'
 import { Container } from '../components/Container'
 import { BRAND } from '../lib/constants'
 import { track, Events } from '../lib/analytics'
+import SEO from '../components/SEO'
 import { fadeUp, viewport } from '../lib/motion'
 import { Mail, MapPin, Clock, CheckCircle2, ArrowRight, MessageSquare, Package, Euro } from 'lucide-react'
 
 export default function KontaktPage() {
   return (
-    <main>
+    <>
+      <SEO
+        title="Kontakt | drvn — Software Studio Stuttgart"
+        description="Kontaktiere drvn für ServeFlow Demo, Webprojekt oder individuelle Software-Anfrage. Wir antworten innerhalb von 48 Stunden. Stuttgart, Deutschland. Kostenloses Erstgespräch."
+        path="/kontakt"
+        keywords="drvn Kontakt, Webentwicklung Stuttgart Kontakt, ServeFlow Demo anfragen, Software Anfrage, Erstgespräch Webdesign Stuttgart"
+      />
+      <main>
       {/* ════════════════════════════════════════════
           HERO
           ════════════════════════════════════════════ */}
@@ -122,7 +130,8 @@ export default function KontaktPage() {
           </div>
         </Container>
       </section>
-    </main>
+      </main>
+    </>
   )
 }
 

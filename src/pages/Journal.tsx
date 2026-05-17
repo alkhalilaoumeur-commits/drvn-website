@@ -3,10 +3,18 @@ import { Container } from '../components/Container'
 import { Eyebrow } from '../components/Eyebrow'
 import { JOURNAL_ENTRIES } from '../lib/constants'
 import { fadeUp, stagger, viewport } from '../lib/motion'
+import SEO from '../components/SEO'
 
 export default function JournalPage() {
   return (
-    <main>
+    <>
+      <SEO
+        title="Journal — Notizen aus dem Studio | drvn"
+        description="Technische Entscheidungen, Produkt-Updates und Gedanken aus dem drvn Studio. Über ServeFlow, Webentwicklung und digitale Produkte im DACH-Markt."
+        path="/journal"
+        keywords="Software Blog, Webentwicklung Stuttgart Blog, ServeFlow Updates, Tech Blog Deutschland, Restaurantsoftware Neuigkeiten"
+      />
+      <main>
       <section className="pt-40 md:pt-56 pb-12 md:pb-16">
         <Container>
           <Eyebrow>Journal</Eyebrow>
@@ -65,6 +73,7 @@ export default function JournalPage() {
           </motion.div>
         </Container>
       </section>
-    </main>
+      </main>
+    </>
   )
 }

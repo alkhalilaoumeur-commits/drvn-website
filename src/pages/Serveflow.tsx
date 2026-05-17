@@ -9,6 +9,7 @@ import {
 import { ContainerScroll } from '../components/ui/ContainerScroll'
 import { AppScreenshotCarousel } from '../components/ui/AppScreenshotCarousel'
 import { Container } from '../components/Container'
+import SEO, { buildFaqSchema } from '../components/SEO'
 import { SERVEFLOW_FAQ } from '../lib/constants'
 import { fadeUp, viewport, ease } from '../lib/motion'
 
@@ -31,8 +32,17 @@ const PRICING = [
 ]
 
 export default function ServeflowPage() {
+  const faqSchema = buildFaqSchema(SERVEFLOW_FAQ as unknown as {frage:string;antwort:string}[])
   return (
-    <main>
+    <>
+      <SEO
+        title="ServeFlow — Restaurant-Management-Software für Deutschland | drvn"
+        description="ServeFlow: QR-Bestellung, Online-Reservierungen per Web & WhatsApp, Echtzeit-Dashboard. Für Restaurants im DACH-Raum. Ab 29 €/Monat, DSGVO-konform, Server in Deutschland."
+        path="/serveflow"
+        keywords="Restaurant Software, Restaurantsoftware, QR Bestellung Restaurant, Reservierungssystem Restaurant, Gastronomie Software Deutschland, Speisekarte digital, Restaurant Management DACH"
+        schema={[faqSchema]}
+      />
+      <main>
       {/* ════════════════════════════════════════════
           HERO — Screenshot prominent
           ════════════════════════════════════════════ */}
@@ -252,7 +262,8 @@ export default function ServeflowPage() {
           </div>
         </Container>
       </section>
-    </main>
+      </main>
+    </>
   )
 }
 

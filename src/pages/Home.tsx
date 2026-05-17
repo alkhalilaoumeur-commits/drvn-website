@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { ArrowUpRight, ArrowRight, CheckCircle2 } from 'lucide-react'
 import { Container } from '../components/Container'
 import { ContainerScroll } from '../components/ui/ContainerScroll'
+import SEO from '../components/SEO'
 import { AppScreenshotCarousel } from '../components/ui/AppScreenshotCarousel'
 import { WERKBANK, JOURNAL_ENTRIES } from '../lib/constants'
 import { fadeUp, viewport } from '../lib/motion'
@@ -16,7 +17,14 @@ const BADGE_STYLE: Record<string, string> = {
 
 export default function Home() {
   return (
-    <main>
+    <>
+      <SEO
+        title="drvn — Software Studio aus Stuttgart | Webentwicklung & SaaS"
+        description="drvn entwickelt digitale Produkte für Unternehmen im DACH-Raum. ServeFlow (Restaurant-Software ab 29 €/Mo), Webseiten, Automatisierungen und individuelle Software. Direkt mit dem Entwickler aus Stuttgart."
+        path="/"
+        keywords="Webentwicklung Stuttgart, Software Studio DACH, ServeFlow Restaurant Software, Webdesign Stuttgart, SaaS Entwicklung, digitale Produkte Deutschland"
+      />
+      <main>
       {/* ════════════════════════════════════════════
           HERO — Screenshot Preview + Headline
           ════════════════════════════════════════════ */}
@@ -445,5 +453,6 @@ export default function Home() {
         </Container>
       </section>
     </main>
+    </>
   )
 }
