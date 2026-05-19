@@ -46,18 +46,12 @@ export default function Impressum() {
               <p>Keine Umsatzsteuer-Identifikationsnummer (Kleinunternehmer gemäß § 19 UStG).</p>
             </Block>
 
-            <Block title="Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV">
+            <Block title="Verantwortlich für journalistisch-redaktionelle Inhalte nach § 18 Abs. 2 MStV">
               <p>Al-Khalil Aoumeur, Egilolfstrasse 41, 70599 Stuttgart</p>
             </Block>
 
-            <Block title="Streitschlichtung">
-              <p>
-                Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung bereit:{' '}
-                <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" className="underline hover:text-signal transition-colors">
-                  ec.europa.eu/consumers/odr/
-                </a>
-              </p>
-              <p className="mt-2">Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+            <Block title="Verbraucherstreitbeilegung / Universalschlichtungsstelle">
+              <p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG).</p>
             </Block>
 
             <Block title="Haftung für Inhalte">

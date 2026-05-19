@@ -27,6 +27,16 @@ const SCREENS = [
     label: 'Statistiken',
     url:   'app.serve-flow.org/statistiken',
   },
+  {
+    src:   '/screenshots/reservierungen.png',
+    label: 'Reservierungen',
+    url:   'app.serve-flow.org/reservierungen',
+  },
+  {
+    src:   '/screenshots/mitarbeiter.png',
+    label: 'Mitarbeiter',
+    url:   'app.serve-flow.org/mitarbeiter',
+  },
 ]
 
 export function AppScreenshotCarousel() {
@@ -103,6 +113,23 @@ export function AppScreenshotCarousel() {
             {screen.label}
           </motion.span>
         </div>
+      </div>
+
+      {/* Klickbare Tab-Leiste */}
+      <div className="flex items-center gap-1 px-4 py-2.5 border-t border-white/10 bg-white/5 overflow-x-auto scrollbar-none">
+        {SCREENS.map((s, i) => (
+          <button
+            key={s.label}
+            onClick={() => setCurrent(i)}
+            className={`font-mono text-[10px] uppercase tracking-[0.08em] whitespace-nowrap px-2.5 py-1 rounded transition-colors flex-shrink-0 ${
+              i === current
+                ? 'text-signal bg-signal/10'
+                : 'text-muted hover:text-secondary'
+            }`}
+          >
+            {s.label}
+          </button>
+        ))}
       </div>
     </div>
   )

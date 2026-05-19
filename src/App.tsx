@@ -5,14 +5,17 @@ import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import { pageFade } from './lib/motion'
 
-import Home       from './pages/Home'
-import Serveflow  from './pages/Serveflow'
-import Web        from './pages/Web'
-import Ventures   from './pages/Ventures'
-import Journal    from './pages/Journal'
-import Kontakt    from './pages/Kontakt'
-import Impressum  from './pages/Impressum'
-import Datenschutz from './pages/Datenschutz'
+import Home                 from './pages/Home'
+import Serveflow            from './pages/Serveflow'
+import Automatisierungen    from './pages/Automatisierungen'
+import Bookbase             from './pages/Bookbase'
+import Web                  from './pages/Web'
+import IndividuelleProjekte from './pages/IndividuelleProjekte'
+import Journal              from './pages/Journal'
+import Kontakt              from './pages/Kontakt'
+import Impressum            from './pages/Impressum'
+import Datenschutz          from './pages/Datenschutz'
+import KanzleiVorschau      from './pages/beispiel/Kanzlei'
 
 function AnimatedRoutes() {
   const location = useLocation()
@@ -26,20 +29,22 @@ function AnimatedRoutes() {
         exit="exit"
       >
         <Routes location={location}>
-          {/* Primäre Routes */}
-          <Route path="/"            element={<Home />} />
-          <Route path="/serveflow"   element={<Serveflow />} />
-          <Route path="/web"         element={<Web />} />
-          <Route path="/ventures"    element={<Ventures />} />
-          <Route path="/journal"     element={<Journal />} />
-          <Route path="/kontakt"     element={<Kontakt />} />
+          <Route path="/"                       element={<Home />} />
+          <Route path="/serveflow"              element={<Serveflow />} />
+          <Route path="/automatisierungen"      element={<Automatisierungen />} />
+          <Route path="/bookbase"               element={<Bookbase />} />
+          <Route path="/web"                    element={<Web />} />
+          <Route path="/individuelle-projekte"  element={<IndividuelleProjekte />} />
+          <Route path="/journal"                element={<Journal />} />
+          <Route path="/kontakt"                element={<Kontakt />} />
 
-          {/* Legal */}
+          <Route path="/beispiel/kanzlei"       element={<KanzleiVorschau />} />
+
           <Route path="/impressum"   element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
 
-          {/* Legacy-Aliase (SEO) */}
           <Route path="/produkte/serveflow"   element={<Serveflow />} />
+          <Route path="/ventures"             element={<Navigate to="/individuelle-projekte" replace />} />
           <Route path="/leistungen/webseiten" element={<Web />} />
           <Route path="/leistungen"           element={<Navigate to="/web" replace />} />
           <Route path="/branchen"             element={<Navigate to="/" replace />} />
@@ -53,17 +58,30 @@ function AnimatedRoutes() {
   )
 }
 
+function Chrome({ children }: { children: React.ReactNode }) {
+  const location = useLocation()
+  const hideChrome = location.pathname.startsWith('/beispiel/')
+
+  if (hideChrome) {
+    return <div className="min-h-screen flex flex-col"><div className="flex-1">{children}</div></div>
+  }
+
+  return (
+    <div className="min-h-screen bg-paper flex flex-col">
+      <Nav />
+      <div className="flex-1">{children}</div>
+      <Footer />
+    </div>
+  )
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="min-h-screen bg-paper flex flex-col">
-        <Nav />
-        <div className="flex-1">
-          <AnimatedRoutes />
-        </div>
-        <Footer />
-      </div>
+      <Chrome>
+        <AnimatedRoutes />
+      </Chrome>
     </BrowserRouter>
   )
 }

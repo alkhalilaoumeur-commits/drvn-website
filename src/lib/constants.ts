@@ -8,10 +8,12 @@ export const BRAND = {
 } as const
 
 export const NAV_LINKS = [
-  { label: 'serveflow', href: '/serveflow' },
-  { label: 'web',       href: '/web' },
-  { label: 'ventures',  href: '/ventures' },
-  { label: 'journal',   href: '/journal' },
+  { label: 'serveflow',             href: '/serveflow' },
+  { label: 'automatisierungen',     href: '/automatisierungen' },
+  { label: 'bookbase',              href: '/bookbase' },
+  { label: 'web',                   href: '/web' },
+  { label: 'individuelle projekte', href: '/individuelle-projekte' },
+  { label: 'journal',               href: '/journal' },
 ] as const
 
 export const WERKBANK = [
@@ -20,7 +22,7 @@ export const WERKBANK = [
     tag:      'SaaS · Gastronomie',
     href:     '/serveflow',
     text:     'QR-Bestellung, Online-Reservierungen und Echtzeit-Dashboard für Restaurants im DACH-Raum.',
-    meta:     'Live seit Mai 2025 · Ab 29 €/Mo',
+    meta:     'Live seit Mai 2025 · Ab 19 €/Mo',
     badge:    'Live',
   },
   {
@@ -36,21 +38,21 @@ export const WERKBANK = [
     tag:      'Agentur · Auftrag',
     href:     '/web',
     text:     'Professionelle Unternehmenswebseiten und Landingpages — schnell, modern, DSGVO-konform.',
-    meta:     'Ab 2.990 € · 2–5 Wochen',
+    meta:     'Auf Anfrage · 2–5 Wochen',
     badge:    null,
   },
   {
     title:    'Automatisierungen',
     tag:      'Service · n8n',
-    href:     '/ventures',
+    href:     '/automatisierungen',
     text:     'WhatsApp-Bots, E-Mail-Sequenzen, CRM-Integrationen. Manuelle Prozesse werden zu Workflows.',
     meta:     'Ab 790 € · Auf Anfrage',
     badge:    null,
   },
   {
-    title:    'Ventures',
+    title:    'Individuelle Projekte',
     tag:      'Selektiv · Auftrag',
-    href:     '/ventures',
+    href:     '/individuelle-projekte',
     text:     'Individuelle Softwareprojekte und längerfristige Partnerschaften. Maximal drei pro Jahr.',
     meta:     'Auf Anfrage · 3 / Jahr',
     badge:    null,
@@ -61,8 +63,8 @@ export const JOURNAL_ENTRIES = [
   {
     datum:    '2026-05-04',
     tag:      'ServeFlow',
-    title:    'WhatsApp-Bot in ServeFlow: erste Version live',
-    lead:     'Wie wir die WhatsApp Business API für automatische Reservierungsbestätigungen anbinden — und warum wir uns gegen Twilio entschieden haben.',
+    title:    'Automatische Bewertungsanfragen: wie der Flow funktioniert',
+    lead:     'Nach jedem Restaurantbesuch geht automatisch eine Bewertungsanfrage raus. 4–5 Sterne landen auf Google, 1–3 Sterne in einem internen Formular. Hier ist wie wir das gebaut haben.',
   },
   {
     datum:    '2026-04-12',
@@ -73,8 +75,8 @@ export const JOURNAL_ENTRIES = [
   {
     datum:    '2026-03-08',
     tag:      'ServeFlow',
-    title:    'Reservierungen über QR-Code: Pilotphase abgeschlossen',
-    lead:     'Nach zwei Monaten Pilotbetrieb in fünf Restaurants ziehen wir Bilanz. Was funktioniert, was nicht, und was als nächstes kommt.',
+    title:    'QR-Bestellung am Tisch: warum es ohne App funktionieren muss',
+    lead:     'Browser statt App-Download — die Entscheidung dahinter, welche Stolpersteine es gab und wie das Feature heute aufgebaut ist.',
   },
   {
     datum:    '2026-02-14',
@@ -121,15 +123,23 @@ export const SERVEFLOW_FAQ = [
     frage: 'Was kostet eine individuelle Anpassung?',
     antwort: 'Kleinere Anpassungen (Farben, Logo) sind inklusive. Tiefgreifende Custom-Entwicklung wird separat nach Aufwand berechnet — fragt vorher an.',
   },
+  {
+    frage: 'Kann ich ServeFlow kostenlos testen?',
+    antwort: 'Ja. 14 Tage kostenlos — ohne Kreditkarte, ohne Vertrag. Nach Ablauf wählt ihr euren Plan oder löscht den Account. Keine automatische Verlängerung.',
+  },
+  {
+    frage: 'Funktioniert ServeFlow auch für Restaurants mit mehreren Standorten?',
+    antwort: 'Mehrere Standorte sind in Planung — sprich uns vorher direkt an, wenn du das brauchst, dann klären wir die beste Lösung für dich.',
+  },
 ] as const
 
 export const WEB_REFERENZEN = [
   {
-    name:     'Quan An',
-    typ:      'Restaurant-Webseite',
-    url:      'https://drvnautomatisations.com/beispiel/quan-an',
-    text:     'Moderne Restaurant-Website mit integrierten QR-Reservierungen über ServeFlow. Schnell, mobil-optimiert, DSGVO-konform.',
-    stack:    'React · ServeFlow API · Tailwind',
-    status:   'Live',
+    name:     'Voss & Partner',
+    typ:      'Wirtschaftskanzlei · München',
+    url:      '/beispiel/kanzlei',
+    text:     'Vollständige Kanzlei-Webseite mit Team-Profilen, Tätigkeitsfeldern und Mandanten-Bereich. Editorial-Stil mit serifer Typografie für Vertrauen und Autorität.',
+    stack:    'React · TypeScript · Tailwind · Framer Motion',
+    status:   'Vorschau',
   },
 ] as const

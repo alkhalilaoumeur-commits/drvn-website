@@ -65,6 +65,54 @@
     pointer-events: none;
   }
 
+  /* ── Scrolling Ticker Animation ── */
+  @keyframes ticker {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker 30s linear infinite;
+  }
+
+  .ticker-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* ── scrollbar-none ── */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ── Tab Scroll Container mit Fade-Edges ── */
+  .tab-scroll-container {
+    position: relative;
+  }
+  .tab-scroll-container::before,
+  .tab-scroll-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 32px;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .tab-scroll-container::before {
+    left: 0;
+    background: linear-gradient(to right, var(--tw-gradient-from, #F2EFE9), transparent);
+  }
+  .tab-scroll-container::after {
+    right: 0;
+    background: linear-gradient(to left, var(--tw-gradient-from, #F2EFE9), transparent);
+  }
+
   /* ── Input — light style ── */
   .input-light {
     @apply w-full bg-elevated border border-border rounded-lg
@@ -72,5 +120,33 @@
            focus:outline-none focus:border-signal focus:ring-1 focus:ring-signal/20
            transition-colors;
     font-family: theme('fontFamily.sans');
+  }
+
+  /* ── Input — editorial style (underline only, kein Box) ── */
+  .input-editorial {
+    @apply w-full bg-transparent border-0 border-b border-border
+           py-3 px-0 text-base text-primary placeholder-muted
+           focus:outline-none focus:border-signal
+           transition-colors;
+    font-family: theme('fontFamily.sans');
+    border-radius: 0;
+  }
+  .input-editorial:hover:not(:focus) {
+    border-bottom-color: theme('colors.borderHigh');
+  }
+  textarea.input-editorial {
+    @apply resize-none;
+    min-height: 8rem;
+    line-height: 1.6;
+  }
+  select.input-editorial {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%23E84A1C' stroke-width='1.5' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.25rem center;
+    background-size: 10px 6px;
+    padding-right: 1.5rem;
+    cursor: pointer;
   }
 }

@@ -24,6 +24,7 @@ export default function Nav() {
   const isActive = (href: string) => {
     if (href === '/serveflow') return pathname === '/serveflow' || pathname === '/produkte/serveflow'
     if (href === '/web') return pathname === '/web' || pathname.startsWith('/leistungen')
+    if (href === '/individuelle-projekte') return pathname === '/individuelle-projekte' || pathname === '/ventures'
     return pathname === href
   }
 
@@ -43,9 +44,9 @@ export default function Nav() {
         <div className="max-w-site mx-auto px-6 md:px-10 lg:px-16 h-16 flex items-center justify-between">
           <Link
             to="/"
-            className="font-sans font-bold text-base tracking-tight text-primary hover:text-primary transition-colors"
+            className="font-sans font-black text-2xl tracking-[-0.04em] text-primary hover:text-primary transition-colors uppercase"
           >
-            drvn<span className="text-signal">.</span>
+            DRVN<span className="text-signal">.</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-1" aria-label="Hauptnavigation">
