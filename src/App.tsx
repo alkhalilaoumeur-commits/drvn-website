@@ -16,6 +16,7 @@ import Kontakt              from './pages/Kontakt'
 import Impressum            from './pages/Impressum'
 import Datenschutz          from './pages/Datenschutz'
 import KanzleiVorschau      from './pages/beispiel/Kanzlei'
+import Card                 from './pages/Card'
 
 function AnimatedRoutes() {
   const location = useLocation()
@@ -39,6 +40,7 @@ function AnimatedRoutes() {
           <Route path="/kontakt"                element={<Kontakt />} />
 
           <Route path="/beispiel/kanzlei"       element={<KanzleiVorschau />} />
+          <Route path="/card"                   element={<Card />} />
 
           <Route path="/impressum"   element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
@@ -60,7 +62,7 @@ function AnimatedRoutes() {
 
 function Chrome({ children }: { children: React.ReactNode }) {
   const location = useLocation()
-  const hideChrome = location.pathname.startsWith('/beispiel/')
+  const hideChrome = location.pathname.startsWith('/beispiel/') || location.pathname === '/card'
 
   if (hideChrome) {
     return <div className="min-h-screen flex flex-col"><div className="flex-1">{children}</div></div>
