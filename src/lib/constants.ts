@@ -1,10 +1,12 @@
 export const BRAND = {
-  name:    'drvn',
-  tagline: 'Werkstatt für digitale Produkte.',
-  ort:     'Stuttgart, Deutschland.',
-  email:   'kontakt@drvnautomatisations.com',
-  tel:     '+49 176 20581564',
-  version: 'v1.0',
+  name:       'drvn',
+  tagline:    'Werkstatt für digitale Produkte.',
+  ort:        'Stuttgart, Deutschland.',
+  email:      'kontakt@drvnautomatisations.com',
+  tel:        '+49 176 20581564',
+  version:    'v1.0',
+  // TODO: Ersetze mit echtem Calendly-Link nach Account-Erstellung
+  calendlyUrl: 'https://calendly.com/ilias-drvn/30min',
 } as const
 
 export const NAV_LINKS = [
@@ -38,7 +40,7 @@ export const WERKBANK = [
     tag:      'Agentur · Auftrag',
     href:     '/web',
     text:     'Professionelle Unternehmenswebseiten und Landingpages — schnell, modern, DSGVO-konform.',
-    meta:     'Auf Anfrage · 2–5 Wochen',
+    meta:     'ab 790 € · 1–5 Wochen',
     badge:    null,
   },
   {

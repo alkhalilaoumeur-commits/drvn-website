@@ -20,7 +20,7 @@ const FORMATE = [
   {
     nr: '01',
     titel: 'Landingpage',
-    preis: 'Auf Anfrage',
+    preis: 'ab 790 €',
     dauer: '1–2 Wochen',
     fuer: 'Produktlaunch, Kampagne, ein einziges Versprechen.',
     drin: [
@@ -34,7 +34,7 @@ const FORMATE = [
   {
     nr: '02',
     titel: 'Unternehmens-Webseite',
-    preis: 'Auf Anfrage',
+    preis: 'ab 1.490 €',
     dauer: '3–5 Wochen',
     fuer: 'Eigenständiger digitaler Auftritt — Kanzlei, Praxis, Mittelstand.',
     drin: [
@@ -48,7 +48,7 @@ const FORMATE = [
   {
     nr: '03',
     titel: 'Webapplikation',
-    preis: 'Auf Anfrage',
+    preis: 'ab 2.490 €',
     dauer: '6+ Wochen',
     fuer: 'Wenn ein Tool fehlt — Dashboard, internes System, Kundenportal.',
     drin: [
@@ -177,8 +177,20 @@ function Hero() {
                 href="#anfrage"
                 className="inline-flex items-center gap-2 bg-primary text-bg px-6 py-3.5 text-sm font-medium hover:bg-primary/85"
                 style={{ transitionProperty: 'background-color', transitionDuration: '200ms' }}
+                onClick={() => track('CTA Klick', { label: 'web-hero-anfrage' })}
               >
                 Projekt besprechen
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
+              <a
+                href={BRAND.calendlyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 border border-primary text-primary px-6 py-3.5 text-sm font-medium hover:bg-primary hover:text-bg"
+                style={{ transitionProperty: 'background-color, color', transitionDuration: '200ms' }}
+                onClick={() => track('CTA Klick', { label: 'web-hero-calendly' })}
+              >
+                Gespräch buchen (30 min)
                 <ArrowUpRight className="w-4 h-4" />
               </a>
               <a
